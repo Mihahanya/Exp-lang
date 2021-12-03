@@ -23,5 +23,8 @@
     <ClInclude Include="conv_code.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="token_manager.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

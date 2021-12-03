@@ -1,0 +1,7 @@
+
+|symbol '>' or '\n' are like ';', but the programm begin for '>'|
+
+# nu ++++ 
+
+.cc > :_cc |input num|
+
