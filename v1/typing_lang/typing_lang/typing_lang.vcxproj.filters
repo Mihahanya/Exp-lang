@@ -23,7 +23,13 @@
     <ClInclude Include="conv_code.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="token_manager.h">
+    <ClInclude Include="parser.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="variables.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="executor.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

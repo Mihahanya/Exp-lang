@@ -13,7 +13,7 @@ public:
 		/* Loading the file with code (a file extention is .ty) */
 		ifstream in(path); 
 		string line;
-		while(getline(in, line)) 
+		while (getline(in, line)) 
 			rec_code += line + '\n';
 	}
 	
