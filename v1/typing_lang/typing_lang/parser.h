@@ -14,8 +14,9 @@ struct token {
 
 // The possible token types
 const vector<token> token_patterns = {
-	{"_", "get_var"}, {"#", "new_var"}, {"+", "plus"}, {"-", "minus"}, 
+	{"_", "use_var"}, {"+", "plus"}, {"-", "minus"}, 
 	{":", "print"}, {";", "print_char"}, {".", "input"}, {",", "input_char"}, 
+	{"{", "begin_contain"}, {"}", "finish_contain"}, {"*", "do_in"},
 	{">", "next_action"}, {"\n", "next_action"},
 	{"", "OTHER"}
 };
@@ -37,6 +38,13 @@ vector<token> to_tokens(string code) {
 		res.push_back(check_to_t(a));
 	}
 	return res;
+}
+
+string sgm_t_to_str(vector<token> a, int from, int to) {
+	string o = "";
+	for (int i=from; i<to; i++)
+		o += a[i].val;
+	return o;
 }
 
 void print_vec_t(vector<token> a) {

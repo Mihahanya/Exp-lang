@@ -2,8 +2,8 @@
 
 > `code2.ty` |import file|
 
-_c. |input num|
-_c, |input char val|
+_c{+}~. |input num|
+_c{+}~, |input char val|
 
 _i
 i++++---- |the value of variable i is 0|

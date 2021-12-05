@@ -1,9 +1,9 @@
 
 |symbol '>' or '\n' are like ';', but the programm begin for '>'|
 
-# nu ++++ 
+_ii.
 
-#be ++-
+{_be++}*ii
 
-.cc > :_cc |input num|
+_be: |input num|
 
