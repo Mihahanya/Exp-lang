@@ -8,12 +8,16 @@ struct var
 {
 	int val;
 	string name;
+
+	string print() {
+		return "[VARIABLE] Val: `"+ to_string(val) + "`, Name: `" + name + "`";
+	}
 };
 
 class Variables
 {
 public:
-	vector<var> var_storage = { {-1, "NAN"} };
+	vector<var> var_storage = { {0, "__"} };
 
 	void add(string name) {
 		// Create new variable
@@ -38,3 +42,9 @@ public:
 		return false;
 	}
 };
+
+void print_vec_v(vector<var> a) {
+	// Printing the vector of the tokens
+	for (var t : a) 
+		cout << t.print() << '\n';
+}

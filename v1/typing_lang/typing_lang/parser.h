@@ -7,16 +7,17 @@ using namespace std;
 // Token struct
 struct token { 
 	string val, type; 
+
 	string print() {
-		return "[TOKEN] Val: `"+ val + "`, Type `" + type + "`";
+		return "[TOKEN] Val: `"+ val + "`, Type: `" + type + "`";
 	}
 };
 
 // The possible token types
 const vector<token> token_patterns = {
 	{"_", "use_var"}, {"+", "plus"}, {"-", "minus"}, 
-	{":", "print"}, {";", "print_char"}, {".", "input"}, {",", "input_char"}, 
-	{"{", "begin_contain"}, {"}", "finish_contain"}, {"*", "do_in"},
+	{":", "print"}, {";", "print_ch"}, {".", "input"}, {",", "input_ch"}, 
+	{"{", "bgn_contain"}, {"}", "fns_contain"}, {"*", "do_in"},
 	{">", "next_action"}, {"\n", "next_action"},
 	{"", "OTHER"}
 };
@@ -40,10 +41,10 @@ vector<token> to_tokens(string code) {
 	return res;
 }
 
-string sgm_t_to_str(vector<token> a, int from, int to) {
-	string o = "";
+vector<token> sgm_of_t(vector<token> a, int from, int to) {
+	vector<token> o;
 	for (int i=from; i<to; i++)
-		o += a[i].val;
+		o.push_back(a[i]);
 	return o;
 }
 

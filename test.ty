@@ -1,9 +1,18 @@
+-
+_nl ++++ ++++ ++
+_O1_O2
 
-|symbol '>' or '\n' are like ';', but the programm begin for '>'|
+{
+	_Ax.
+	_Bx.
+	{_O1-}*O1 
+	{_O2-}*O2 
 
-_ii.
+	{
+		{ {_O2+}*O1 }*Ax
+	}*Bx
 
-{_be++}*ii
+	_Oy:
+	_nl;
 
-_be: |input num|
-
+}*__

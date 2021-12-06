@@ -4,7 +4,7 @@
 
 int main()
 {
-    system("mode con cols=40 lines=20");
+    //system("mode con cols=70 lines=35");
 
     string path = "D:/МОИ ПРОЕКТЫ/typing-lang/test.ty"; 
     //string path = "D:/ПРОЕКТЫ/typing lang/Typing-the-PL/test.ty"; 
@@ -15,9 +15,11 @@ int main()
     Code code;
     code.load_file(path);
     code.normalise_code();
-
+    
+    //cout << code.code;
+    
     Execute ex(code.code);
     ex.EXECUTE();
 
-    cout << ex.OUTPUT;
+    cin.get();
 }
