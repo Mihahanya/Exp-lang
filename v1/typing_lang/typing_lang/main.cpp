@@ -20,6 +20,4 @@ int main()
     
     Execute ex(code.code);
     ex.EXECUTE();
-
-    cin.get();
 }

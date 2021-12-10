@@ -15,10 +15,10 @@ struct token {
 
 // The possible token types
 const vector<token> token_patterns = {
-	{"_", "use_var"}, {"+", "plus"}, {"-", "minus"}, 
+	{"_", "use_var"}, {"~", "move_value"},
+	{"+", "plus"}, {"-", "minus"}, 
 	{":", "print"}, {";", "print_ch"}, {".", "input"}, {",", "input_ch"}, 
-	{"{", "bgn_contain"}, {"}", "fns_contain"}, {"*", "do_in"},
-	{">", "next_action"}, {"\n", "next_action"},
+	{"{", "bgn_contain"}, {"}", "fns_contain"}, 
 	{"", "OTHER"}
 };
 

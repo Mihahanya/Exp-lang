@@ -7,67 +7,57 @@ class Execute
 public:
 	Variables vars;
 
-	Execute(string code="", vector<token> vt={}) {
-		if (code != "") toks = to_tokens(code);
-		else toks = vt;
+	Execute(string code="") {
+		toks = to_tokens(code);
 
 		var_ind = vars.get_ind_by_name("__");
+	}
+
+	void load_tokens(vector<token> t) {
+		toks = t;
 	}
 
 	void EXECUTE() {
 		for (int i=0; i<toks.size(); i++) 
 		{
-			token t = toks[i];
+			string t = toks[i].type;
 
-			if (t.type == "use_var") {
-				string name = toks[i+1].val + toks[i+2].val; i += 2;
+			if (t == "use_var") {
+				string name = toks[i+1].val + toks[i+2].val + toks[i+3].val; i += 3;
 
 				if (!vars.has_var(name))
 					vars.add(name);
 
 				var_ind = vars.get_ind_by_name(name);
 			}
-			else if (t.type == "plus") var_ind->val++;
-			else if (t.type == "minus") var_ind->val--;
+			else if (t == "plus") var_ind->val++;
+			else if (t == "minus") var_ind->val--;
 
-			else if (t.type == "print") cout << var_ind->val;
-			else if (t.type == "print_ch") cout << char(var_ind->val);
+			else if (t == "print") cout << var_ind->val;
+			else if (t == "print_ch") cout << char(var_ind->val);
 
-			else if (t.type == "input") cin >> var_ind->val;
-			else if (t.type == "input_ch") {
+			else if (t == "input") cin >> var_ind->val;
+			else if (t == "input_ch") {
 				char a; cin >> a;
 				var_ind->val = int(a);
 			}
 
-			else if (t.type == "bgn_contain") {
+			else if (t == "bgn_contain") {
 				bracket_n++; 
 				i++;
 				cycle_begin = i;
 
 				while (bracket_n != 0) {
-					token t = toks[i];
+					string t = toks[i].type;
 
-					if (t.type == "bgn_contain") 
-						bracket_n++;
-
-					else if (t.type == "fns_contain") {
-						bracket_n--;
-
-						if (bracket_n == 0) {
-							vector<token> cntn_sgm = sgm_of_t(toks, cycle_begin, i); i++;
-							//print_vec_t(cntn_sgm); cout << endl;
-							
-							int n = 1;
-							if (toks[i].type == "do_in") {
-								string name = toks[i+1].val + toks[i+2].val; i += 1;
-								n = vars.get_ind_by_name(name)->val;
-							}
-
-							cycle_inside(cntn_sgm, n);
-						}
-					}
+					if (t == "bgn_contain") bracket_n++;
+					else if (t == "fns_contain") bracket_n--;
+						
 					i++;
 				}
+				i -= 1;
+				vector<token> cntn_sgm = sgm_of_t(toks, cycle_begin, i);
+				cycle_inside(cntn_sgm, var_ind->val);
 			}
 		}
 	}
@@ -78,9 +68,9 @@ private:
 	int cycle_begin=-1, bracket_n=0;
 
 	void cycle_inside(vector<token> code, int k) {
-		Execute cycle_ex("", code);
+		Execute cycle_ex("");
+		cycle_ex.load_tokens(code);
 		cycle_ex.vars = vars;
-		//print_vec_v(cycle_ex.vars.var_storage); cout << endl;
 
 		for (int n=k; n!=0; n--)
 			cycle_ex.EXECUTE();
