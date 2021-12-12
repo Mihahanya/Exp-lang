@@ -1,2 +1,2 @@
-# Typing-program-lang
+# Exp-program-lang
  The simplest programming language
