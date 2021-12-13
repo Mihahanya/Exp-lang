@@ -1,2 +1,2 @@
-# Typing-program-lang
+# Exp-program-lang
  Yes, it is a programming language...
