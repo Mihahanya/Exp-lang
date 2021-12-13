@@ -1,2 +1,2 @@
 # Typing-program-lang
- The simplest programming language
+ Yes, it is a programming language...

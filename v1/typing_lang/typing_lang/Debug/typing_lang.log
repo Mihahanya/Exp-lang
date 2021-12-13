@@ -1,6 +1,0 @@
-﻿  main.cpp
-D:\МОИ ПРОЕКТЫ\typing-lang\v1\typing_lang\typing_lang\variables.h(27,18): warning C4018: <: несоответствие типов со знаком и без знака
-D:\МОИ ПРОЕКТЫ\typing-lang\v1\typing_lang\typing_lang\variables.h(35,18): warning C4018: <: несоответствие типов со знаком и без знака
-D:\МОИ ПРОЕКТЫ\typing-lang\v1\typing_lang\typing_lang\executor.h(21,18): warning C4018: <: несоответствие типов со знаком и без знака
-D:\МОИ ПРОЕКТЫ\typing-lang\v1\typing_lang\typing_lang\conv_code.h(36,19): warning C4018: <: несоответствие типов со знаком и без знака
-  typing_lang.vcxproj -> D:\МОИ ПРОЕКТЫ\typing-lang\v1\typing_lang\Debug\typing_lang.exe
