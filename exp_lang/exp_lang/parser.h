@@ -18,9 +18,8 @@ const vector<token> token_patterns = {
 	{"_", "use_var"}, {"~", "move_value"},
 	{"+", "plus"}, {"-", "minus"}, 
 	{":", "print"}, {";", "print_ch"}, {".", "input"}, {",", "input_ch"}, 
-	{"{", "bgn_contain"}, {"}", "fns_contain"}, 
-	{"", "OTHER"}
-};
+	{"{", "bgn_contain"}, {"}", "fns_contain"}
+}; // else type is `OTHER`
 
 token check_to_t(string l) {
 	// Convert a litter to the token
@@ -28,7 +27,7 @@ token check_to_t(string l) {
 		if (l == t.val)
 			return t;
 	}
-	return { l, token_patterns.back().type };
+	return { l, "OTHER" };
 }
 
 vector<token> to_tokens(string code) {

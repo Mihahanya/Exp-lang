@@ -1,25 +1,9 @@
 #pragma once
-#include <fstream>
 #include <string>
 
+#include "utilities.h"
+
 using namespace std;
-
-string read_txt(string path) {
-	ifstream in(path); 
-	string line, o="";
-	while (getline(in, line)) 
-		o += line + '\n';
-	in.close();
-	return o;
-}
-
-string sgm(string a, int f, int t=-1) {
-	if (t == -1) t = a.length();
-	string o="";
-	for (int i=f; i<t; i++)
-		o += a[i];
-	return o;
-}
 
 class Code
 {

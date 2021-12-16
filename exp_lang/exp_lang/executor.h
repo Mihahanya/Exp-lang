@@ -1,6 +1,9 @@
 #pragma once
 #include "parser.h"
 #include "variables.h"
+#include "utilities.h"
+
+const int var_size = 3;
 
 class Execute
 {
@@ -10,7 +13,7 @@ public:
 	Execute(string code="") {
 		toks = to_tokens(code);
 
-		var_ind = vars.get_ind_by_name("__");
+		var_ind = vars.get_ind_by_name("___");
 	}
 
 	void load_tokens(vector<token> t) {
@@ -23,13 +26,28 @@ public:
 			string t = toks[i].type;
 
 			if (t == "use_var") {
-				string name = toks[i+1].val + toks[i+2].val + toks[i+3].val; i += 3;
+				string name = sgm(toks, i+1, i+1+var_size); i += var_size;
 
-				if (!vars.has_var(name))
-					vars.add(name);
-
+				if (!vars.has_var(name)) vars.add(name);
 				var_ind = vars.get_ind_by_name(name);
 			}
+			else if (t == "move_value") {
+				i++;
+				if (isdigit(toks[i].val[0])) {
+					string num = "";
+					while (isdigit(toks[i].val[0]) || toks[i].val[0] == '-') {
+						num += toks[i].val[0];
+						i++;
+					} 
+					i--;
+					var_ind->val = stoi(num);
+				}
+				else {
+					string name = sgm(toks, i, i+var_size); i += var_size-1;
+					var_ind->val = vars.get_ind_by_name(name)->val;
+				}
+			}
+
 			else if (t == "plus") var_ind->val++;
 			else if (t == "minus") var_ind->val--;
 
@@ -39,10 +57,11 @@ public:
 			else if (t == "input") cin >> var_ind->val;
 			else if (t == "input_ch") {
 				char a; cin >> a;
-				var_ind->val = int(a);
+				var_ind->val = int(a); 
 			}
 
 			else if (t == "bgn_contain") {
+				//cout << "a ";
 				bracket_n++; 
 				i++;
 				cycle_begin = i;
@@ -55,7 +74,7 @@ public:
 						
 					i++;
 				}
-				i -= 1;
+				i--;
 				vector<token> cntn_sgm = sgm_of_t(toks, cycle_begin, i);
 				cycle_inside(cntn_sgm, var_ind->val);
 			}

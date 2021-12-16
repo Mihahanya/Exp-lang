@@ -24,7 +24,7 @@ public:
 	}
 
 	var* get_ind_by_name(string name) {
-		for (int i=1; i<var_storage.size(); i++) {
+		for (int i=var_storage.size()-1; i>0; i--) { // Searching by end
 			if (var_storage[i].name == name)
 				return &var_storage[i];
 		}
@@ -32,7 +32,7 @@ public:
 	}
 
 	bool has_var(string name) {
-		for (int i=1; i<var_storage.size(); i++) {
+		for (int i=var_storage.size()-1; i>0; i--) {
 			if (var_storage[i].name == name)
 				return true;
 		}
