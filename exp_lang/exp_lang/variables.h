@@ -4,14 +4,9 @@
 
 using namespace std;
 
-struct var
-{
+struct var {
 	int val;
 	string name;
-
-	string print() {
-		return "[VARIABLE] Val: `"+ to_string(val) + "`, Name: `" + name + "`";
-	}
 };
 
 class Variables
@@ -24,7 +19,7 @@ public:
 	}
 
 	var* get_ind_by_name(string name) {
-		for (int i=var_storage.size()-1; i>0; i--) { // Searching by end
+		for (int i=var_storage.size()-1; i>=0; i--) { // Searching by end
 			if (var_storage[i].name == name)
 				return &var_storage[i];
 		}
@@ -32,7 +27,7 @@ public:
 	}
 
 	bool has_var(string name) {
-		for (int i=var_storage.size()-1; i>0; i--) {
+		for (int i=var_storage.size()-1; i>=0; i--) {
 			if (var_storage[i].name == name)
 				return true;
 		}
@@ -40,7 +35,3 @@ public:
 	}
 };
 
-void print_vec_v(vector<var> a) {
-	for (var t : a) 
-		cout << t.print() << '\n';
-}

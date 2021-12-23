@@ -1,6 +1,10 @@
 #pragma once
 #include <fstream>
 
+bool is_number(char a) {
+	return isdigit(a) || a == '-';
+}
+
 string read_txt(string path) {
 	ifstream in(path); 
 	string line, o="";
@@ -10,18 +14,18 @@ string read_txt(string path) {
 	return o;
 }
 
-string sgm(string a, int f, int t=-1) {
+string sgm(string a, size_t f, size_t t=-1) {
 	if (t == -1) t = a.length();
 	string o="";
-	for (int i=f; i<t; i++)
+	for (size_t i=f; i<t; i++)
 		o += a[i];
 	return o;
 }
 
-string sgm(vector<token> a, int f, int t=-1) {
+string sgm(vector<token> a, size_t f, size_t t=-1) {
 	if (t == -1) t = a.size();
 	string o="";
-	for (int i=f; i<t; i++)
+	for (size_t i=f; i<t; i++)
 		o += a[i].val;
 	return o;
 }

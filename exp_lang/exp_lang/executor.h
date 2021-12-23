@@ -3,6 +3,8 @@
 #include "variables.h"
 #include "utilities.h"
 
+#define tok toks[i]
+
 const int var_size = 3;
 
 class Execute
@@ -16,14 +18,14 @@ public:
 		var_ind = vars.get_ind_by_name("___");
 	}
 
-	void load_tokens(vector<token> t) {
+	void load_tokens(t_vec t) {
 		toks = t;
 	}
 
 	void EXECUTE() {
-		for (int i=0; i<toks.size(); i++) 
+		for (size_t i=0; i<toks.size(); i++) 
 		{
-			string t = toks[i].type;
+			string t = tok.type;
 
 			if (t == "use_var") {
 				string name = sgm(toks, i+1, i+1+var_size); i += var_size;
@@ -33,13 +35,12 @@ public:
 			}
 			else if (t == "move_value") {
 				i++;
-				if (isdigit(toks[i].val[0])) {
+				if (is_number(tok.val[0])) {
 					string num = "";
-					while (isdigit(toks[i].val[0]) || toks[i].val[0] == '-') {
-						num += toks[i].val[0];
+					while (is_number(tok.val[0])) {
+						num += tok.val[0];
 						i++;
-					} 
-					i--;
+					} i--;
 					var_ind->val = stoi(num);
 				}
 				else {
@@ -50,6 +51,9 @@ public:
 
 			else if (t == "plus") var_ind->val++;
 			else if (t == "minus") var_ind->val--;
+			else if (t == "tobool") var_ind->val = var_ind->val == 0 ? 1 : 0;
+			else if (t == "mul") var_ind->val <<= 1;
+			else if (t == "div") var_ind->val >>= 1;
 
 			else if (t == "print") cout << var_ind->val;
 			else if (t == "print_ch") cout << char(var_ind->val);
@@ -61,37 +65,34 @@ public:
 			}
 
 			else if (t == "bgn_contain") {
-				//cout << "a ";
 				bracket_n++; 
 				i++;
 				cycle_begin = i;
 
-				while (bracket_n != 0) {
-					string t = toks[i].type;
-
+				while (bracket_n) {
+					string t = tok.type;
 					if (t == "bgn_contain") bracket_n++;
 					else if (t == "fns_contain") bracket_n--;
-						
 					i++;
-				}
-				i--;
-				vector<token> cntn_sgm = sgm_of_t(toks, cycle_begin, i);
+				} i--;
+				t_vec cntn_sgm = sgm_of_t(toks, cycle_begin, i);
 				cycle_inside(cntn_sgm, var_ind->val);
 			}
 		}
 	}
 
 private:
-	vector<token> toks;
+	t_vec toks;
 	var* var_ind;
 	int cycle_begin=-1, bracket_n=0;
 
-	void cycle_inside(vector<token> code, int k) {
-		Execute cycle_ex("");
+	void cycle_inside(t_vec code, size_t k) {
+		Execute cycle_ex;
 		cycle_ex.load_tokens(code);
 		cycle_ex.vars = vars;
 
-		for (int n=k; n!=0; n--)
+		k++;
+		while (--k)
 			cycle_ex.EXECUTE();
 
 		vars = cycle_ex.vars;
