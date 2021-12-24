@@ -1,10 +1,10 @@
-_col.
-_fiv ~ 5
-_spc ~ 32
-_nli ~ 10
-_itr +
+$col.
+$fiv ~ 5
+$spc ~ 32
+$nli ~ 10
+$itr +
 
-_col {
-	_fiv { _itr:;+ _spc;}
-	_nli;
+$col {
+	$fiv { $itr:;+ $spc;}
+	$nli;
 }

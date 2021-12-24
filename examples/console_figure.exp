@@ -1,14 +1,14 @@
 |not ready|
 
-_nln~10
-_fon~198
+$nln~10
+$fon~198
 
-_szx~40
-_szy~20 {
-    _szx {
-        _fon;
+$szx~40
+$szy~20 {
+    $szx {
+        $fon;
     }
-    _nln;
+    $nln;
 }
 
 |circle is (x-x0)^2 + (y-y0)^2 = r^2 |

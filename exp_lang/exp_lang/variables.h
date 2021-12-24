@@ -12,23 +12,23 @@ struct var {
 class Variables
 {
 public:
-	vector<var> var_storage = { {0, "___"} };
+	vector<var> v_strg = { {0, "EXIT"}, {0, "___"} };
 
 	void add(string name) {
-		var_storage.push_back({0, name});
+		v_strg.push_back({0, name});
 	}
 
 	var* get_ind_by_name(string name) {
-		for (int i=var_storage.size()-1; i>=0; i--) { // Searching by end
-			if (var_storage[i].name == name)
-				return &var_storage[i];
+		for (int i=v_strg.size()-1; i>=0; i--) { // Searching by end
+			if (v_strg[i].name == name)
+				return &v_strg[i];
 		}
-		return &var_storage[0];
+		return &v_strg[0];
 	}
 
 	bool has_var(string name) {
-		for (int i=var_storage.size()-1; i>=0; i--) {
-			if (var_storage[i].name == name)
+		for (int i=v_strg.size()-1; i>=0; i--) {
+			if (v_strg[i].name == name)
 				return true;
 		}
 		return false;

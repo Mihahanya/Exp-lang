@@ -29,16 +29,17 @@ int main(int argc, char **argv)
     while (true) {
         try {
             if (sgm(command, 0, 4) == "!run") {
-                system("cls");
+                cout << "\x1b[32m\nCompilation...\x1b[0m"; 
                 
                 Code code;
                 code.load_file(path);
                 code.normalise_code();
 
                 Execute ex(code.code);
+                system("cls");
+
                 clock_t start_t = clock();
                 ex.EXECUTE();
-
                 cout << "\n\n\x1b[33mExecution time: " << float(clock() - start_t)/1000 << "s\x1b[0m";
             }
             else if (sgm(command, 0, 5) == "!code") cout << endl << read_txt(path) << endl;

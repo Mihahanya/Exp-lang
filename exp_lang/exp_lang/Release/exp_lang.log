@@ -1,10 +1,7 @@
 ﻿  main.cpp
-D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\exp_lang\executor.h(52,64): warning C4805: ^=: небезопасное смешение типа "int" и типа "bool" в операции
-D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\exp_lang\executor.h(52,72): warning C4805: &: небезопасное смешение типа "int" и типа "bool" в операции
-D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\exp_lang\executor.h(52,84): warning C4804: <<=: небезопасное использование типа "bool" в операции
   Создание кода
-  2 of 486 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  48 of 568 functions ( 8.5%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    5 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   exp_lang.vcxproj -> D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\Release\exp_lang.exe

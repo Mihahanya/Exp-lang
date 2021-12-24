@@ -1,8 +1,8 @@
-_oo1 ~ 1
-_oo2 ~ 2
+$oo1 ~ 1
+$oo2 ~ 2
 
-_che ~ 3
-_inp.{_che-}
+$che ~ 3
+$inp.{$che-}
 
-_che?{_oo1;}
-_che?{_oo2;}
+$che?{$oo1;}
+$che?{$oo2;}

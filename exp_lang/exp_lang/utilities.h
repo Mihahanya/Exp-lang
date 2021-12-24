@@ -22,14 +22,6 @@ string sgm(string a, size_t f, size_t t=-1) {
 	return o;
 }
 
-string sgm(vector<token> a, size_t f, size_t t=-1) {
-	if (t == -1) t = a.size();
-	string o="";
-	for (size_t i=f; i<t; i++)
-		o += a[i].val;
-	return o;
-}
-
 void read(string& a) {
     cout << "\x1b[32m\n-> \x1b[0m"; // Ggreen arrow
     cin >> a;
