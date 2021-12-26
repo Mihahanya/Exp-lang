@@ -12,7 +12,7 @@ struct var {
 class Variables
 {
 public:
-	vector<var> v_strg = { {0, "EXIT"}, {0, "___"} };
+	vector<var> v_strg = { {0, "NULL"} };
 
 	void add(string name) {
 		v_strg.push_back({0, name});

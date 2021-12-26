@@ -1,8 +1,0 @@
-$need ~ 7
-
-$C-{
-	$input.
-	$need{$input-}
-	$input?{$EXIT+}
-}
-$b+;

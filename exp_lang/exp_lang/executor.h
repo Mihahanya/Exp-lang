@@ -14,11 +14,10 @@ public:
 	bool ext=false;
 
 	Execute(string code="") {
-		Tkn* tc = new Tkn(code);
-		toks = (*tc).to_tokens();
-		delete tc;
+		Tkn tc(code);
+		toks = tc.to_tokens();
 
-		var_ind = vars.get_ind_by_name("___");
+		var_ind = vars.get_ind_by_name("NULL");
 	}
 
 	void load_tokens(t_vec t) {
@@ -36,12 +35,12 @@ public:
 				if (!vars.has_var(name)) vars.add(name);
 				var_ind = vars.get_ind_by_name(name);
 			}
-			else if (t == "move_value") {
+			else if (t == MOVE_VAL) {
 				i++;
 				if (is_number(tok.val[0])) 
 					tie(var_ind->val, i) = find_num(i);
-				else {
-					tie(name, i) = find_name(i);
+				else if (tok.type == GET_VAL){
+					tie(name, i) = find_name(i+1);
 					var_ind->val = vars.get_ind_by_name(name)->val;
 				}
 			}
@@ -73,7 +72,7 @@ private:
 	
 	char inp; 
 	string name, t;
-	int c_bgn, c_end;
+	int c_bgn, c_end, i;
 	t_vec cycle_ctn;
 
 	void cycle_inside(t_vec code, int k) {
@@ -90,20 +89,16 @@ private:
 	}
 
 	tuple<int, int> find_num(int start) {
-		int i = start; string num = "";
-		while (is_number(tok.val[0])) {
+		string num = "";
+		for (i = start; is_number(tok.val[0]); i++)
 			num += tok.val;
-			i++;
-		}
 		return { stoi(num), i-1 };
 	}
 
 	tuple<string, int> find_name(int start) {
-		int i = start; string name = "";
-		while (tok.type == OTHER) {
+		string name = "";
+		for (i = start; tok.type == OTHER; i++)
 			name += tok.val;
-			i++;
-		}
 		return { name, i-1 };
 	}
 

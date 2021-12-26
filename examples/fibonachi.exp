@@ -5,11 +5,11 @@ $fi2 ~ 1: $nln;
 $buf
 
 $cnt~33{
-	$buf ~ fi1
+	$buf ~ &fi1
 	$fi2{$buf+}
 	
-	$fi1 ~ fi2
-	$fi2 ~ buf
+	$fi1 ~ &fi2
+	$fi2 ~ &buf
 	
 	$buf:
 	$nln;

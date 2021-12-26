@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     string command, path;
 
     if (argc == 1) {
-        cout << read_txt("init_msg.txt");
+        cout << init_msg;
         path = sgm(argv[0], 0, ((string)argv[0]).length()-12); cout << path << endl;
         read(command); 
     }
@@ -35,11 +35,13 @@ int main(int argc, char **argv)
                 code.load_file(path);
                 code.normalise_code();
 
-                Execute ex(code.code);
-                system("cls");
+                Execute ex(code.code); 
 
+                system("cls");
                 clock_t start_t = clock();
+
                 ex.EXECUTE();
+
                 cout << "\n\n\x1b[33mExecution time: " << float(clock() - start_t)/1000 << "s\x1b[0m";
             }
             else if (sgm(command, 0, 5) == "!code") cout << endl << read_txt(path) << endl;
@@ -49,7 +51,7 @@ int main(int argc, char **argv)
             else if (sgm(command, 0, 5) == "!back") { back_path(path); cout << path << endl; }
             else if (sgm(command, 0, 6) == "!clear") system("cls");
             else if (sgm(command, 0, 5) == "!exit") exit(0);
-            else cout << "\x1b[31m[UNKNOWN COMMAND]\x1b[0m\n" << read_txt("terminal commands.txt");;
+            else cout << "\x1b[31m[UNKNOWN COMMAND]\x1b[0m\n" << pos_cmd;
 
             read(command);
 
