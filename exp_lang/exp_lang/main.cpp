@@ -14,7 +14,8 @@ int main(int argc, char **argv)
     setlocale(LC_ALL, "ru");
     system("title Exp interpreter");
 
-    string command, path;
+    string command;
+    fs::path path;
 
     if (argc == 1) {
         cout << init_msg;

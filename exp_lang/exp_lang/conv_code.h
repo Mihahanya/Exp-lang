@@ -11,7 +11,7 @@ class Code
 public:
 	string code;
 
-	void load_file(string path) {
+	void load_file(fs::path path) {
 		rec_code = read_txt(path);
 	}
 	
@@ -30,7 +30,7 @@ public:
 			
 			// Including file
 			if (t == '"') {
-				string path = "";
+				u8string path = u8"";
 				i++;
 				for (i; buff_c[i] != '"'; i++) 
 					path += buff_c[i];

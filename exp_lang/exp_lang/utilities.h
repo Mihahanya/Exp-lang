@@ -34,7 +34,7 @@ bool is_number(char a) {
 	return isdigit(a) || a == '-';
 }
 
-string read_txt(string path) {
+string read_txt(fs::path path) {
 	ifstream in(path); 
 	string line, o="";
 	while (getline(in, line)) 
@@ -50,15 +50,23 @@ string sgm(string a, size_t f, size_t t=-1) {
 		o += a[i];
 	return o;
 }
+u8string sgm(u8string a, size_t f, size_t t=-1) {
+	if (t == -1) t = a.length();
+	u8string o=u8"";
+	for (size_t i=f; i<t; i++)
+		o += a[i];
+	return o;
+}
 
 void read(string& a) {
     cout << "\x1b[32m\n-> \x1b[0m"; // Ggreen arrow
     cin >> a;
 }
 
-void back_path(string &path) {
-    if (path.back() == '\\') 
-        path = sgm(path, 0, path.length()-2);
+void back_path(fs::path &path) {
+	u8string b = path.u8string();
+    if (b.back() == '\\') 
+        path = sgm(b, 0, b.length()-2);
 
-    path = sgm(path, 0, path.rfind('\\')) + "\\";
+    path = sgm(b, 0, b.rfind('\\')) + u8"\\";
 }
