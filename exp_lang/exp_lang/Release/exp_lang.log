@@ -1,8 +1,8 @@
 ﻿  main.cpp
 D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\exp_lang\variables.h(57,18): warning C4018: <: несоответствие типов со знаком и без знака
   Создание кода
-  2 of 823 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    19 functions had inline decision re-evaluated but remain unchanged
+  46 of 836 functions ( 5.5%) were compiled, the rest were copied from previous compilation.
+    13 functions were new in current compilation
+    54 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   exp_lang.vcxproj -> D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\Release\exp_lang.exe

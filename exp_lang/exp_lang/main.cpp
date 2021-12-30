@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
     if (argc == 1) {
         cout << init_msg;
-        path = sgm(argv[0], 0, ((string)argv[0]).length()-12); cout << path << endl;
+        path = fs::current_path(); cout << path << endl;
         read(command); 
     }
     else {

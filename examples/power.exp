@@ -1,0 +1,13 @@
+$endl ~ 10
+
+$m-{
+	$num. $pow.
+	
+	$o~1
+	$pow {
+		$c~0
+		$o{$num{$c+}}
+		$o~&c
+	}
+	$o: $endl;
+}
