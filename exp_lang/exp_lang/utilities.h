@@ -30,7 +30,7 @@ pos_cmd = "Possible commands for the terminal:\n"
 "!exit (close interpreter)";
 
 
-bool is_number(char a) {
+inline bool is_number(char a) {
 	return isdigit(a) || a == '-';
 }
 
@@ -58,7 +58,7 @@ u8string sgm(u8string a, size_t f, size_t t=-1) {
 	return o;
 }
 
-void read(string& a) {
+inline void read(string& a) {
     cout << "\x1b[32m\n-> \x1b[0m"; // Ggreen arrow
     cin >> a;
 }

@@ -5,6 +5,7 @@
 using namespace std;
 
 struct var {
+	uint64_t id;
 	int val;
 	string name;
 };
@@ -12,26 +13,52 @@ struct var {
 class Variables
 {
 public:
-	vector<var> v_strg = { {0, "NULL"} };
+	vector<var> v_strg = { {0, 0, ""}, {13054, 0, "df"}, {ULLONG_MAX, 0, ""}};
 
-	void add(string name) {
-		v_strg.push_back({0, name});
+	void choose(string name) {
+		this->name = name;
+		cid = to_id(name);
+		pos = pos_id(cid);
+	}
+	
+	var* get_ind_by_name() {
+		if (!has_var()) {
+			add();
+			pos++;
+		}
+		return &v_strg[pos];
 	}
 
-	var* get_ind_by_name(string name) {
-		for (int i=v_strg.size()-1; i>=0; i--) { // Searching by end
-			if (v_strg[i].name == name)
-				return &v_strg[i];
-		}
-		return &v_strg[0];
+private:
+	uint64_t cid;
+	size_t pos;
+	string name;
+
+	inline void add() {
+		v_strg.insert(v_strg.begin()+1+pos, {cid, 0, name});
 	}
 
-	bool has_var(string name) {
-		for (int i=v_strg.size()-1; i>=0; i--) {
-			if (v_strg[i].name == name)
-				return true;
+	inline bool has_var() { 
+		return v_strg[pos].name == name; 
+	}
+
+	size_t pos_id(uint64_t id) { /// Binary search
+		size_t l=0, r=v_strg.size(), mid;
+		while (l < r) {
+			mid = (l+r)>>1;
+			if (v_strg[mid].id > id) r = mid;
+			else l = mid+1;
+		} 
+		return r-1;
+	}
+
+	uint64_t to_id(string name) {
+		uint64_t id = 0;
+		for (int i=0; i<name.length(); i++) {
+			//id += name[i] * pow(63, i); /// 26 litters * 2 (A and a) + 10 digits + `_` = 63 symbols
+			id ^= name[i];
+			id <<= 4;
 		}
-		return false;
+		return id;
 	}
 };
-

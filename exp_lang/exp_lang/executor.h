@@ -17,7 +17,8 @@ public:
 		Tkn tc(code);
 		toks = tc.to_tokens();
 
-		var_ind = vars.get_ind_by_name("NULL");
+		vars.choose("df");
+		var_ind = vars.get_ind_by_name();
 	}
 
 	void load_tokens(t_vec t) {
@@ -31,9 +32,8 @@ public:
 
 			if (t == USE_VAR) {
 				tie(name, i) = find_name(i+1);
-
-				if (!vars.has_var(name)) vars.add(name);
-				var_ind = vars.get_ind_by_name(name);
+				vars.choose(name);
+				var_ind = vars.get_ind_by_name();
 			}
 			else if (t == MOVE_VAL) {
 				i++;
@@ -41,7 +41,8 @@ public:
 					tie(var_ind->val, i) = find_num(i);
 				else if (tok.type == GET_VAL){
 					tie(name, i) = find_name(i+1);
-					var_ind->val = vars.get_ind_by_name(name)->val;
+					vars.choose(name);
+					var_ind->val = vars.get_ind_by_name()->val;
 				}
 			}
 
@@ -75,7 +76,7 @@ private:
 	int c_bgn, c_end, i;
 	t_vec cycle_ctn;
 
-	void cycle_inside(t_vec code, int k) {
+	inline void cycle_inside(t_vec code, int k) {
 		Execute cycle_ex;
 		cycle_ex.load_tokens(code);
 		cycle_ex.vars = vars;
@@ -88,21 +89,21 @@ private:
 		vars = cycle_ex.vars;		
 	}
 
-	tuple<int, int> find_num(int start) {
+	inline tuple<int, int> find_num(int start) {
 		string num = "";
 		for (i = start; is_number(tok.val[0]); i++)
 			num += tok.val;
 		return { stoi(num), i-1 };
 	}
 
-	tuple<string, int> find_name(int start) {
+	inline tuple<string, int> find_name(int start) {
 		string name = "";
 		for (i = start; tok.type == OTHER; i++)
 			name += tok.val;
 		return { name, i-1 };
 	}
 
-	tuple<t_vec, int> find_cycle(int start) {
+	inline tuple<t_vec, int> find_cycle(int start) {
 		int i=start, bracket_n=1; t_vec o;
 		while (bracket_n) {
 			string t = tok.type;

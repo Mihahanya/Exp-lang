@@ -31,9 +31,7 @@ public:
 			// Including file
 			if (t == '"') {
 				u8string path = u8"";
-				i++;
-				for (i; buff_c[i] != '"'; i++) 
-					path += buff_c[i];
+				i++; for (i; buff_c[i] != '"'; i++) path += buff_c[i];
 
 				Code c; c.load_file(path); c.normalise_code();
 				code += c.code;
