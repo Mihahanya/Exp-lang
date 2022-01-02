@@ -22,8 +22,8 @@ public:
 		pos = pos_id(cid);
 	}
 	
-	var* get_ind_by_name() {
-		if (!has_var()) {
+	var* get_ind_by_name(bool check=true) {
+		if (check && !has_var()) {
 			add();
 			pos++;
 		}

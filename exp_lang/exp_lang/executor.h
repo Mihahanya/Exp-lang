@@ -30,27 +30,27 @@ public:
 		{
 			t = tok.type;
 
-			if (t == USE_VAR) {
+			if (t == USE_VAR || t == CHECH_VAR) {
 				tie(name, i) = find_name(i+1);
 				vars.choose(name);
-				var_ind = vars.get_ind_by_name();
+				var_ind = vars.get_ind_by_name(t==CHECH_VAR);
 			}
 			else if (t == MOVE_VAL) {
 				i++;
 				if (is_number(tok.val[0])) 
 					tie(var_ind->val, i) = find_num(i);
-				else if (tok.type == GET_VAL){
+				else if (tok.type == USE_VAR || tok.type == CHECH_VAR){
 					tie(name, i) = find_name(i+1);
 					vars.choose(name);
-					var_ind->val = vars.get_ind_by_name()->val;
+					var_ind->val = vars.get_ind_by_name(tok.type == CHECH_VAR)->val;
 				}
 			}
 
 			else if (t == PLUS)   var_ind->val++;
 			else if (t == MINUS)  var_ind->val--;
 			else if (t == TOBOOL) var_ind->val = var_ind->val == 0 ? 1 : 0;
-			else if (t == MUL)    var_ind->val <<= 1;
-			else if (t == DIV)    var_ind->val >>= 1;
+			else if (t == MORE)   var_ind->val =  var_ind->val > 0 ? 1 : 0;
+			else if (t == LESS)   var_ind->val =  var_ind->val < 0 ? 1 : 0;
 
 			else if (t == PRINT)	  cout << var_ind->val;
 			else if (t == PRINT_CHAR) cout << char(var_ind->val);

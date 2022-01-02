@@ -11,13 +11,13 @@ typedef vector<token> t_vec;
 
 const string 
 USE_VAR		= "use_var",
-GET_VAL		= "get_val",
+CHECH_VAR		= "get_val",
 MOVE_VAL	= "move_value",
 PLUS		= "plus",
 MINUS		= "minus",
 TOBOOL		= "tobool",
-DIV			= "div",
-MUL			= "mul",
+MORE		= "div",
+LESS		= "mul",
 PRINT		= "print",
 PRINT_CHAR	= "print_ch",
 INPUT_N		= "input",
@@ -29,8 +29,8 @@ INCLUDE		= "include",
 OTHER		= "OTHER";
 
 const t_vec token_patterns = {
-	{"$", USE_VAR}, {"~", MOVE_VAL}, {"&", GET_VAL}, {"%", BREAK},
-	{"+", PLUS}, {"-", MINUS}, {"?", TOBOOL}, {">", DIV}, {"<", MUL},
+	{"$", USE_VAR}, {"&", CHECH_VAR}, {"~", MOVE_VAL}, {"%", BREAK},
+	{"+", PLUS}, {"-", MINUS}, {"?", TOBOOL}, {">", MORE}, {"<", LESS},
 	{":", PRINT}, {";", PRINT_CHAR}, {".", INPUT_N}, {",", INPUT_CHAR},
 	{"{", BGN_CYC}, {"}", FNS_CYC}, {"\"", INCLUDE}
 };
