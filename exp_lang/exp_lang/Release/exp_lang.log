@@ -1,8 +1,4 @@
 ﻿  main.cpp
-D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\exp_lang\variables.h(57,18): warning C4018: <: несоответствие типов со знаком и без знака
-  Создание кода
-  46 of 836 functions ( 5.5%) were compiled, the rest were copied from previous compilation.
-    13 functions were new in current compilation
-    54 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  exp_lang.vcxproj -> D:\МОИ ПРОЕКТЫ\typing-lang\exp_lang\Release\exp_lang.exe
+D:\ПРОЕКТЫ\typing lang\Typing-the-PL\exp_lang\exp_lang\variables.h(58,18): warning C4018: <: несоответствие типов со знаком и без знака
+  
+exp_lang.rc(55): error RC2135: file not found: D:\

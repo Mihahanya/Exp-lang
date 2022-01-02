@@ -13,9 +13,10 @@ struct var {
 class Variables
 {
 public:
-	vector<var> v_strg = { {0, 0, ""}, {13054, 0, "df"}, {ULLONG_MAX, 0, ""}};
+	vector<var> v_strg = { {0, 0, ""}, {25184, 0, "df"}, {ULLONG_MAX, 0, ""}};
 
 	void choose(string name) {
+		if (name == this->name) return;
 		this->name = name;
 		cid = to_id(name);
 		pos = pos_id(cid);
@@ -34,12 +35,12 @@ private:
 	size_t pos;
 	string name;
 
-	inline void add() {
-		v_strg.insert(v_strg.begin()+1+pos, {cid, 0, name});
-	}
-
 	inline bool has_var() { 
 		return v_strg[pos].name == name; 
+	}
+
+	inline void add() {
+		v_strg.insert(v_strg.begin()+1+pos, {cid, 0, name});
 	}
 
 	size_t pos_id(uint64_t id) { /// Binary search
