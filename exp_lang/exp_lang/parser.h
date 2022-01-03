@@ -29,10 +29,10 @@ INCLUDE		= "include",
 OTHER		= "OTHER";
 
 const t_vec token_patterns = {
-	{"$", USE_VAR}, {"&", CHECH_VAR}, {"~", MOVE_VAL}, {"%", BREAK},
+	{"$", USE_VAR}, {"&", CHECH_VAR}, {"~", MOVE_VAL}, 
 	{"+", PLUS}, {"-", MINUS}, {"?", TOBOOL}, {">", MORE}, {"<", LESS},
 	{":", PRINT}, {";", PRINT_CHAR}, {".", INPUT_N}, {",", INPUT_CHAR},
-	{"{", BGN_CYC}, {"}", FNS_CYC}, {"\"", INCLUDE}
+	{"{", BGN_CYC}, {"}", FNS_CYC}, {"%", BREAK}, {"\"", INCLUDE}
 };
 
 class Tkn
@@ -51,20 +51,18 @@ public:
 	}
 
 	t_vec to_tokens() {
-		t_vec st = to_simple_tokens(), nt;
-
+		/// Connect a set of consecutive tokens with the OTHER type into one
+		t_vec st = to_simple_tokens(), o;
+		string ctn;
 		for (size_t i=0; i<st.size(); i++) {
 			if (st[i].type == OTHER) {
-				string ctn = "";
-				while (st[i].type == OTHER) {
-					ctn += st[i].val;
-					i++;
-				} i--;
-				nt.push_back({ ctn, OTHER });
+				ctn = "";
+				for (i; st[i].type == OTHER; ctn += st[i].val, i++); i--;
+				o.push_back({ ctn, OTHER });
 			}
-			else nt.push_back(st[i]);
+			else o.push_back(st[i]);
 		}
-		return nt;
+		return o;
 	}
 	
 private:

@@ -43,7 +43,8 @@ private:
 		v_strg.insert(v_strg.begin()+1+pos, {cid, 0, name});
 	}
 
-	size_t pos_id(uint64_t id) { /// Binary search
+	size_t pos_id(uint64_t id) { 
+		/// The binary search a variavle by id
 		size_t l=0, r=v_strg.size(), mid;
 		while (l < r) {
 			mid = (l+r)>>1;
@@ -54,9 +55,10 @@ private:
 	}
 
 	uint64_t to_id(string name) {
-		uint64_t id = 0;
+		 /// Creating the unicue 64-bit id for a variable by inverting the bits 
+		 /// by in 4-bit increments (max var length for correct id is 16 symbols) 
+		uint64_t id = 0; 
 		for (int i=0; i<name.length(); i++) {
-			//id += name[i] * pow(63, i); /// 26 litters * 2 (A and a) + 10 digits + `_` = 63 symbols
 			id ^= name[i];
 			id <<= 4;
 		}

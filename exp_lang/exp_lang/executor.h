@@ -1,6 +1,4 @@
 #pragma once
-#include <tuple>
-
 #include "parser.h"
 #include "variables.h"
 #include "utilities.h"
@@ -14,9 +12,10 @@ public:
 	bool ext=false;
 
 	Execute(string code="") {
-		Tkn tc(code);
-		toks = tc.to_tokens();
-
+		if (code != "") {
+			Tkn tc(code);
+			toks = tc.to_tokens();
+		}
 		vars.choose("df");
 		var_ind = vars.get_ind_by_name();
 	}
@@ -26,24 +25,15 @@ public:
 	}
 
 	void EXECUTE() {
-		for (size_t i=0; i<toks.size(); i++) 
+		for (i=0; i<toks.size(); i++) 
 		{
 			t = tok.type;
 
-			if (t == USE_VAR || t == CHECH_VAR) {
-				tie(name, i) = find_name(i+1);
-				vars.choose(name);
-				var_ind = vars.get_ind_by_name(t==CHECH_VAR);
-			}
+			if (is_var_tkn(tok)) var_ind = choose_var();
+			
 			else if (t == MOVE_VAL) {
-				i++;
-				if (is_number(tok.val[0])) 
-					tie(var_ind->val, i) = find_num(i);
-				else if (tok.type == USE_VAR || tok.type == CHECH_VAR){
-					tie(name, i) = find_name(i+1);
-					vars.choose(name);
-					var_ind->val = vars.get_ind_by_name(tok.type == CHECH_VAR)->val;
-				}
+				i++; /// Move a variable value or a number else it's an error and move the zero
+				var_ind->val = is_var_tkn(tok) ? choose_var()->val : (is_number(tok.val[0]) ? find_num() : 0);
 			}
 
 			else if (t == PLUS)   var_ind->val++;
@@ -58,12 +48,9 @@ public:
 			else if (t == INPUT_N)		cin >> var_ind->val;
 			else if (t == INPUT_CHAR) { cin >> inp; var_ind->val = int(inp); }
 			
+			else if (t == BGN_CYC) cycle_inside(find_cycle(), var_ind->val);
+		
 			else if (t == BREAK && var_ind->val == 1) { ext = true; break; }
-
-			else if (t == BGN_CYC) {
-				tie(cycle_ctn, i) = find_cycle(i+1);
-				cycle_inside(cycle_ctn, var_ind->val);
-			}
 		}
 	}
 
@@ -71,10 +58,14 @@ private:
 	t_vec toks;
 	var* var_ind;
 	
+	size_t i;
+	string t;
 	char inp; 
-	string name, t;
-	int c_bgn, c_end, i;
-	t_vec cycle_ctn;
+
+	inline var* choose_var() {
+		vars.choose(find_name());
+		return vars.get_ind_by_name(t==CHECH_VAR);
+	}
 
 	inline void cycle_inside(t_vec code, int k) {
 		Execute cycle_ex;
@@ -89,30 +80,32 @@ private:
 		vars = cycle_ex.vars;		
 	}
 
-	inline tuple<int, int> find_num(int start) {
+	inline int find_num() {
 		string num = "";
-		for (i = start; is_number(tok.val[0]); i++)
+		for (i; is_number(tok.val[0]); i++)
 			num += tok.val;
-		return { stoi(num), i-1 };
+		i--;
+		return stoi(num);
 	}
 
-	inline tuple<string, int> find_name(int start) {
+	inline string find_name() {
 		string name = "";
-		for (i = start; tok.type == OTHER; i++)
+		for (++i; tok.type == OTHER; i++)
 			name += tok.val;
-		return { name, i-1 };
+		i--;
+		return name;
 	}
 
-	inline tuple<t_vec, int> find_cycle(int start) {
-		int i=start, bracket_n=1; t_vec o;
+	inline t_vec find_cycle() {
+		int bracket_n=1; t_vec o;
+		i++;
 		while (bracket_n) {
-			string t = tok.type;
-			if		(t == BGN_CYC) bracket_n++;
+			t = tok.type;
+			if (t == BGN_CYC) bracket_n++;
 			else if (t == FNS_CYC) bracket_n--;
-			o.push_back(toks[i]);
-			i++;
-		}
-		return { o, i-1 };
+			o.push_back(toks[i++]);
+		} i--;
+		return o;
 	}
 
 	t_vec sgm_of_t(size_t from, size_t to) {

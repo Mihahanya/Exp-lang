@@ -28,7 +28,9 @@ public:
 		for (size_t i=0; i < buff_c.length(); i++) {
 			char t = buff_c[i];
 			
-			// Including file
+			/// Including file...
+			/// if a double quote occurs, we get the contents until another one occurs.
+			/// And instead of including, we substitute the content according to the received path.
 			if (t == '"') {
 				u8string path = u8"";
 				i++; for (i; buff_c[i] != '"'; i++) path += buff_c[i];
@@ -37,6 +39,7 @@ public:
 				code += c.code;
 			}
 
+			/// Deleting comments
 			if (t == '|') bracket_n++; 
 			else if (bracket_n % 2 == 0) 
 				if (t != ' ' && t != '\t' && t != '\n' && t != '"') code += t;

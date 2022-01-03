@@ -30,10 +30,6 @@ pos_cmd = "Possible commands for the terminal:\n"
 "!exit (close interpreter)";
 
 
-inline bool is_number(char a) {
-	return isdigit(a) || a == '-';
-}
-
 string read_txt(fs::path path) {
 	ifstream in(path); 
 	string line, o="";
@@ -42,6 +38,16 @@ string read_txt(fs::path path) {
 	in.close();
 	return o;
 }
+
+
+inline bool is_number(char a) {
+	return isdigit(a) || a == '-';
+}
+
+inline bool is_var_tkn(token t) { 
+	return t.type == USE_VAR || t.type == CHECH_VAR; 
+}
+
 
 string sgm(string a, size_t f, size_t t=-1) {
 	if (t == -1) t = a.length();
@@ -57,6 +63,7 @@ u8string sgm(u8string a, size_t f, size_t t=-1) {
 		o += a[i];
 	return o;
 }
+
 
 inline void read(string& a) {
     cout << "\x1b[32m\n-> \x1b[0m"; // Ggreen arrow
