@@ -12,7 +12,6 @@ inline void exct(fs::path path);
 
 int main(int argc, char **argv)
 {
-    setlocale(LC_ALL, "ru");
     system("title Exp interpreter");
 
     string command;

@@ -35,7 +35,7 @@ public:
 				u8string path = u8"";
 				i++; for (i; buff_c[i] != '"'; i++) path += buff_c[i];
 
-				Code c; c.load_file(fs::current_path().u8string() + path); c.normalise_code();
+				Code c; c.load_file(fs::current_path().u8string() + path + u8".exp"); c.normalise_code();
 				code += c.code;
 			}
 

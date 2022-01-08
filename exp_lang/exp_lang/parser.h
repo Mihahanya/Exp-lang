@@ -11,7 +11,7 @@ typedef vector<token> t_vec;
 
 const string 
 USE_VAR		= "use_var",
-CHECH_VAR		= "get_val",
+CHECH_VAR	= "get_val",
 MOVE_VAL	= "move_value",
 PLUS		= "plus",
 MINUS		= "minus",
