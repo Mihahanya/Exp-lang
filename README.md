@@ -30,7 +30,7 @@ $n ~ $var |Error. The variable n does not exist|
 $n:; |print 1☺|
 ```
 
-#### Cycles, exit
+#### Cycles, exit, input
 
 ```
 &col.
