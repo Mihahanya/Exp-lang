@@ -1,24 +1,22 @@
 #pragma once
-#include <vector>
-#include <string>
 
-using namespace std;
+#include "utilities.h"
 
 struct var {
 	size_t id;
 	int val;
-	string name;
+	wstring name;
 };
 
 class Variables
 {
 public:
-	vector<var> v_strg = { {0, 0, ""}, {25184, 0, "df"}, {SIZE_MAX, 0, ""}};
+	vector<var> v_strg = { {0, 0, L""}, {25184, 0, L"df"}, {SIZE_MAX, 0, L""}};
 
-	void choose(string name) {
+	void choose(wstring name) {
 		if (name == this->name) return;
 		this->name = name;
-		cid = hash<string>{}(name);;
+		cid = std::hash<wstring>{}(name);;
 		pos = pos_id(cid);
 	}
 	
@@ -32,7 +30,7 @@ public:
 
 private:
 	size_t cid, pos;
-	string name;
+	wstring name;
 
 	inline bool has_var() { 
 		return v_strg[pos].name == name; 

@@ -1,28 +1,26 @@
 #pragma once
-#include <string>
-#include <filesystem>
 
 #include "utilities.h"
 
-using namespace std;
-
-class Code
+class CodePreprocessor
 {
 public:
-	string code;
+	wstring code;
 
 	void load_file(fs::path path) {
 		rec_code = read_txt(path);
 	}
 	
-	void load_rec_code(string code) {
+	void load_rec_code(wstring code) {
 		rec_code = code;
 	}
 
-	void normalise_code() {
+	void convert_code() {
 		code = rec_code;
 
-		string buff_c = code; code = "";
+		wstring buff_c = code; 
+		code = L"";
+		
 		int bracket_n=0;
 
 		for (size_t i=0; i < buff_c.length(); i++) {
@@ -32,10 +30,13 @@ public:
 			/// if a double quote occurs, we get the contents until another one occurs.
 			/// And instead of including, we substitute the content according to the received path.
 			if (t == '"') {
-				u8string path = u8"";
+				wstring path = L"";
 				i++; for (i; buff_c[i] != '"'; i++) path += buff_c[i];
 
-				Code c; c.load_file(fs::current_path().u8string() + path + u8".exp"); c.normalise_code();
+				CodePreprocessor c; 
+				c.load_file(fs::current_path().wstring() + path + L".exp"); 
+				c.convert_code();
+				
 				code += c.code;
 			}
 
@@ -46,5 +47,5 @@ public:
 		}
 	}
 private:
-	string rec_code;
+	wstring rec_code;
 };
