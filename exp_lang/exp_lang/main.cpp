@@ -2,9 +2,7 @@
 #include <conio.h>
 #include <time.h>
 
-#include "executor.h"
-#include "conv_code.h"
-#include "utilities.h"
+#include "Parser.h"
 
 inline void execute(fs::path);
 
@@ -60,18 +58,22 @@ int main(int argc, char **argv)
     return 0;
 }
 
-inline void execute(fs::path path) {
+inline void execute(fs::path path) 
+{
     cout << "\x1b[32m\nCompilation...\x1b[0m"; 
-                
-    CodePreprocessor code; 
-    code.load_file(path);
-    code.convert_code();
-    Execute ex(code.code); 
+    
+    clock_t start_comp = clock();
 
+    wstring code = read_txt(path);
+    Parser ex(code); 
+
+#if CLR_CONSOLE
     system("cls"); 
+#endif
 
-    clock_t start_t = clock();
+    clock_t start_ex = clock();
 
-    ex.EXECUTE();
-    cout << "\n\n\x1b[33mExecution time: " << float(clock() - start_t)/1000 << "s\x1b[0m";
+    ex.run();
+
+    printf("\n\n\x1b[33mCompilation status: %.3fs\nExecution time: %.3fs\x1b[0m", float(start_ex-start_comp)/1000, float(clock()-start_ex)/1000);
 }

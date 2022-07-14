@@ -146,12 +146,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="conv_code.h" />
-    <ClInclude Include="executor.h" />
-    <ClInclude Include="parser.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="include.h" />
+    <ClInclude Include="Lexer.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="utilities.h" />
-    <ClInclude Include="variables.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="conf.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="exp_lang.rc" />
