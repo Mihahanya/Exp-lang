@@ -7,7 +7,7 @@ using std::wregex;
 
 enum TType
 {
-	//SPACE,
+	SPACE,
 	VARIABLE,
 	MOVE_VAL,
 	NUMBER,
@@ -36,31 +36,31 @@ struct Token
 
 const vector<TokenType> token_types_list = 
 {
-	//{wregex{LR"(\s)"}, SPACE},	
+	{wregex{LR"(\s+)"}, SPACE},	
 	
-	{wregex{LR"((\$|&)([\w\d_]+))"}, VARIABLE},	
+	{wregex{LR"((\$|&|VAR)([\w\d_]+))"}, VARIABLE},	
 	
 	{wregex{LR"(-?\d+)"}, NUMBER},
 	
-	{wregex{LR"(~)"}, MOVE_VAL},
+	{wregex{LR"(~|=|IS)"}, MOVE_VAL},
 	
-	{wregex{LR"(\+)"}, PLUS}, 
-	{wregex{LR"(-)"}, MINUS}, 
+	{wregex{LR"(\+|PLUS)"}, PLUS}, 
+	{wregex{LR"(-|MINUS)"}, MINUS}, 
 	
-	{wregex{LR"(\{)"}, BGN_CYC},	
-	{wregex{LR"(\})"}, FNS_CYC}, 
+	{wregex{LR"(\{|BEGIN)"}, BGN_CYC},	
+	{wregex{LR"(\}|END)"}, FNS_CYC}, 
 
-	{wregex{LR"(\?)"}, TOBOOL},	
-	{wregex{LR"(>)"}, MORE}, 
-	{wregex{LR"(<)"}, LESS},
+	{wregex{LR"(\?|NEG|IF|ELSE)"}, TOBOOL},	
+	{wregex{LR"(>|ISGREATERZERO)"}, MORE}, 
+	{wregex{LR"(<|ISLESSZERO)"}, LESS},
 	
-	{wregex{LR"(:)"}, PRINT}, 
-	{wregex{LR"(;)"}, PRINT_CHAR}, 
+	{wregex{LR"(;|PRINTCHAR)"}, PRINT_CHAR}, 
+	{wregex{LR"(:|PRINT)"}, PRINT}, 
 	
-	{wregex{LR"(\.)"}, INPUT_N}, 
-	{wregex{LR"(,)"}, INPUT_CHAR},
+	{wregex{LR"(,|READCHAR)"}, INPUT_CHAR},
+	{wregex{LR"(\.|READ)"}, INPUT_N}, 
 	
-	{wregex{LR"(%)"}, BREAK},
+	{wregex{LR"(%|BREAKIF)"}, BREAK},
 
-	{wregex{LR"(\"(.+)\")"}, INCLUDE},
+	{wregex{LR"((INCLUDE)?\"(.+)\")"}, INCLUDE},
 };

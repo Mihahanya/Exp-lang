@@ -13,12 +13,12 @@ public:
 private:
 	wstring code;
 
-	void embed_inc_toks(vector<Token>&);
+	void embed_inc_toks(const wstring&, vector<Token>&);
 };
 
 Lexer::Lexer(const wstring& code) : code(code) {
-	static const wregex del_reg{ LR"(\s|\|.*\|)" };
-	this->code = std::regex_replace(this->code, del_reg, wstring{L""});
+	static const wregex del_comm_reg{ LR"(\|.*\|)" };
+	this->code = std::regex_replace(this->code, del_comm_reg, wstring{L""});
 };
 
 vector<Token> Lexer::to_tokens() {
@@ -29,7 +29,9 @@ vector<Token> Lexer::to_tokens() {
 		const wstring sub_code = code.substr(i, 33);
 
 		for (const TokenType& tt : token_types_list) {
-			if (type_poses[tt.name] > i) continue;
+			const TType current_type = tt.name;
+			
+			if (type_poses[current_type] > i) continue;
 
 			std::wsmatch m;
 			std::regex_search(sub_code, m, tt.regex);
@@ -40,27 +42,26 @@ vector<Token> Lexer::to_tokens() {
 			const auto fnd = sub_code.find(match_str);
 
 			if (fnd == 0) {
-				res.push_back(Token{ .val=*(m.end()-1), .type=tt.name });
+				if (current_type == INCLUDE) embed_inc_toks(*(m.end()-1), res);
+				else if (current_type != SPACE) {
+					res.push_back(Token{ .val=*(m.end()-1), .type=current_type });
+				}
 				i += match_str.length()-1;
 				break;
 			}
 			else {
-				type_poses[tt.name] = fnd+i;
+				type_poses[current_type] = fnd+i;
 			}
 		}
-		if ((*(res.end()-1)).type == INCLUDE) embed_inc_toks(res);
 	}
 	return res;
 }
 
-void Lexer::embed_inc_toks(vector<Token>& ts) {
-	auto last = ts.end() - 1;
-
-	fs::path path = fs::current_path().wstring() + (*last).val + L".exp";
+void Lexer::embed_inc_toks(const wstring& t, vector<Token>& ts) {
+	fs::path path = fs::current_path().wstring() + t + L".exp";
 	wstring inc_code = read_txt(path);
 	Lexer lx(inc_code);
 	auto inc_toks = lx.to_tokens();
 
-	ts.erase(last);
 	ts.insert(ts.end(), inc_toks.begin(), inc_toks.end());
 }

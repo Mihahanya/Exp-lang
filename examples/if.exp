@@ -1,8 +1,8 @@
-&oo1 ~ 1
-&oo2 ~ 2
+&o1 ~ 1
+&o2 ~ 2
 
-&che ~ 3
-&inp.{&che-}
+&need ~ 3
+&inp. {&need-}
 
-&che?{&oo1;}
-&che?{&oo2;}
+&need? {&o1;}
+&need? {&o2;}

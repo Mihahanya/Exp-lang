@@ -14,33 +14,42 @@ public:
 	void load_tokens(const vector<Token> &) noexcept;
 
 	void run() {
-		for (i=0; i<tokens.size(); i++) 
+		for (size_t i=0; i<tokens.size(); i++) 
 		{
-			t = tokens[i].type;
-
-			if (t == VARIABLE) var_ptr = &vars[tokens[i].val];
+			switch (tokens[i].type) 
+			{
+			case VARIABLE: var_ptr = &vars[tokens[i].val]; break;
 			
-			else if (t == MOVE_VAL) {
+			case MOVE_VAL: 
 				i++; 
 				if (tokens[i].type == VARIABLE) *var_ptr = vars[tokens[i].val];
 				else if (tokens[i].type == NUMBER) *var_ptr = stoi(tokens[i].val);
-			}
+				break;
 
-			else if (t == PLUS)   (*var_ptr)++;
-			else if (t == MINUS)  (*var_ptr)--;
-			else if (t == TOBOOL) *var_ptr = *var_ptr == 0 ? 1 : 0;
-			else if (t == MORE)   *var_ptr = *var_ptr > 0 ? 1 : 0;
-			else if (t == LESS)   *var_ptr = *var_ptr < 0 ? 1 : 0;
+			case PLUS:	 (*var_ptr)++; break;
+			case MINUS:  (*var_ptr)--; break;
+			case TOBOOL: *var_ptr = *var_ptr == 0 ? 1 : 0; break;
+			case MORE:   *var_ptr = *var_ptr > 0 ? 1 : 0; break;
+			case LESS:   *var_ptr = *var_ptr < 0 ? 1 : 0; break;
 
-			else if (t == PRINT)	  wcout << *var_ptr;
-			else if (t == PRINT_CHAR) wcout << char(*var_ptr);
+			case PRINT:		 wcout << *var_ptr; break;
+			case PRINT_CHAR: wcout << char(*var_ptr); break;
 
-			else if (t == INPUT_N)		cin >> *var_ptr;
-			else if (t == INPUT_CHAR) { char a; cin >> a >> *var_ptr; }
+			case INPUT_N: cin >> *var_ptr; break;
+			case INPUT_CHAR: 
+				char a; cin >> a; 
+				*var_ptr = int(a); 
+				break;
 			
-			else if (t == BGN_CYC) cycle_inside(find_cycle(), *var_ptr);
+			case BGN_CYC: cycle_inside(find_cycle(++i), *var_ptr); break;
 					
-			else if (t == BREAK && *var_ptr == 1) { exit = true; break; }
+			case BREAK: 
+				if (*var_ptr == 1) { 
+					exit = true; 
+					break; 
+				} 
+				break;
+			}
 		}
 	}
 
@@ -48,9 +57,6 @@ private:
 	vector<Token> tokens;
 	int* var_ptr = &vars[L"_"];
 	
-	size_t i = 0;
-	TType t = OTHER;
-
 	inline void cycle_inside(const vector<Token>& code, int k) {
 		Parser cycle_ex;
 		cycle_ex.load_tokens(code);
@@ -64,17 +70,7 @@ private:
 		vars = cycle_ex.vars;		
 	}
 
-	inline vector<Token> find_cycle() {
-		int bracket_n=1; vector<Token> res;
-		i++;
-		while (bracket_n) {
-			t = tokens[i].type;
-			if (t == BGN_CYC) bracket_n++;
-			else if (t == FNS_CYC) bracket_n--;
-			res.push_back(tokens[i++]);
-		} i--;
-		return res;
-	}
+	vector<Token> find_cycle(size_t& i);
 };
 
 
@@ -87,4 +83,19 @@ Parser::Parser(const wstring& code) {
 
 void Parser::load_tokens(const vector<Token>& t) noexcept { tokens = t; }
 
-
+vector<Token> Parser::find_cycle(size_t& i) {
+	vector<Token> res;
+	for (int bracket_n = 1; bracket_n; i++) {
+		switch (tokens[i].type) {
+		case BGN_CYC:
+			bracket_n++;
+			break;
+		case FNS_CYC:
+			bracket_n--;
+			break;
+		}
+		res.push_back(tokens[i]);
+	}
+	i--;
+	return res;
+}
