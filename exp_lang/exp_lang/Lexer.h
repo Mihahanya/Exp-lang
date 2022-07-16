@@ -26,7 +26,7 @@ vector<Token> Lexer::to_tokens() {
 	std::map<TType, size_t> type_poses{};
 
 	for (size_t i=0; i < code.length(); i++) {
-		const wstring sub_code = code.substr(i, 33);
+		const wstring& sub_code = code.substr(i, 33);
 
 		for (const TokenType& tt : token_types_list) {
 			const TType current_type = tt.name;

@@ -2,7 +2,7 @@
 
 #include "include.h"
 
-#define CLR_CONSOLE false
+#define CLR_CONSOLE true
 
 const string init_msg = 
 "     _________________________\n"

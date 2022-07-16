@@ -8,7 +8,7 @@ using std::wregex;
 enum TType
 {
 	SPACE,
-	VARIABLE,
+	VARIABLE, 
 	MOVE_VAL,
 	NUMBER,
 	PLUS, MINUS,
@@ -38,21 +38,21 @@ const vector<TokenType> token_types_list =
 {
 	{wregex{LR"(\s+)"}, SPACE},	
 	
-	{wregex{LR"((\$|&|VAR)([\w\d_]+))"}, VARIABLE},	
+	{wregex{LR"((\$|VAR\s*)([\w\d_]+))"}, VARIABLE},	
 	
 	{wregex{LR"(-?\d+)"}, NUMBER},
 	
 	{wregex{LR"(~|=|IS)"}, MOVE_VAL},
 	
-	{wregex{LR"(\+|PLUS)"}, PLUS}, 
-	{wregex{LR"(-|MINUS)"}, MINUS}, 
+	{wregex{LR"(\+)"}, PLUS}, 
+	{wregex{LR"(-)"}, MINUS}, 
 	
 	{wregex{LR"(\{|BEGIN)"}, BGN_CYC},	
 	{wregex{LR"(\}|END)"}, FNS_CYC}, 
 
 	{wregex{LR"(\?|NEG|IF|ELSE)"}, TOBOOL},	
-	{wregex{LR"(>|ISGREATERZERO)"}, MORE}, 
-	{wregex{LR"(<|ISLESSZERO)"}, LESS},
+	{wregex{LR"(>|>\s*0)"}, MORE}, 
+	{wregex{LR"(<|<\s*0)"}, LESS},
 	
 	{wregex{LR"(;|PRINTCHAR)"}, PRINT_CHAR}, 
 	{wregex{LR"(:|PRINT)"}, PRINT}, 
@@ -62,5 +62,5 @@ const vector<TokenType> token_types_list =
 	
 	{wregex{LR"(%|BREAKIF)"}, BREAK},
 
-	{wregex{LR"((INCLUDE)?\"(.+)\")"}, INCLUDE},
+	{wregex{LR"((INCLUDE\s*)?\"(.+)\")"}, INCLUDE},
 };

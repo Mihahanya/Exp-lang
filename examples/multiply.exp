@@ -1,7 +1,7 @@
-&nln ~ 10
-&ooo&in1&in2
+$nln ~ 10
+$ooo $in1 $in2
 
-&c-{
+$c-{
 	$in1.
 	$in2.{$in1{$ooo+}}
 

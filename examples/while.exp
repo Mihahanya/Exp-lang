@@ -1,8 +1,8 @@
-&need ~ 7
+$need ~ 7
 
-&C-{
-	&input.
-	&need{&input-}
-	&input?%
+$C-{
+	$input.
+	$need{$input-}
+	$input?%
 }
-&b+;
+$b+;

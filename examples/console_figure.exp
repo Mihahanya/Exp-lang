@@ -1,10 +1,10 @@
 |not ready|
 
-&nln~10
-&fon~198
+$nln~10
+$fon~198
 
-&szx~40
-&szy~20 {
+$szx~40
+$szy~20 {
     $szx {
         $fon;
     }

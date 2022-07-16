@@ -1,8 +1,8 @@
-&o1 ~ 1
-&o2 ~ 2
+$o1 ~ 1
+$o2 ~ 2
 
-&need ~ 3
-&inp. {&need-}
+$need ~ 3
+$inp. {$need-}
 
-&need? {&o1;}
-&need? {&o2;}
+$need IF {$o1;}
+$need ELSE {$o2;}

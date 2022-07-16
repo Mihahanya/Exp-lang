@@ -1,10 +1,9 @@
-&nln ~ 10
+$nln ~ 10
 
-&fi1 ~ 0: $nln;
-&fi2 ~ 1: $nln;
-&buf
+$fi1 ~ 0: $nln;
+$fi2 ~ 1: $nln;
 
-&cnt~33{
+$cnt~33{
 	$buf ~ $fi1
 	$fi2{$buf+}
 	
