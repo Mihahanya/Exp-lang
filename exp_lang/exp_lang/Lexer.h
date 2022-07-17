@@ -24,6 +24,7 @@ Lexer::Lexer(const wstring& code) : code(code) {
 vector<Token> Lexer::to_tokens() {
 	vector<Token> res{};
 	std::map<TType, size_t> type_poses{};
+	bool is_swap = false;
 
 	for (size_t i=0; i < code.length(); i++) {
 		const wstring& sub_code = code.substr(i, 33);
@@ -43,8 +44,13 @@ vector<Token> Lexer::to_tokens() {
 
 			if (fnd == 0) {
 				if (current_type == INCLUDE) embed_inc_toks(*(m.end()-1), res);
+				else if (current_type == SWAP) is_swap = true;
 				else if (current_type != SPACE) {
 					res.push_back(Token{ .val=*(m.end()-1), .type=current_type });
+					if (is_swap) { 
+						std::swap(*(res.end()-1), *(res.end()-2));
+						is_swap = false;
+					}
 				}
 				i += match_str.length()-1;
 				break;

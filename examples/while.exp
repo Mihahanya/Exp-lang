@@ -1,4 +1,4 @@
-$need ~ 7
+$need = 7
 
 $C-{
 	$input.

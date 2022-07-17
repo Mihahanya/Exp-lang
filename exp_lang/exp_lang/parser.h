@@ -2,12 +2,14 @@
 
 #include "Lexer.h"
 
+typedef std::map<wstring, int> VarStrg;
+
 class Parser
 {
 public:
 	vector<Token> tokens{};
-	std::map<wstring, int> vars{};
-	bool exit = false;
+	VarStrg vars{};
+	short exit = 0;
 
 	Parser();
 	Parser(const wstring&);
@@ -15,8 +17,8 @@ public:
 	void run();
 
 private:
-	void cycle_inside(const vector<Token>&, int);
-	vector<Token> find_cycle(vector<Token>::iterator&);
+	void cycle_inside(vector<Token>::iterator&, int);
+	std::pair<vector<Token>, VarStrg> field_view(vector<Token>::iterator&);
 };
 
 
@@ -58,11 +60,11 @@ void Parser::run() {
 			*var_ptr = int(a);
 			break;
 
-		case BGN_CYC: cycle_inside(find_cycle(++t), *var_ptr); break;
+		case BGN_CYC: cycle_inside(++t, *var_ptr); break;
 
 		case BREAK:
 			if (*var_ptr == 1) {
-				exit = true;
+				exit++;
 				break;
 			}
 			break;
@@ -70,22 +72,26 @@ void Parser::run() {
 	}
 }
 
-void Parser::cycle_inside(const vector<Token>& code, int iter_var) {
-	Parser cycle_ex;
-	cycle_ex.tokens = code;
+void Parser::cycle_inside(vector<Token>::iterator& t, int iter_var) {
+	auto [tks, vrs] = field_view(t);
 
-	for (const auto& t : code) if (t.type == VARIABLE) cycle_ex.vars[t.val] = vars[t.val];
+	Parser cycle_pars;
+	cycle_pars.tokens = tks; 
+	cycle_pars.vars = vrs;
 
 	iter_var++;
 	while (--iter_var) {
-		cycle_ex.run();
-		if (cycle_ex.exit) break;
+		cycle_pars.run();
+		if (cycle_pars.exit > 0) break;
 	}
-	for (const auto& v : cycle_ex.vars) vars[v.first] = v.second;
+	exit = std::max(cycle_pars.exit-1, 0);
+	for (const auto& v : cycle_pars.vars) vars[v.first] = v.second;
 }
 
-vector<Token> Parser::find_cycle(vector<Token>::iterator& t) {
-	vector<Token> res;
+inline std::pair<vector<Token>, VarStrg> Parser::field_view(vector<Token>::iterator& t) {
+	auto from = t;
+	VarStrg vrs{};
+
 	for (int bracket_n = 1; bracket_n; t++) {
 		switch ((*t).type) {
 		case BGN_CYC:
@@ -94,9 +100,13 @@ vector<Token> Parser::find_cycle(vector<Token>::iterator& t) {
 		case FNS_CYC:
 			bracket_n--;
 			break;
+		case VARIABLE:
+			const wstring name = (*t).val;
+			if (!vrs.count(name)) vrs[name] = vars[name];
+			break;
 		}
-		res.push_back(*t);
 	}
-	t--;
-	return res;
+	t--; // end of cycle `}`
+	return { vector<Token>(from, t), vrs };
 }
+

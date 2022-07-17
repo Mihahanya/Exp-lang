@@ -1,11 +1,11 @@
-$nln ~ 10
+$nln = 10
 $ooo $in1 $in2
 
 $c-{
 	$in1.
 	$in2.{$in1{$ooo+}}
 
-	$ooo: ~ 0
+	$ooo: = 0
 
 	$nln;
 }

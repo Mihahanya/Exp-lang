@@ -1,8 +1,8 @@
 $col.
-$fiv ~ 5
-$spc ~ 32  |Space symbol|
-$endl ~ 10 |New line symbol|
-$itr ~ 33
+$fiv = 5
+$spc = 32  |Space symbol|
+$endl = 10 |New line symbol|
+$itr = 33
 
 $col {
 	$fiv { $itr:;+ $spc;}

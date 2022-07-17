@@ -9,6 +9,7 @@ enum TType
 {
 	SPACE,
 	VARIABLE, 
+	SWAP,
 	MOVE_VAL,
 	NUMBER,
 	PLUS, MINUS,
@@ -23,8 +24,8 @@ enum TType
 
 struct TokenType 
 {
-	wregex regex;
 	TType name;
+	wregex regex;
 };
 
 struct Token 
@@ -36,31 +37,33 @@ struct Token
 
 const vector<TokenType> token_types_list = 
 {
-	{wregex{LR"(\s+)"}, SPACE},	
-	
-	{wregex{LR"((\$|VAR\s*)([\w\d_]+))"}, VARIABLE},	
-	
-	{wregex{LR"(-?\d+)"}, NUMBER},
-	
-	{wregex{LR"(~|=|IS)"}, MOVE_VAL},
-	
-	{wregex{LR"(\+)"}, PLUS}, 
-	{wregex{LR"(-)"}, MINUS}, 
-	
-	{wregex{LR"(\{|BEGIN)"}, BGN_CYC},	
-	{wregex{LR"(\}|END)"}, FNS_CYC}, 
+	{SPACE,		wregex{LR"(\s+)"}},
 
-	{wregex{LR"(\?|NEG|IF|ELSE)"}, TOBOOL},	
-	{wregex{LR"(>|>\s*0)"}, MORE}, 
-	{wregex{LR"(<|<\s*0)"}, LESS},
-	
-	{wregex{LR"(;|PRINTCHAR)"}, PRINT_CHAR}, 
-	{wregex{LR"(:|PRINT)"}, PRINT}, 
-	
-	{wregex{LR"(,|READCHAR)"}, INPUT_CHAR},
-	{wregex{LR"(\.|READ)"}, INPUT_N}, 
-	
-	{wregex{LR"(%|BREAKIF)"}, BREAK},
+	{VARIABLE,	wregex{LR"((\$|VAR\s*)([\w\d_]+))"}},
 
-	{wregex{LR"((INCLUDE\s*)?\"(.+)\")"}, INCLUDE},
+	{NUMBER,	wregex{LR"(-?\d+)"}},
+
+	{MOVE_VAL,	wregex{LR"(=|IS)"}},
+
+	{SWAP,		wregex{LR"(->)"}},
+
+	{PLUS,		wregex{LR"(\+)"}},
+	{MINUS,		wregex{LR"(-)"}},
+
+	{BGN_CYC,	wregex{LR"(\{|BEGIN)"}},
+	{FNS_CYC,	wregex{LR"(\}|END)"}},
+
+	{TOBOOL,	wregex{LR"(\?|NEG|IF|ELSE)"}},
+	{MORE,		wregex{LR"(>\s*0)"}},
+	{LESS,		wregex{LR"(<\s*0)"}},
+
+	{PRINT_CHAR,wregex{LR"(;|PRINTCHAR)"}},
+	{PRINT,		wregex{LR"(:|PRINT)"}},
+
+	{INPUT_CHAR,wregex{LR"(,|READCHAR)"}},
+	{INPUT_N,	wregex{LR"(\.|READ)"}},
+
+	{BREAK,		wregex{LR"(%|BREAKIF)"}},
+
+	{INCLUDE,	wregex{LR"((INCLUDE\s*)?\"(.+)\")"}},
 };
