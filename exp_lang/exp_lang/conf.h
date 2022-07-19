@@ -2,7 +2,16 @@
 
 #include "include.h"
 
-#define CLR_CONSOLE true
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define RST  "\x1B[0m"
+#define KYEL  "\x1B[33m"
+
+#define FRED(x) KRED x RST
+#define FGRN(x) KGRN x RST
+#define FYEL(x) KYEL x RST
+
+typedef int tsv; // type stored in the variable
 
 const string init_msg = 
 "     _________________________\n"
@@ -13,7 +22,7 @@ const string init_msg =
 "/_____ /  /__/\\__\\/_ /\n"
 "________________________\n"
 "\n"
-"(c) Exp 1.0, 2021-2022\n"
+"(c) Exp 2.0, 2021-2022\n"
 "https://github.com/Mihahanya\n"
 "\n"
 "------------------------\n";
@@ -24,10 +33,10 @@ const string pos_cmd =
 "`dir`	change the current directory\n"
 "`scr`	change the current script\n"
 "`code` show the code\n"
-"`clr`	clear the console\n"
+"`clear`clear the console\n"
 "`exit` close the console\n";
 
-const string read_arrow = "\x1b[32m\n~> \x1b[0m";
+const string read_arrow = FGRN("\n~> ");
 
 
 wstring read_txt(const fs::path& path) {

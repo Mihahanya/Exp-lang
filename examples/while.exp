@@ -3,6 +3,6 @@ $need = 7
 $C-{
 	$input.
 	$need{$input-}
-	$input?%
+	$input? {%}
 }
 $b+;

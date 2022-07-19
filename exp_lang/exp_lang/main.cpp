@@ -43,14 +43,14 @@ int main(int argc, char **argv)
             
             else if (command == "code") wcout << '\n' << read_txt(crr_path).c_str() << '\n';
             
-            else if (command == "clr") system("cls");
+            else if (command == "clear") system("cls");
             
             else if (command == "exit") exit(0);
             
-            else if (!command.empty()) cout << " \x1b[31m[UNKNOWN COMMAND]\x1b[0m\nType `help` for more information\n";
-        } 
-        catch (std::exception e) {
-            cout << "\x1b[31m[SOME ERROR]\x1b[0m\n";
+            else if (!command.empty()) wcout << FRED("[Unknown command]\n") << "Type `help` for more information\n";
+        }
+        catch (...) {
+            cerr << FRED("[Some error]\n");
         }
     }
 
@@ -58,22 +58,20 @@ int main(int argc, char **argv)
     return 0;
 }
 
-inline void execute(fs::path path) 
-{
-    cout << "\x1b[32m\nCompilation...\x1b[0m"; 
+inline void execute(fs::path path) {
+    wcout << FYEL(L"Compilation start\n") << L"Script: " << path.filename() << '\n'; 
     
     clock_t start_comp = clock();
 
     wstring code = read_txt(path);
     Parser ex(code); 
 
-#if CLR_CONSOLE
-    system("cls"); 
-#endif
-
+    if (ex.ok) system("cls");
+    
     clock_t start_ex = clock();
 
     ex.run();
 
-    printf("\n\n\x1b[33mCompilation status: %.3fs\nExecution time: %.3fs\x1b[0m", float(start_ex-start_comp)/1000, float(clock()-start_ex)/1000);
+    printf(FGRN("\n\nCompilation status: %.3fs\nExecution time: %.3fs\n"), 
+        float(start_ex-start_comp)/1000, float(clock()-start_ex)/1000);
 }

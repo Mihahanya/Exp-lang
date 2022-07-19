@@ -1,0 +1,23 @@
+$nln = 10
+
+$cycle - 
+{
+	READ -> $a
+	READ -> $b
+	
+	$res = 0
+	$a {	
+		$r = $a
+		$res{ $b{ $r- } }
+		
+		$ok = 0
+		$less_zero = $r < 0 { $ok+{ $res- } }
+		$is_zero = $r ? { $ok+ }
+		
+		$ok > 0 { BREAK }
+		ELSE { $res+ }
+	}
+	$res:
+
+	$nln;
+}

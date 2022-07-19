@@ -16,10 +16,10 @@ enum TType
 	TOBOOL, MORE, LESS,
 	PRINT, PRINT_CHAR,
 	INPUT_N, INPUT_CHAR,
-	BGN_CYC, FNS_CYC,
-	BREAK,
+	BGN_FOV, END_FOV,
+	CYCLE, BREAK,
 	INCLUDE,
-	OTHER,
+	NONE,
 };
 
 struct TokenType 
@@ -30,14 +30,15 @@ struct TokenType
 
 struct Token 
 {
-	wstring val;
-	TType type;
+	wstring str_val = L"";
+	tsv num_val = 0;
+	TType type = NONE;
 };
 
 
 const vector<TokenType> token_types_list = 
 {
-	{SPACE,		wregex{LR"(\s+)"}},
+	{SPACE,		wregex{LR"(\n|\s+)"}},
 
 	{VARIABLE,	wregex{LR"((\$|VAR\s*)([\w\d_]+))"}},
 
@@ -50,8 +51,8 @@ const vector<TokenType> token_types_list =
 	{PLUS,		wregex{LR"(\+)"}},
 	{MINUS,		wregex{LR"(-)"}},
 
-	{BGN_CYC,	wregex{LR"(\{|BEGIN)"}},
-	{FNS_CYC,	wregex{LR"(\}|END)"}},
+	{BGN_FOV,	wregex{LR"(\{|BEGIN)"}},
+	{END_FOV,	wregex{LR"(\}|END)"}},
 
 	{TOBOOL,	wregex{LR"(\?|NEG|IF|ELSE)"}},
 	{MORE,		wregex{LR"(>\s*0)"}},
@@ -63,7 +64,8 @@ const vector<TokenType> token_types_list =
 	{INPUT_CHAR,wregex{LR"(,|READCHAR)"}},
 	{INPUT_N,	wregex{LR"(\.|READ)"}},
 
-	{BREAK,		wregex{LR"(%|BREAKIF)"}},
+	{CYCLE,		wregex{LR"(TIMES)"}},
+	{BREAK,		wregex{LR"(%|BREAK)"}},
 
 	{INCLUDE,	wregex{LR"((INCLUDE\s*)?\"(.+)\")"}},
 };
