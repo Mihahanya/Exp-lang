@@ -1,21 +1,21 @@
 $nln = 10
 
 $cycle - 
-{
+TIMES {
 	READ -> $a
 	READ -> $b
 	
 	$res = 0
-	$a {	
+	$a TIMES {	
 		$r = $a
-		$res{ $b{ $r- } }
+		$res TIMES { $b TIMES { $r- } }
 		
 		$ok = 0
-		$less_zero = $r < 0 { $ok+{ $res- } }
-		$is_zero = $r ? { $ok+ }
+		$less_zero = $r < 0 TIMES { $ok+ TIMES { $res- } }
+		$is_zero = $r ? TIMES { $ok+ }
 		
-		$ok > 0 { BREAK }
-		ELSE { $res+ }
+		$ok > 0 TIMES { BREAK }
+		ELSE TIMES { $res+ }
 	}
 	$res:
 

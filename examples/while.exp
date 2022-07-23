@@ -1,8 +1,8 @@
 $need = 7
 
-$C-{
+$C- TIMES{
 	$input.
-	$need{$input-}
-	$input? {%}
+	$need TIMES{$input-}
+	$input? TIMES{%}
 }
 $b+;

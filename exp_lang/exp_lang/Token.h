@@ -7,19 +7,12 @@ using std::wregex;
 
 enum TType
 {
-	SPACE,
-	VARIABLE, 
-	SWAP,
-	MOVE_VAL,
-	NUMBER,
-	PLUS, MINUS,
-	TOBOOL, MORE, LESS,
-	PRINT, PRINT_CHAR,
-	INPUT_N, INPUT_CHAR,
+	VARIABLE, ASSIGN_VAL, NUMBER, PLUS, MINUS, TOBOOL, MORE, LESS,
+	PRINT, PRINT_CHAR, INPUT_N, INPUT_CHAR,
 	BGN_FOV, END_FOV,
 	CYCLE, BREAK,
-	INCLUDE,
-	NONE,
+	INCLUDE, SWAP,
+	SPACE, NONE,
 };
 
 struct TokenType 
@@ -44,7 +37,7 @@ const vector<TokenType> token_types_list =
 
 	{NUMBER,	wregex{LR"(-?\d+)"}},
 
-	{MOVE_VAL,	wregex{LR"(=|IS)"}},
+	{ASSIGN_VAL,wregex{LR"(=|IS)"}},
 
 	{SWAP,		wregex{LR"(->)"}},
 
@@ -54,7 +47,7 @@ const vector<TokenType> token_types_list =
 	{BGN_FOV,	wregex{LR"(\{|BEGIN)"}},
 	{END_FOV,	wregex{LR"(\}|END)"}},
 
-	{TOBOOL,	wregex{LR"(\?|NEG|IF|ELSE)"}},
+	{TOBOOL,	wregex{LR"(\?|NOT|IF|ELSE)"}},
 	{MORE,		wregex{LR"(>\s*0)"}},
 	{LESS,		wregex{LR"(<\s*0)"}},
 

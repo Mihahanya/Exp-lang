@@ -51,9 +51,7 @@ vector<Token> Lexer::lex_analysis()
 				is_find_token = true;
 				break;
 			}
-			else {
-				type_poses[tt.name] = fnd+i;
-			}
+			else type_poses[tt.name] = fnd+i;
 		}
 		if (!is_find_token) {
 			cerr << FRED("Unknown token in " + std::to_string(line_n) + " line!\n");

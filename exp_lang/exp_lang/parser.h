@@ -18,7 +18,7 @@ public:
 	void run();
 
 private:
-	void cycle_inside(vector<Token>::iterator&, tsv);
+	void run_fov(vector<Token>::iterator&, tsv=1);
 	void field_view(vector<Token>::iterator&, vector<Token>&, VarStrg&);
 };
 
@@ -39,14 +39,14 @@ void Parser::run() {
 
 	for (auto t = tokens.begin(); t < tokens.end(); t++)
 	{
-		switch ((*t).type)
+		switch (t->type)
 		{
-		case VARIABLE: var_ptr = &vars[(*t).str_val]; break;
+		case VARIABLE: var_ptr = &vars[t->str_val]; break;
 
-		case MOVE_VAL:
+		case ASSIGN_VAL:
 			t++;
-			if ((*t).type == VARIABLE) *var_ptr = vars[(*t).str_val];
-			else if ((*t).type == NUMBER) *var_ptr = (*t).num_val;
+			if (t->type == VARIABLE) *var_ptr = vars[t->str_val];
+			else if (t->type == NUMBER) *var_ptr = t->num_val;
 			break;
 
 		case PLUS:	 (*var_ptr)++; break;
@@ -64,17 +64,17 @@ void Parser::run() {
 			*var_ptr = tsv(a);
 			break;
 
-		case BGN_FOV: cycle_inside(t, *var_ptr); break;
+		case CYCLE: run_fov(++t, *var_ptr); break;
+		
+		case BGN_FOV: run_fov(t); break;
 
-		case BREAK:
-			exit += 2;
-			break;
+		case BREAK: exit += 2; break;
 		}
 		if (exit > 0) t = tokens.end();
 	}
 }
 
-void Parser::cycle_inside(vector<Token>::iterator& t, tsv iter_var) {
+void Parser::run_fov(vector<Token>::iterator& t, tsv times) {
 	vector<Token> tks{}; VarStrg vrs{};
 	field_view(t, tks, vrs);
 
@@ -82,8 +82,7 @@ void Parser::cycle_inside(vector<Token>::iterator& t, tsv iter_var) {
 	cycle_pars.tokens = tks; 
 	cycle_pars.vars = vrs;
 
-	iter_var++;
-	while (--iter_var) {
+	for (; times; --times) {
 		cycle_pars.run();
 		if (cycle_pars.exit > 0) break;
 	}

@@ -3,9 +3,9 @@ VAR nln IS 10
 VAR fi1 = 0 PRINT $nln;
 VAR fi2 = 1 PRINT $nln;
 
-VAR repeats IS 33 BEGIN
+VAR repeats IS 33 TIMES BEGIN
 	$buf = $fi1
-	$fi2{$buf+}
+	$fi2 TIMES {$buf+}
 	
 	$fi1 = $fi2
 	$fi2 = $buf

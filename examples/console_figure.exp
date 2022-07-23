@@ -1,12 +1,15 @@
 |not ready|
 
-$nln=10
-$fon=198
+$nln = 10
+$symb = 42
+$space = 32
 
-$szx=40
-$szy=20 {
-    $szx {
-        $fon;
+$size = 11 
+
+$size TIMES {
+    $size TIMES {
+		$x
+        $symb;;
     }
     $nln;
 }

@@ -2,7 +2,7 @@ $o1 = 1
 $o2 = 2
 
 $need = 3
-$inp. {$need-}
+$inp. TIMES {$need-}
 
-$need IF {$o1;}
-$need ELSE {$o2;}
+$need IF TIMES {$o1;}
+$need ELSE TIMES {$o2;}

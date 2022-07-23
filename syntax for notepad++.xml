@@ -28,7 +28,7 @@
             <Keywords name="Keywords2">VAR</Keywords>
             <Keywords name="Keywords3">INCLUDE</Keywords>
             <Keywords name="Keywords4">-&gt;</Keywords>
-            <Keywords name="Keywords5">- &gt; IS IF ELSE NEG PRINTCHAR PRINT READCHAR READ BREAK</Keywords>
+            <Keywords name="Keywords5">- &gt; IS IF ELSE NEG PRINTCHAR PRINT READCHAR READ BREAK TIMES</Keywords>
             <Keywords name="Keywords6"></Keywords>
             <Keywords name="Keywords7"></Keywords>
             <Keywords name="Keywords8"></Keywords>

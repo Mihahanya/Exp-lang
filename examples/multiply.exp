@@ -1,9 +1,9 @@
 $nln = 10
 $ooo $in1 $in2
 
-$c-{
+$c - TIMES {
 	$in1.
-	$in2.{$in1{$ooo+}}
+	$in2. TIMES {$in1 TIMES { $ooo+ } }
 
 	$ooo: = 0
 
