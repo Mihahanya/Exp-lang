@@ -1,9 +1,0 @@
-Possible commands for the terminal:
-!run (run the script)
-!code (show the code)
-!move- (move to the next directory, for example `!move-some_folder\` or `!move-my_script.exp`)
-!path- (change the current directory to another one, for example `!path-D:\project_loader\script.exp`)
-!path (show a path to the current directory)
-!back (move to the back directory)
-!clear (clear console)
-!exit (close interpreter)

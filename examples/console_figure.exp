@@ -1,4 +1,6 @@
 |not ready|
+$_NOT_CLOSE_MODE?
+$_DEBUG_MODE?
 
 $nln = 10
 $symb = 42
@@ -6,12 +8,12 @@ $space = 32
 
 $size = 11 
 
-$size TIMES {
-    $size TIMES {
+$size times {
+    $size times {
 		$x
-        $symb;;
+        $symb printc printc
     }
-    $nln;
+    $nln printc
 }
 
 |circle is (x-x0)^2 + (y-y0)^2 = r^2 |

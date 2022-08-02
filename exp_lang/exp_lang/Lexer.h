@@ -18,10 +18,10 @@ private:
 	void embed_inc_toks(const wstring&, vector<Token>&);
 	void find_end_fov(vector<Token>::iterator);
 
-	void add_token(const TokenType& tt, vector<Token>& res, const wstring& value);
+	void add_token(const TokType& tt, vector<Token>& res, const wstring& value);
 };
 
-Lexer::Lexer(const wstring& code) : code(code) {
+Lexer::Lexer(const wstring& code) : code{code} {
 	static const wregex del_comm_reg{ LR"(\|.*\|)" };
 	this->code = std::regex_replace(this->code, del_comm_reg, wstring{L""});
 };
@@ -37,7 +37,7 @@ vector<Token> Lexer::lex_analysis()
 		bool is_find_token = false;
 		if (sub_code[0] == '\n') line_n++;
 
-		for (const TokenType& tt : token_types_list) {
+		for (const TokType& tt : token_types_list) {
 			if (type_poses[tt.name] > i) continue;
 
 			std::wsmatch m;
@@ -84,7 +84,7 @@ void Lexer::embed_inc_toks(const wstring& t, vector<Token>& ts) {
 	ts.insert(ts.end(), inc_toks.begin(), inc_toks.end());
 }
 
-inline void Lexer::add_token(const TokenType& tt, vector<Token>& res, const wstring& value) {
+inline void Lexer::add_token(const TokType& tt, vector<Token>& res, const wstring& value) {
 	static bool is_swap = false;
 
 	Token crr_token{ value, 0, tt.name };

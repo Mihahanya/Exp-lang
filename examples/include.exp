@@ -1,2 +1,2 @@
-INCLUDE "\libs\nums"
-$endl:
+include "\libs\nums"
+$endl print

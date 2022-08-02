@@ -1,11 +1,12 @@
 $nln = 10
-$ooo $in1 $in2
 
-$c - TIMES {
-	$in1.
-	$in2. TIMES {$in1 TIMES { $ooo+ } }
+$c - times {
+	$ooo = 0
 
-	$ooo: = 0
+	$in1 read
+	$in2 read times {$in1 times { $ooo+ } }
 
-	$nln;
+	$ooo print
+
+	$nln printc
 }

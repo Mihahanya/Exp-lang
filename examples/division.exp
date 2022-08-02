@@ -1,23 +1,23 @@
 $nln = 10
 
 $cycle - 
-TIMES {
-	READ -> $a
-	READ -> $b
+times {
+	read -> $a
+	read -> $b
 	
 	$res = 0
-	$a TIMES {	
+	$a times {	
 		$r = $a
-		$res TIMES { $b TIMES { $r- } }
+		$res times { $b times { $r- } }
 		
 		$ok = 0
-		$less_zero = $r < 0 TIMES { $ok+ TIMES { $res- } }
-		$is_zero = $r ? TIMES { $ok+ }
+		$less_zero = $r < 0 times { $ok+ times { $res- } }
+		$is_zero = $r ? times { $ok+ }
 		
-		$ok > 0 TIMES { BREAK }
-		ELSE TIMES { $res+ }
+		$ok > 0 times { break }
+		ELSE times { $res+ }
 	}
-	$res:
+	$res print
 
-	$nln;
+	$nln printc
 }

@@ -1,8 +1,10 @@
+$_NOT_CLOSE_MODE?
+
 $need = 7
 
-$C- TIMES{
-	$input.
-	$need TIMES{$input-}
-	$input? TIMES{%}
+$C- times{
+	$input read
+	$need times{$input-}
+	$input? times{break}
 }
-$b+;
+$b+ printc

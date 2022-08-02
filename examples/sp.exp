@@ -1,7 +1,10 @@
-"\libs\nums"
+$_NOT_CLOSE_MODE?
+$_DEBUG_MODE?
+
+include"\libs\nums"
 
 $ooo=0
-$767 TIMES{$9373 TIMES{$ooo+}}
-$ooo:
+$767 times{$9373 times{$ooo+}}
+$ooo print
 
 |7189091|

@@ -1,13 +1,14 @@
 $endl = 10
 
-$m - TIMES{
-	$num. $pow.
+$m - times{
+	$num read 
+	$pow read
 	
 	$o=1
-	$pow TIMES{
+	$pow times{
 		$c=0
-		$o TIMES{$num TIMES{$c+}}
+		$o times{$num times{$c+}}
 		$o=$c
 	}
-	$o: $endl;
+	$o print $endl printc
 }

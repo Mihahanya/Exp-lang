@@ -1,77 +1,55 @@
-﻿#include <cstdlib>
-#include <conio.h>
-#include <time.h>
+﻿#include <time.h>
+#include <windows.h>
 
 #include "Parser.h"
 
-inline void execute(fs::path);
 
-int main(int argc, char **argv)
+int main(int argc, char **argv) 
 {
-    system("title Exp interpreter");
+    if (argc == 1) exit(0);
+    else system("");
 
-    string command;
-    fs::path crr_path;
-
-    if (argc == 1) {
-        cout << init_msg;
-        
-        crr_path = fs::current_path(); 
-        cout << crr_path << '\n';
-    }
-    else {
-        crr_path = argv[1];
-        command = "run";
-
-        goto not_read;
-    }
-
-    while (true) 
     {
-        cout << read_arrow;
-        std::getline(cin, command);
+        const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        not_read:
-        try {
-            if (command == "run") execute(crr_path);
+        COORD coord = { 64, 32 };
+        SMALL_RECT rect = { 0, 0, coord.X-1, coord.Y-1 };
+        SetConsoleScreenBufferSize(handle, coord);
+        SetConsoleWindowInfo(handle, TRUE, &rect);
 
-            else if (command == "help") cout << '\n' << pos_cmd;
-            
-            else if (command.substr(0, 3) == "dir") crr_path = command.substr(4);
-
-            else if (command.substr(0, 3) == "scr") crr_path.replace_filename(command.substr(4)); 
-            
-            else if (command == "code") wcout << '\n' << read_txt(crr_path).c_str() << '\n';
-            
-            else if (command == "clear") system("cls");
-            
-            else if (command == "exit") exit(0);
-            
-            else if (!command.empty()) wcout << FRED("[Unknown command]\n") << "Type `help` for more information\n";
-        }
-        catch (...) {
-            cerr << FRED("[Some error]\n");
-        }
+        LPCWSTR title{ L"Exp interpreter" };
+        SetConsoleTitle(title);
     }
 
-    _getch();
+    try {
+        const fs::path path {argv[1]};
+
+        printf(FYEL("Compilation start\n"));
+        wprintf(L"Script: %s\n", path.filename().c_str());
+
+        clock_t start_comp = clock();
+
+        const wstring code = read_txt(path);
+        Parser ex(code);
+
+        if (ex.ok) system("cls");
+
+        clock_t start_ex = clock();
+
+        ex.run();
+
+        if (ex.vars[L"_DEBUG_MODE"]) {
+            printf(FGRN("\nCompilation status: %.3fs\nExecution time: %.3fs\n"),
+                float(start_ex-start_comp)/1000, float(clock()-start_ex)/1000);
+        }
+        if (ex.vars[L"_NOT_CLOSE_MODE"]) {
+            cin.ignore(1);
+            cin.get();
+        }
+    }
+    catch (...) {
+        cerr << FRED("[Some error]\n");
+    }
+
     return 0;
-}
-
-inline void execute(fs::path path) {
-    wcout << FYEL(L"Compilation start\n") << L"Script: " << path.filename() << '\n'; 
-    
-    clock_t start_comp = clock();
-
-    wstring code = read_txt(path);
-    Parser ex(code); 
-
-    if (ex.ok) system("cls");
-    
-    clock_t start_ex = clock();
-
-    ex.run();
-
-    printf(FGRN("\n\nCompilation status: %.3fs\nExecution time: %.3fs\n"), 
-        float(start_ex-start_comp)/1000, float(clock()-start_ex)/1000);
 }

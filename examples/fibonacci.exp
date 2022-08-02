@@ -1,0 +1,18 @@
+$_NOT_CLOSE_MODE?
+$_DEBUG_MODE?
+
+$nln = 10
+
+$fi1 = 0 print $nln printc
+$fi2 = 1 print $nln printc
+
+$cycle=33 times {
+	$buf = $fi1
+	$fi2 times {$buf+}
+	
+	$fi1 = $fi2
+	$fi2 = $buf
+	
+	$buf print
+	$nln printc
+}

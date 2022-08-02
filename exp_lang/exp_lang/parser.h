@@ -86,7 +86,7 @@ void Parser::run_fov(vector<Token>::iterator& t, tsv times) {
 		cycle_pars.run();
 		if (cycle_pars.exit > 0) break;
 	}
-	exit = std::max(cycle_pars.exit-1, 0);
+	exit = max(cycle_pars.exit-1, 0);
 	for (const auto& v : vrs) vars[v.first] = cycle_pars.vars[v.first];
 }
 

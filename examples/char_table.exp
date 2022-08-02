@@ -1,10 +1,12 @@
-$col.
-$fiv = 5
+$_NOT_CLOSE_MODE?
+
+$col read
+$five = 5
 $spc = 32  |Space symbol|
 $endl = 10 |New line symbol|
-$itr = 33
+$itr = 32
 
-$col TIMES {
-	$fiv TIMES { $itr:;+ $spc;}
-	$endl;
+$col times {
+	$five times { $itr print printc+ $spc printc}
+	$endl printc
 }

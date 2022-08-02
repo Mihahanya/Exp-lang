@@ -1,8 +1,10 @@
+$_NOT_CLOSE_MODE?
+
 $o1 = 1
 $o2 = 2
 
 $need = 3
-$inp. TIMES {$need-}
+$inp read times {$need-}
 
-$need IF TIMES {$o1;}
-$need ELSE TIMES {$o2;}
+$need IF times {$o1 printc}
+$need ELSE times {$o2 printc}
