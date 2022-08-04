@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 
         COORD coord = { 64, 32 };
         SMALL_RECT rect = { 0, 0, coord.X-1, coord.Y-1 };
-        SetConsoleScreenBufferSize(handle, coord);
+        //SetConsoleScreenBufferSize(handle, coord);
         SetConsoleWindowInfo(handle, TRUE, &rect);
 
         LPCWSTR title{ L"Exp interpreter" };
@@ -25,11 +25,11 @@ int main(int argc, char **argv)
         const fs::path path {argv[1]};
 
         printf(FYEL("Compilation start\n"));
-        wprintf(L"Script: %s\n", path.filename().c_str());
+        printf("Script: %s\n", path.filename().string().c_str());
 
         clock_t start_comp = clock();
 
-        const wstring code = read_txt(path);
+        const string code = read_txt(path);
         Parser ex(code);
 
         if (ex.ok) system("cls");
@@ -38,11 +38,11 @@ int main(int argc, char **argv)
 
         ex.run();
 
-        if (ex.vars[L"_DEBUG_MODE"]) {
+        if (ex.vars["_DEBUG_MODE"]) {
             printf(FGRN("\nCompilation status: %.3fs\nExecution time: %.3fs\n"),
                 float(start_ex-start_comp)/1000, float(clock()-start_ex)/1000);
         }
-        if (ex.vars[L"_NOT_CLOSE_MODE"]) {
+        if (ex.vars["_NOT_CLOSE_MODE"]) {
             cin.ignore(1);
             cin.get();
         }

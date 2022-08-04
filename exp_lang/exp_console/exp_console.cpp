@@ -39,13 +39,13 @@ int main(int argc, char** argv)
 
             else if (command.substr(0, 3) == "scr") crr_path.replace_filename(command.substr(4));
 
-            else if (command == "code") wcout << '\n' << read_txt(crr_path).c_str() << '\n';
+            else if (command == "code") cout << '\n' << read_txt(crr_path).c_str() << '\n';
 
             else if (command == "clear") system("cls");
 
             else if (command == "exit") exit(0);
 
-            else if (!command.empty()) wcout << FRED("[Unknown command]\n") << "Type `help` for more information\n";
+            else if (!command.empty()) cout << FRED("[Unknown command]\n") << "Type `help` for more information\n";
         }
         catch (...) {
             cerr << FRED("[Some error]\n");

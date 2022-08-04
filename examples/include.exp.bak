@@ -1,0 +1,6 @@
+$_NOT_CLOSE_MODE?
+$_DEBUG_MODE?
+
+include "\libs\nums"
+
+$endl print

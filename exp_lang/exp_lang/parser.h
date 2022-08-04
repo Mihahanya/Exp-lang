@@ -2,7 +2,7 @@
 
 #include "Lexer.h"
 
-typedef std::map<wstring, tsv> VarStrg;
+typedef std::map<string, tsv> VarStrg;
 
 class Parser
 {
@@ -13,7 +13,7 @@ public:
 	bool ok = true;
 
 	Parser();
-	Parser(const wstring&);
+	Parser(const string&);
 
 	void run();
 
@@ -25,7 +25,7 @@ private:
 
 Parser::Parser() {};
 
-Parser::Parser(const wstring& code) {
+Parser::Parser(const string& code) {
 	Lexer tc(code);
 	tokens = tc.lex_analysis();
 	ok = tc.ok;
@@ -35,7 +35,7 @@ Parser::Parser(const wstring& code) {
 void Parser::run() {
 	if (not ok) return;
 
-	tsv* var_ptr = &vars[L"_"];
+	tsv* var_ptr = &vars["_"];
 
 	for (auto t = tokens.begin(); t < tokens.end(); t++)
 	{
@@ -55,8 +55,8 @@ void Parser::run() {
 		case MORE:   *var_ptr = *var_ptr > 0 ? 1 : 0; break;
 		case LESS:   *var_ptr = *var_ptr < 0 ? 1 : 0; break;
 
-		case PRINT:		 wcout << *var_ptr; break;
-		case PRINT_CHAR: wcout << char(*var_ptr); break;
+		case PRINT:		 cout << *var_ptr; break;
+		case PRINT_CHAR: cout << char(*var_ptr); break;
 
 		case INPUT_N: cin >> *var_ptr; break;
 		case INPUT_CHAR:
@@ -97,7 +97,7 @@ inline void Parser::field_view(vector<Token>::iterator& t, vector<Token>& tokens
 	
 	for (const auto& t : tokens_in) {
 		if (t.type == VARIABLE) {
-			const wstring name = t.str_val;
+			const string name = t.str_val;
 			if (!vars_in.count(name) and vars.count(name)) vars_in[name] = vars[name];
 		}
 	}

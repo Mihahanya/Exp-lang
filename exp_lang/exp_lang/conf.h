@@ -14,10 +14,10 @@
 typedef int tsv; // type stored in the variable
 
 
-wstring read_txt(const fs::path& path) {
-	wstring line, res{};
-	std::wifstream in(path); 
-	while (getline(in, line)) res += line + L'\n';
+string read_txt(const fs::path& path) {
+	string line, res{};
+	std::ifstream in(path); 
+	while (getline(in, line)) res += line + '\n';
 	in.close();
 	return res;
 }

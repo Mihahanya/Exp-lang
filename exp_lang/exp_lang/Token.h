@@ -3,7 +3,7 @@
 #include <regex>
 #include "conf.h"
 
-using std::wregex;
+using std::regex;
 
 enum TType
 {
@@ -18,12 +18,12 @@ enum TType
 struct TokType 
 {
 	TType name;
-	wregex regex;
+	regex regex;
 };
 
 struct Token 
 {
-	wstring str_val = L"";
+	string str_val = "";
 	tsv num_val = 0;
 	TType type = NONE;
 };
@@ -31,34 +31,34 @@ struct Token
 
 const vector<TokType> token_types_list = 
 {
-	{SPACE,		wregex{LR"(\n|\s+)"}},
+	{SPACE,		regex{R"(\n|\s+)"}},
 
-	{VARIABLE,	wregex{LR"(\$([\w\d_]+))"}},
+	{VARIABLE,	regex{R"(\$([\w\d_]+))"}},
 
-	{NUMBER,	wregex{LR"(-?\d+)"}},
+	{NUMBER,	regex{R"(-?\d+)"}},
 
-	{ASSIGN_VAL,wregex{LR"(=)"}},
+	{ASSIGN_VAL,regex{R"(=)"}},
 
-	{SWAP,		wregex{LR"(->)"}},
+	{SWAP,		regex{R"(->)"}},
 
-	{PLUS,		wregex{LR"(\+)"}},
-	{MINUS,		wregex{LR"(-)"}},
+	{PLUS,		regex{R"(\+)"}},
+	{MINUS,		regex{R"(-)"}},
 
-	{BGN_FOV,	wregex{LR"(\{)"}},
-	{END_FOV,	wregex{LR"(\})"}},
+	{BGN_FOV,	regex{R"(\{)"}},
+	{END_FOV,	regex{R"(\})"}},
 
-	{TOBOOL,	wregex{LR"(\?|NOT|IF|ELSE)"}},
-	{MORE,		wregex{LR"(>\s*0)"}},
-	{LESS,		wregex{LR"(<\s*0)"}},
+	{TOBOOL,	regex{R"(\?|NOT|IF|ELSE)"}},
+	{MORE,		regex{R"(>\s*0)"}},
+	{LESS,		regex{R"(<\s*0)"}},
 
-	{PRINT_CHAR,wregex{LR"(printc)"}},
-	{PRINT,		wregex{LR"(print)"}},
+	{PRINT_CHAR,regex{R"(printc)"}},
+	{PRINT,		regex{R"(print)"}},
 
-	{INPUT_CHAR,wregex{LR"(readc)"}},
-	{INPUT_N,	wregex{LR"(read)"}},
+	{INPUT_CHAR,regex{R"(readc)"}},
+	{INPUT_N,	regex{R"(read)"}},
 
-	{CYCLE,		wregex{LR"(times|cycle)"}},
-	{BREAK,		wregex{LR"(break)"}},
+	{CYCLE,		regex{R"(times|cycle)"}},
+	{BREAK,		regex{R"(break)"}},
 
-	{INCLUDE,	wregex{LR"((include\s*)?\"(.+)\")"}},
+	{INCLUDE,	regex{R"(include\s*\"(.+)\")"}},
 };

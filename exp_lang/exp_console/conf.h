@@ -8,13 +8,10 @@
 #include <fstream>
 #include <filesystem>
 
-using std::cout;
 using std::cerr;
 using std::cin;
-using std::wcout;
-using std::wcin;
+using std::cout;
 using std::string;
-using std::wstring;
 
 namespace fs = std::filesystem;
 
@@ -38,7 +35,7 @@ namespace csl
 	"/_____ /  /__/\\__\\/_ /\n"
 	"________________________\n"
 	"\n"
-	"(c) Exp 2.0, 2021-2022\n"
+	"(c) Exp 3.0, 2021-2022\n"
 	"https://github.com/Mihahanya\n"
 	"\n"
 	"------------------------\n";
@@ -55,10 +52,10 @@ namespace csl
 	const string read_arrow = FGRN("\n~> ");
 }
 
-wstring read_txt(const fs::path& path) {
-	wstring line, res{};
-	std::wifstream in(path);
-	while (getline(in, line)) res += line + L'\n';
+string read_txt(const fs::path& path) {
+	string line, res{};
+	std::ifstream in(path);
+	while (getline(in, line)) res += line + '\n';
 	in.close();
 	return res;
 }
