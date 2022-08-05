@@ -1,5 +1,7 @@
 ﻿#include "conf.h"
 
+// IT'S NOT READY YET
+
 inline void execute(fs::path);
 
 int main(int argc, char** argv)

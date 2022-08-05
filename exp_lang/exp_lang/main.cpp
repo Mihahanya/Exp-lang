@@ -23,6 +23,7 @@ int main(int argc, char **argv)
 
     try {
         const fs::path path {argv[1]};
+        //const fs::path path = "D:\\PROJECTS\\Exp-lang\\examples\\fibonacci.exp";
 
         printf(FYEL("Compilation start\n"));
         printf("Script: %s\n", path.filename().string().c_str());

@@ -4,6 +4,7 @@
 #include <map>
 
 using std::smatch;
+using std::pair;
 
 class Lexer
 {
@@ -17,7 +18,7 @@ public:
 private:
 	string code;
 	
-	std::map<TType, size_t> type_poss{};
+	std::map<TType, smatch> ttps_pos_map{};
 	bool is_swap = false;
 
 	void embed_inc_toks(const string&, vector<Token>&);
@@ -74,22 +75,24 @@ void Lexer::embed_inc_toks(const string& t, vector<Token>& ts) {
 	ts.insert(ts.end(), inc_toks.begin(), inc_toks.end());
 }
 
-std::pair<TType, smatch> Lexer::recognize_token(const string& code, const size_t& i) {
+pair<TType, smatch> Lexer::recognize_token(const string& code, const size_t& i) { // TODO: redo
 	const string sub_code = code.substr(i, 33);
 
 	for (const TokType& tt : token_types_list) {
-		if (type_poss[tt.name] > i) continue;
-
-		smatch m;
-		if (!std::regex_search(sub_code, m, tt.regex)) continue;
-
-		const auto fnd = sub_code.find(m.str());
-
-		if (fnd == 0) return { tt.name, m };
-		else type_poss[tt.name] = fnd + i;
+		if (ttps_pos_map[tt.name].position() <= i) {
+			smatch m;
+			if (std::regex_search(sub_code, m, tt.regex)) {
+				if (m.position() == 0) return { tt.name, m };
+				else ttps_pos_map[tt.name] = m;
+			}
+			else {
+				ttps_pos_map[tt.name] = smatch();
+			}
+		}
 	}
 	return { NONE, smatch() };
 }
+
 
 inline void Lexer::add_token(const TType& tt, const string& value, vector<Token>& res) {
 	Token crr_token{ value, 0, tt };
