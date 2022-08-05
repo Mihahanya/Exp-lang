@@ -1,15 +1,14 @@
-|not ready|
 $_NOT_CLOSE_MODE?
 $_DEBUG_MODE?
 
-$nln = 10
-$symb = 42
-$space = 32
+$nln = 10	|\n|
+$symb = 64	|@|
+$space = 32	| |
 
 $size_x = 64
 $size_y = 32 
 
-$r = 5
+$r = 3500
 
 $y = 0
 $size_y times {
@@ -17,17 +16,21 @@ $size_y times {
 	$size_x times {
         $xx = 0
 		$x times{$x times{$xx+}}
+		|xx = x^2|
 		
-		$y = 0
-		$y times{$y times{$yy+}}
+		$yy = 0
+		$y times{$y times{$yy++++}}
+		|xx = x^2|
 		
 		$s = 0
-		$y times {$s+}
-		$x times {$s+}
+		$yy times {$s+}
+		$xx times {$s+}
 		$r times {$s-}
+		|s = xx + yy - r|
+		
 		$s-
 		$s < 0 times { printc -> $symb }
-		$s < 0 times { printc -> $space }
+		$s ? times { printc -> $space }
 		
 		$x+
     }
