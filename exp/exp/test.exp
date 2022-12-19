@@ -1,0 +1,5 @@
+
+new a
+a inc inc print
+
+new b dec dec dec print
