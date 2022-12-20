@@ -3,6 +3,7 @@
 #include "Colored.h"
 #include <fstream>
 #include <stdexcept>
+#include <sstream>
 
 using std::cout;
 
@@ -28,9 +29,9 @@ int main(int argc, char *argv[]) try
         Lexer lex(code);
         auto tokens = lex.lex_analysis();
 
-        for (const auto& t : tokens) {
+        /*for (const auto& t : tokens) {
             std::cout << t.val << ' ' << t.line << '\n';
-        }
+        }*/
         
         exec(tokens);
     }

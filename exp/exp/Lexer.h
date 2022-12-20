@@ -13,6 +13,5 @@ public:
 private:
 	string code{}, clear_code{};
 
-	void to_clear_code();
 	Token recognize_token(const string&);
 };

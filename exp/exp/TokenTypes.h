@@ -19,15 +19,14 @@ enum class TokenType {
 	Number,
 	Space,
 	Condition,
-	UsePattern,		//
-	OtherPattern,	//
+	LineComment,
 	None,
 };
 
 struct Token {
-	TokenType type;
-	size_t line;
-	string val;
+	TokenType type = TokenType::None;
+	size_t line = -1, chr_pos = -1;
+	string val{};
 };
 
 struct TokenPatt {
@@ -37,7 +36,7 @@ struct TokenPatt {
 
 // TODO: `<` to operators to do faster
 const vector<TokenPatt> token_types_list {
-	{ TokenType::Space,				regex(R"(^(;|\s+))") }, //, std::regex::optimize) },	// `\n` <=> `;`
+	{ TokenType::Space,				regex(R"(^\s+)") }, //, std::regex::optimize) },
 	{ TokenType::Increase,			regex(R"(^inc)") }, //, std::regex::optimize) },
 	{ TokenType::Decrease,			regex(R"(^dec)") }, //, std::regex::optimize) },
 	{ TokenType::Condition,			regex(R"(^if)") }, //, std::regex::optimize) },
@@ -48,5 +47,6 @@ const vector<TokenPatt> token_types_list {
 	{ TokenType::ChooseVariable,	regex(R"(^[A-z0-9_']+)") }, //, std::regex::optimize) },
 	{ TokenType::DeclPattern,		regex(R"(^$)") }, //, std::regex::optimize) },
 	{ TokenType::Equivalents,		regex(R"(^<=>)") }, //, std::regex::optimize) },
+	{ TokenType::LineComment,		regex(R"(^\/\/.*)") }, //, std::regex::optimize) },
 };
 
