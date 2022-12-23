@@ -1,2 +1,9 @@
 
-new b dec if dec dec print
+//$ {a+} to { a inc }
+//@ if a <=> a if 
+
+new b dec 
+b if dec dec 
+//b if not 0 dec dec end 
+
+print

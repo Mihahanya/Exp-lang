@@ -1,9 +1,10 @@
-﻿#include "Execute.h"
+﻿#include "Parser.h"
 #include "Lexer.h"
 #include "Colored.h"
 #include <fstream>
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
 using std::cout;
 
@@ -27,13 +28,16 @@ int main(int argc, char *argv[]) try
         string code = read_file_contents("test.exp");
         
         Lexer lex(code);
-        auto tokens = lex.lex_analysis();
+        auto simple_tokens = lex.lex_analysis();
+
+        Parser parser(simple_tokens);
+        parser.parse();
 
         /*for (const auto& t : tokens) {
             std::cout << t.val << ' ' << t.line << '\n';
         }*/
         
-        exec(tokens);
+        parser.execute();
     }
     else if (argc == 2) {
         

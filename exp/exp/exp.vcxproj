@@ -134,10 +134,13 @@
     <ClCompile Include="exp.cpp" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Lexer.h" />
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Signature.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colored.h" />
-    <ClInclude Include="Execute.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Signature.h" />
     <ClInclude Include="TokenTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

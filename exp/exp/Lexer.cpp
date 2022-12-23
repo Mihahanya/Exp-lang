@@ -15,7 +15,8 @@ vector<Token> Lexer::lex_analysis() {
 	std::istringstream f(code);
 	for (string this_line{}; std::getline(f, this_line); ++line_n) 
 	{
-		for (int i=0; i < this_line.length(); ) {
+		for (int i=0; i < this_line.length(); ) 
+		{
 			string sub_code(this_line.begin()+i, this_line.end());
 			Token token = recognize_token(sub_code);
 

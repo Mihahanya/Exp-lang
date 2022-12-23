@@ -7,15 +7,15 @@ using std::string, std::regex, std::vector;
 
 
 enum class TokenType {
-	ChooseVariable,
+	Name,
 	NewVariable,
 	Increase,
 	Decrease,
 	Input,
 	Output,
 
-	DeclPattern,
-	Equivalents,
+	//DeclPattern,
+	//Equivalents,
 	Number,
 	Space,
 	Condition,
@@ -34,7 +34,9 @@ struct TokenPatt {
 	regex regex;
 };
 
-// TODO: `<` to operators to do faster
+// TODO: maybe `<` to operators to do faster
+// TODO: includes
+// TODO: putch
 const vector<TokenPatt> token_types_list {
 	{ TokenType::Space,				regex(R"(^\s+)") }, //, std::regex::optimize) },
 	{ TokenType::Increase,			regex(R"(^inc)") }, //, std::regex::optimize) },
@@ -43,10 +45,10 @@ const vector<TokenPatt> token_types_list {
 	{ TokenType::Output,			regex(R"(^print)") }, //, std::regex::optimize) },
 	{ TokenType::Input,				regex(R"(^input)") }, //, std::regex::optimize) },
 	{ TokenType::NewVariable,		regex(R"(^new)") }, //, std::regex::optimize) },
+	{ TokenType::Name,				regex(R"(^\$?[A-z0-9_']+\$?)") }, //, std::regex::optimize) },
 	{ TokenType::Number,			regex(R"(^\d+)") }, //, std::regex::optimize) },
-	{ TokenType::ChooseVariable,	regex(R"(^[A-z0-9_']+)") }, //, std::regex::optimize) },
-	{ TokenType::DeclPattern,		regex(R"(^$)") }, //, std::regex::optimize) },
-	{ TokenType::Equivalents,		regex(R"(^<=>)") }, //, std::regex::optimize) },
+	//{ TokenType::DeclPattern,		regex(R"(^$)") }, //, std::regex::optimize) },
+	//{ TokenType::Equivalents,		regex(R"(^<=>)") }, //, std::regex::optimize) },
 	{ TokenType::LineComment,		regex(R"(^\/\/.*)") }, //, std::regex::optimize) },
 };
 
