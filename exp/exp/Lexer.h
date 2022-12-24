@@ -1,17 +1,37 @@
 #pragma once
 
-#include "TokenTypes.h"
-#include <vector>
+#include <string>
+#include <regex>
 
+using std::string, std::regex, std::vector, std::to_string;
+
+enum class LexType {
+	Space,
+	Name,
+	NoWord,
+	Number,
+	LineComment,
+	None,
+};
+
+
+struct Lexeme {
+	size_t line, chr_pos;
+	LexType type;
+	string val;
+};
 
 class Lexer {
 public:
 	Lexer(string code) : code{code} {}
 
-	std::vector<Token> lex_analysis();
+	vector<Lexeme> lex_analysis();
 
 private:
-	string code{}, clear_code{};
+	string code{};
 
-	Token recognize_token(const string&);
+	struct LexPatt { LexType type; regex regex; };
+	const static vector<LexPatt> lex_types_list;
+
+	Lexeme recognize_lexeme(const string&);
 };

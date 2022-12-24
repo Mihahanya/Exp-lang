@@ -4,7 +4,6 @@
         "Source": "d:\\projects\\exp-lang\\exp\\exp\\lexer.h",
         "ProvidedModule": "",
         "Includes": [
-            "d:\\projects\\exp-lang\\exp\\exp\\tokentypes.h",
             "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\string",
             "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\yvals_core.h",
             "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\vcruntime.h",

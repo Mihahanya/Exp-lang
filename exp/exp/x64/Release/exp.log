@@ -1,8 +1,13 @@
 ﻿  Проверка источников на наличие зависимостей модуля…
+  exp.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.35.32124\include\vector(2110,1): error C2036: Parser::Function *: неизвестный размер
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.35.32124\include\vector(2098,1): message : во время компиляции функции-члена класс шаблон "void std::vector<Parser::Function,std::allocator<Parser::Function>>::_Tidy(void) noexcept"
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.35.32124\include\vector(830,14): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::vector<Parser::Function,std::allocator<Parser::Function>>::_Tidy(void) noexcept"
+D:\PROJECTS\Exp-lang\exp\exp\Parser.h(33,17): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::vector<Parser::Function,std::allocator<Parser::Function>>"
   Parser.cpp
-  Создание кода
-  7 of 1459 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  exp.vcxproj -> D:\PROJECTS\Exp-lang\exp\x64\Release\exp.exe
+  Signature.cpp
+D:\PROJECTS\Exp-lang\exp\exp\Signature.cpp(49,21): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.35.32124\include\vector(2110,1): error C2036: Parser::Function *: неизвестный размер
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.35.32124\include\vector(2098,1): message : во время компиляции функции-члена класс шаблон "void std::vector<Parser::Function,std::allocator<Parser::Function>>::_Tidy(void) noexcept"
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.35.32124\include\vector(830,14): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::vector<Parser::Function,std::allocator<Parser::Function>>::_Tidy(void) noexcept"
+D:\PROJECTS\Exp-lang\exp\exp\Parser.h(33,17): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::vector<Parser::Function,std::allocator<Parser::Function>>"

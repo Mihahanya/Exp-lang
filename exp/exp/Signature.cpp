@@ -1,33 +1,52 @@
 #include "Signature.h"
+#include <iostream>
 
 
-int Signature::if_coincidence_len(const vector<Token>& tokens) const {
+bool Signature::check_coincidence(
+	const vector<Lexeme>& lexems, int& len, f_arguments_t& args) const 
+{
 	assert(components.begin().type != SignatureType::MultipleVar and 
 			(components.end()-1).type != SignatureType::MultipleVar);
 
-	auto token = tokens.begin();
-	for (const auto& comp : components) {
-		if (token == tokens.end()) return -1;
-
-		switch (comp.type) {
+	auto lex = lexems.begin();
+	for (auto comp=components.begin(); comp!=components.end(); ++comp) {
+		if (lex == lexems.end()) return false;
+		
+		f_argument_t arg;
+		
+		switch (comp->type) {
 		using enum SignatureType;
 
 		case Var:
-			if (token->val.find('$') == -1) return -1;
-			token++;
+			args.push_back({ *lex, });
+			lex++;
 			break;
 			
 		case MultipleVar:
-			if (token->val.find('$') == -1) return -1;
-			while (token->val.find('$') != -1) token++;
+			assert((comp+1)->type != SignatureType::MultipleVar);
+
+			arg = {}; 
+			while (lex->val != (comp+1)->val and lex != lexems.end()) { 
+				arg.push_back(*lex);
+				lex++; 
+			}
+			if (lex == lexems.end()) return false;
+
+			args.push_back(arg);
 			break;
 
 		case Name:
-			if (comp.val != token->val) return -1;
-			token++;
+			if (comp->val != lex->val) return false;
+			lex++;
+			break;
+
+		case Number:
+			if (comp->val != lex->val or lex->type != LexType::Number) return false;
 			break;
 		}
 	}
 
-	return std::distance(tokens.begin(), token);
+	len = std::distance(lexems.begin(), lex);
+
+	return true;
 }

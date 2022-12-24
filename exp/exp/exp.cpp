@@ -28,16 +28,16 @@ int main(int argc, char *argv[]) try
         string code = read_file_contents("test.exp");
         
         Lexer lex(code);
-        auto simple_tokens = lex.lex_analysis();
+        auto lexemes = lex.lex_analysis();
 
-        Parser parser(simple_tokens);
+        Parser parser(lexemes);
         parser.parse();
 
-        /*for (const auto& t : tokens) {
+        /*for (const auto& t : lexemes) {
             std::cout << t.val << ' ' << t.line << '\n';
         }*/
         
-        parser.execute();
+        //parser.execute();
     }
     else if (argc == 2) {
         

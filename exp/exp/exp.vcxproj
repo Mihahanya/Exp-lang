@@ -141,7 +141,6 @@
     <ClInclude Include="Colored.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Signature.h" />
-    <ClInclude Include="TokenTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

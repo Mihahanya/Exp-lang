@@ -1,8 +1,21 @@
 #include "Parser.h"
+#include "Signature.h"
 #include <set>
-#include <iostream>
 #include <vector>
 #include <string>
+#include <iostream>
+
+
+struct Parser::Function {
+	Signature signature{};
+	vector<string> into_vars_names { "a" };
+	vector<Token> tokens{}; 
+};
+
+struct Parser::Token {
+	Function func;
+	f_arguments_t arguments;
+};
 
 
 void Parser::execute() {
@@ -10,77 +23,97 @@ void Parser::execute() {
 	vars["_"] = -1;
 	int* current_var = &vars["_"];
 
-	// TODO: to iterators
-	for (int i=0; i < high_tokens.size(); ++i) {
-		if (high_tokens[i].type == HighTokenType::Simple) {
-			Token curr_tok = *high_tokens[i].val.simpl;
-
-			switch (curr_tok.type) {
-			using enum TokenType;
-
-			case Name:	current_var = &vars[curr_tok.val]; break;
-
-			case NewVariable:
-				i++;	
-				vars[curr_tok.val] = 0; 
-				current_var = &vars[curr_tok.val];
-				break;
-
-			case Condition:		if (*current_var == 0) i++; break;
-			case Increase:		(*current_var)++; break;
-			case Decrease:		(*current_var)--; break;
-			case Input:			std::cin >> *current_var; break;
-			case Output:		std::cout << *current_var; break;
-			}
-		}
-		else if (high_tokens[i].type == HighTokenType::Simple) {
-			std::cout << 'hi';
-		}
+	for (auto lex=tokens.begin(); lex != tokens.end(); ++lex) {
+		std::cout << "hi";
 	}
 }
 
 
 void Parser::parse() {
-	tokens.erase(std::remove_if(tokens.begin(), tokens.end(), 
-		[](Token t) { return t.type == TokenType::Space; }), tokens.end());
+	init_buildin_funcs();
+
+	lexems.erase(std::remove_if(lexems.begin(), lexems.end(), 
+		[](Lexeme l) { return l.type == LexType::Space; }), lexems.end());
 
 	std::set<string> exists_vars {};
 
-	for (auto tok=tokens.begin(); tok!=tokens.end(); ++tok) 
-	{
-		HighToken this_token;
+	for (auto lex=lexems.begin(); lex!=lexems.end(); ++lex) {
+		Token this_token;
 		
-		bool is_proc = false;
-		for (auto& proc : procs) {
-			int if_proc_len = proc.signature.if_coincidence_len( vector<Token>(tok, tokens.end()) );
-			if (if_proc_len != -1) {
-				this_token.type = HighTokenType::Function;
-				this_token.val.proc = &proc;
+		bool find_func = false;
+		for (auto& func : funcs) 
+		{
+			int if_func_len;
+			f_arguments_t args;
 
-				tok += if_proc_len-1;
-				is_proc = true;
+			if (func.signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) {
+				this_token.arguments = args;
+				this_token.func = func;
+
+				lex += if_func_len-1;
+				find_func = true;
 				break;
 			}
 		}
+		
+		if (!find_func) 
+			throw std::runtime_error("Not defined function at line " + std::to_string(lex->line) + " character " + std::to_string(lex->chr_pos));
 
-		if (!is_proc) {
-			switch (tok->type) {
-			using enum TokenType;
-
-			case Name:
-				if (check_vars and exists_vars.find(tok->val) == exists_vars.end()) 
-					throw std::runtime_error("Name `" + tok->val + "` is not defined at line " + std::to_string(tok->line) + " character " + std::to_string(tok->chr_pos)); 
-				break;
-
-			case NewVariable:
-				//tok++;	
-				exists_vars.insert((tok+1)->val);
-				break;
-			}
-
-			this_token.type = HighTokenType::Simple;
-			this_token.val.simpl = &*tok;
-		}
-		high_tokens.push_back(this_token);
+		tokens.push_back(this_token);
 	}
 }
+
+
+void Parser::init_buildin_funcs() {
+	Function new_f;
+	new_f.signature = Signature({ 
+		SignatureUnit(SignatureType::Name, "new"), 
+		SignatureUnit(SignatureType::Var, "a"), 
+	});
+	funcs.push_back(new_f);
+
+	Function inc;
+	inc.signature = Signature({ 
+		SignatureUnit(SignatureType::Var, "a"), 
+		SignatureUnit(SignatureType::Name, "inc"), 
+	});
+	funcs.push_back(inc);
+	
+	Function dec;
+	dec.signature = Signature({ 
+		SignatureUnit(SignatureType::Var, "a"), 
+		SignatureUnit(SignatureType::Name, "dec"), 
+	});
+	funcs.push_back(dec);
+	
+	Function input;
+	input.signature = Signature({ 
+		SignatureUnit(SignatureType::Var, "a"), 
+		SignatureUnit(SignatureType::Name, "input"), 
+	});
+	funcs.push_back(input);
+
+	Function output;
+	output.signature = Signature({ 
+		SignatureUnit(SignatureType::Var, "a"), 
+		SignatureUnit(SignatureType::Name, "print"), 
+	});
+	funcs.push_back(output);
+
+	Function if_f;
+	if_f.signature = Signature({ 
+		SignatureUnit(SignatureType::Var, "a"), 
+		SignatureUnit(SignatureType::Name, "if"), 
+		SignatureUnit(SignatureType::Var, "b"),
+	});
+	if_f.into_vars_names = { "a", "b" };
+	funcs.push_back(if_f);
+
+	Function assign_num;
+	assign_num.signature = Signature({ 
+		SignatureUnit(SignatureType::Var, "a"), 
+		SignatureUnit(SignatureType::Number, "b"), 
+	});
+	funcs.push_back(assign_num);
+}
+

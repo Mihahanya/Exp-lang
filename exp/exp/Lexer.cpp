@@ -3,13 +3,20 @@
 #include <algorithm>
 #include <sstream>
 #include <iostream>
-
-#include <iostream>
-using std::cout, std::to_string;
+#include <vector>
 
 
-vector<Token> Lexer::lex_analysis() {
-	vector<Token> res_tokens{};
+const vector<Lexer::LexPatt> Lexer::lex_types_list = {
+	{ LexType::Space,		regex(R"(^\s+)") }, //, std::regex::optimize) },
+	{ LexType::Name,		regex(R"(^\$?[A-z0-9_']+\$?)") }, //, std::regex::optimize) },
+	{ LexType::Number,		regex(R"(^\d+)") }, //, std::regex::optimize) },
+	{ LexType::LineComment,	regex(R"(^\/\/.*)") }, //, std::regex::optimize) },
+	{ LexType::NoWord,		regex(R"(^\W+)") }, //, std::regex::optimize) },
+};
+
+
+vector<Lexeme> Lexer::lex_analysis() {
+	vector<Lexeme> res_lex{};
 
 	int line_n = 1;
 	std::istringstream f(code);
@@ -18,36 +25,36 @@ vector<Token> Lexer::lex_analysis() {
 		for (int i=0; i < this_line.length(); ) 
 		{
 			string sub_code(this_line.begin()+i, this_line.end());
-			Token token = recognize_token(sub_code);
+			Lexeme lexeme = recognize_lexeme(sub_code);
 
-			if (token.type == TokenType::None) 
-				throw std::runtime_error("Unknown token at line " + to_string(line_n) + " character " + to_string(i));
+			if (lexeme.type == LexType::None) 
+				throw std::runtime_error("Unknown lexeme at line " + to_string(line_n) + " character " + to_string(i));
 		
-			token.line = line_n;
-			token.chr_pos = i;
-			res_tokens.push_back(token);
-			i += token.val.length();
+			lexeme.line = line_n;
+			lexeme.chr_pos = i;
+			res_lex.push_back(lexeme);
+			i += lexeme.val.length();
 		}
 	}
 
-	return res_tokens;
+	return res_lex;
 }
 
-Token Lexer::recognize_token(const string& str) {
-	Token token;
-	token.type = TokenType::None;
+Lexeme Lexer::recognize_lexeme(const string& str) {
+	Lexeme lexeme;
+	lexeme.type = LexType::None;
 
-	for (const auto& checked_token : token_types_list) {
+	for (const auto& checked_lexeme : lex_types_list) {
 		std::smatch m;
 
-		if (std::regex_search(str, m, checked_token.regex)) {
-			token.type = checked_token.type;
-			token.val = m.str();	
+		if (std::regex_search(str, m, checked_lexeme.regex)) {
+			lexeme.type = checked_lexeme.type;
+			lexeme.val = m.str();	
 			// line and char numbers are assigns in place
 				
 			break;
 		}
 	}
 
-	return token;
+	return lexeme;
 }

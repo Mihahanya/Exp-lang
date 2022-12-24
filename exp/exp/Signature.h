@@ -1,14 +1,14 @@
 #pragma once
 
-#include "TokenTypes.h"
+#include "Parser.h"
 #include <cassert>
 
 
 enum class SignatureType {
 	Var,
 	MultipleVar,
+	Number,
 	Name,
-	None,
 };
 	
 struct SignatureUnit {
@@ -19,8 +19,11 @@ struct SignatureUnit {
 class Signature
 {
 public:
-	string name;
 	vector<SignatureUnit> components {};
 
-	int if_coincidence_len(const vector<Token>& tokens) const;
+	Signature() {}
+	Signature(const vector<SignatureUnit>& comps) : components{comps} {}
+
+	bool check_coincidence(const vector<Lexeme>&, int&, f_arguments_t&) const;
+
 };
