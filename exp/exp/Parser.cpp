@@ -1,21 +1,8 @@
 #include "Parser.h"
-#include "Signature.h"
 #include <set>
 #include <vector>
 #include <string>
 #include <iostream>
-
-
-struct Parser::Function {
-	Signature signature{};
-	vector<string> into_vars_names { "a" };
-	vector<Token> tokens{}; 
-};
-
-struct Parser::Token {
-	Function func;
-	f_arguments_t arguments;
-};
 
 
 void Parser::execute() {
@@ -23,7 +10,7 @@ void Parser::execute() {
 	vars["_"] = -1;
 	int* current_var = &vars["_"];
 
-	for (auto lex=tokens.begin(); lex != tokens.end(); ++lex) {
+	for (auto tok=tokens.begin(); tok!=tokens.end(); ++tok) {
 		std::cout << "hi";
 	}
 }
@@ -33,7 +20,7 @@ void Parser::parse() {
 	init_buildin_funcs();
 
 	lexems.erase(std::remove_if(lexems.begin(), lexems.end(), 
-		[](Lexeme l) { return l.type == LexType::Space; }), lexems.end());
+		[](Lexeme l) { return l.type == LexType::Space or l.type == LexType::LineComment; }), lexems.end());
 
 	std::set<string> exists_vars {};
 
@@ -44,11 +31,11 @@ void Parser::parse() {
 		for (auto& func : funcs) 
 		{
 			int if_func_len;
-			f_arguments_t args;
+			vector<vector<Lexeme>> args;
 
 			if (func.signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) {
 				this_token.arguments = args;
-				this_token.func = func;
+				this_token.func = &func;
 
 				lex += if_func_len-1;
 				find_func = true;
@@ -102,9 +89,11 @@ void Parser::init_buildin_funcs() {
 
 	Function if_f;
 	if_f.signature = Signature({ 
-		SignatureUnit(SignatureType::Var, "a"), 
-		SignatureUnit(SignatureType::Name, "if"), 
-		SignatureUnit(SignatureType::Var, "b"),
+		SignatureUnit(SignatureType::Name, "if"),
+		SignatureUnit(SignatureType::Var, "a"),
+		SignatureUnit(SignatureType::Name, "then"), 
+		SignatureUnit(SignatureType::MultipleVar, "b"),
+		SignatureUnit(SignatureType::Name, "end"),
 	});
 	if_f.into_vars_names = { "a", "b" };
 	funcs.push_back(if_f);

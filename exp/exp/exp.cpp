@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) try
             std::cout << t.val << ' ' << t.line << '\n';
         }*/
         
-        //parser.execute();
+        parser.execute();
     }
     else if (argc == 2) {
         

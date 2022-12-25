@@ -3,7 +3,7 @@
 
 
 bool Signature::check_coincidence(
-	const vector<Lexeme>& lexems, int& len, f_arguments_t& args) const 
+	const vector<Lexeme>& lexems, int& len, vector<vector<Lexeme>>& args) const 
 {
 	assert(components.begin().type != SignatureType::MultipleVar and 
 			(components.end()-1).type != SignatureType::MultipleVar);
@@ -12,7 +12,7 @@ bool Signature::check_coincidence(
 	for (auto comp=components.begin(); comp!=components.end(); ++comp) {
 		if (lex == lexems.end()) return false;
 		
-		f_argument_t arg;
+		vector<Lexeme> arg;
 		
 		switch (comp->type) {
 		using enum SignatureType;

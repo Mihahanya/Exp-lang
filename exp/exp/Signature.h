@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Parser.h"
+#include "Lexer.h"
 #include <cassert>
 
 
@@ -24,6 +24,6 @@ public:
 	Signature() {}
 	Signature(const vector<SignatureUnit>& comps) : components{comps} {}
 
-	bool check_coincidence(const vector<Lexeme>&, int&, f_arguments_t&) const;
+	bool check_coincidence(const vector<Lexeme>&, int&, vector<vector<Lexeme>>&) const;
 
 };

@@ -1,19 +1,28 @@
 #pragma once
 
+#include "Signature.h"
 #include "Lexer.h"
 #include <map>
 
 
-using f_argument_t = vector<Lexeme>;
-using f_arguments_t = vector<f_argument_t>;
+struct Function {
+	Signature signature;
+	vector<string> into_vars_names { "a" };
+	vector<Lexeme> tokens{}; 
+};
+
+struct Token {
+	Function* func = nullptr;
+	vector<vector<Lexeme>> arguments;
+};
 
 
 class Parser
 {
 	friend class Parser;
 
-	struct Function;
-	struct Token;
+	//struct Function;
+	//struct Token;
 
 	using vars_storage_t = std::map<string, int>;
 	using func_storage_t = std::vector<Function>;

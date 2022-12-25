@@ -2,8 +2,15 @@
 //$ {a+} to { a inc }
 //@ if a <=> a if 
 
-new b dec 
-b if dec dec 
+new b 
+
+b dec 
+
+if b then 
+	b dec 
+	b dec 
+end
+
 //b if not 0 dec dec end 
 
-print
+b print
