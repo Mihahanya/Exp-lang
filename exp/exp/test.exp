@@ -4,7 +4,7 @@
 
 new b 
 
-b dec 
+//b dec 
 
 if b then 
 	b dec 

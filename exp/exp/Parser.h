@@ -5,24 +5,35 @@
 #include <map>
 
 
+enum class BuiltinFunc {
+	New,
+	Increase,
+	Decrease,
+	Input,
+	Output,
+	OutputCh,
+	AssignNum,
+	If,
+	NotBuiltin,
+};
+
 struct Function {
 	Signature signature;
 	vector<string> into_vars_names { "a" };
 	vector<Lexeme> tokens{}; 
+	BuiltinFunc type = BuiltinFunc::NotBuiltin;
 };
 
+// TODO: map<name, argument> 
 struct Token {
 	Function* func = nullptr;
-	vector<vector<Lexeme>> arguments;
+	arguments arguments {};
 };
 
 
 class Parser
 {
 	friend class Parser;
-
-	//struct Function;
-	//struct Token;
 
 	using vars_storage_t = std::map<string, int>;
 	using func_storage_t = std::vector<Function>;
@@ -41,5 +52,5 @@ private:
 	vars_storage_t vars {};
 	func_storage_t funcs {};
 
-	void init_buildin_funcs();
+	void init_builtin_funcs();
 };

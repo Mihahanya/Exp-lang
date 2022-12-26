@@ -3,6 +3,8 @@
 #include "Lexer.h"
 #include <cassert>
 
+using argument = vector<Lexeme>;
+using arguments = vector<argument>;
 
 enum class SignatureType {
 	Var,
@@ -24,6 +26,6 @@ public:
 	Signature() {}
 	Signature(const vector<SignatureUnit>& comps) : components{comps} {}
 
-	bool check_coincidence(const vector<Lexeme>&, int&, vector<vector<Lexeme>>&) const;
+	bool check_coincidence(const vector<Lexeme>&, int&, arguments&) const;
 
 };
