@@ -6,28 +6,28 @@
 
 
 enum class BuiltinFunc {
-	New,
 	Increase,
 	Decrease,
 	Input,
 	Output,
 	OutputCh,
 	AssignNum,
+	AssignVar,
 	If,
+	DefineFunc,	// definding of a new function
+	Replace,	// soon
 	NotBuiltin,
 };
 
 struct Function {
 	Signature signature;
-	vector<string> into_vars_names { "a" };
 	vector<Lexeme> tokens{}; 
 	BuiltinFunc type = BuiltinFunc::NotBuiltin;
 };
 
-// TODO: map<name, argument> 
 struct Token {
 	Function* func = nullptr;
-	arguments arguments {};
+	func_arguments_t arguments {};
 };
 
 
@@ -49,8 +49,8 @@ private:
 	vector<Lexeme> lexems {};
 	vector<Token> tokens {};
 
-	vars_storage_t vars {};
-	func_storage_t funcs {};
+	vars_storage_t vars;
+	func_storage_t funcs;
 
 	void init_builtin_funcs();
 };

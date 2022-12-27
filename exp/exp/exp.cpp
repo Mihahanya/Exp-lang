@@ -22,7 +22,7 @@ string read_file_contents(const char* path) {
 }
 
 // TODO: flags for time of execution and compiling, var existing chekcing
-int main(int argc, char *argv[]) try 
+int main(int argc, char *argv[]) //try 
 {
     if (argc == 1) {
         string code = read_file_contents("test.exp");
@@ -43,9 +43,11 @@ int main(int argc, char *argv[]) try
         
     }
 
+    std::cin.get();
+
     return 0; 
 }
 //catch (std::runtime_error e) {
-catch (std::exception e) {
-    std::cout << RED << e.what() << RESET << '\n';
-}
+//catch (std::exception e) {
+//    std::cout << RED << e.what() << RESET << '\n';
+//}

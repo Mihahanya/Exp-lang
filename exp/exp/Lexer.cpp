@@ -7,11 +7,11 @@
 
 
 const vector<Lexer::LexPatt> Lexer::lex_types_list = {
-	{ LexType::Space,		regex(R"(^\s+)") }, //, std::regex::optimize) },
-	{ LexType::Name,		regex(R"(^\$?[A-z0-9_']+\$?)") }, //, std::regex::optimize) },
-	{ LexType::Number,		regex(R"(^\d+)") }, //, std::regex::optimize) },
-	{ LexType::LineComment,	regex(R"(^\/\/.*)") }, //, std::regex::optimize) },
-	{ LexType::NoWord,		regex(R"(^\W+)") }, //, std::regex::optimize) },
+	{ LexType::Space,		regex(R"(^\s+)",				std::regex::optimize) },
+	{ LexType::Number,		regex(R"(^\d+)",				std::regex::optimize) },
+	{ LexType::Name,		regex(R"(^\$?[A-z0-9_']+\$?)",	std::regex::optimize) },
+	{ LexType::LineComment,	regex(R"(^\/\/.*)",				std::regex::optimize) },
+	{ LexType::NoWord,		regex(R"(^[^\s\w\$]+)",				std::regex::optimize) },
 };
 
 
@@ -29,7 +29,7 @@ vector<Lexeme> Lexer::lex_analysis() {
 
 			if (lexeme.type == LexType::None) 
 				throw std::runtime_error("Unknown lexeme at line " + to_string(line_n) + " character " + to_string(i));
-		
+			
 			lexeme.line = line_n;
 			lexeme.chr_pos = i;
 			res_lex.push_back(lexeme);

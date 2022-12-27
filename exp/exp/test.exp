@@ -1,16 +1,44 @@
 
-//$ {a+} to { a inc }
-//@ if a <=> a if 
+//replace new $x with $x 0 end
 
-new b 
+endl << 10
 
-//b dec 
+def new $a beg
+	$a 0
+endef
 
-if b then 
-	b dec 
-	b dec 
-end
+def	println $a beg 
+	$a print 
+	endl putch
+endef
 
-//b if not 0 dec dec end 
+g << 0
+l << 0
 
-b print
+def ; beg 
+	g inc 
+endef
+
+def $a <+ $b beg
+	$a inc
+
+	b' << $b
+	b' dec
+
+	//println b'
+
+	if b' then
+		$a <+ b' 
+	endif
+endef
+
+def $a == $a beg
+	l print
+endef
+
+a << 10
+b << 70
+
+a == a ; a == b
+
+//a <+ b a print
