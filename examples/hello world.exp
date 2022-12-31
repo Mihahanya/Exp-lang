@@ -1,6 +1,0 @@
-$_NOT_CLOSE_MODE?
-$_DEBUG_MODE?
-
-include "/libs/symbs"
-
-$H printc $e printc $l printc $l printc $o printc $spc printc $W printc $o printc $r printc $l printc $d printc $ex printc 

@@ -33,6 +33,27 @@ void Parser::execute()
 			}
 			break;
 
+		case IfElse:
+		{
+			func_argument_t block_tok;
+
+			if (vars[tok.arguments["a"][0].val] != 0) 
+				block_tok = tok.arguments["b"];
+			else 
+				block_tok = tok.arguments["c"];
+
+			Parser if_field_parser(block_tok);
+			if_field_parser.funcs = funcs;
+			if_field_parser.vars = vars;
+
+			if_field_parser.parse();
+			if_field_parser.execute();
+
+			funcs = if_field_parser.funcs;
+			vars = if_field_parser.vars;
+		}
+			break;
+
 		case NotBuiltin:
 			auto func_toks = tok.func.tokens;
 			for (size_t i=0; i<func_toks.size(); ++i) 
@@ -90,7 +111,7 @@ void Parser::parse() {
 			func_arguments_t args {};
 
 			// If find function signautre
-			if (func->signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) 
+			if (func->signature.check_match(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) 
 			{
 				if (func->type == BuiltinFunc::DefineFunc) {
 					// Define function
@@ -124,6 +145,7 @@ void Parser::parse() {
 				if (l.line == lex->line)
 					line += l.val + ' ';
 			}
+			// TODO: file of error
 			throw std::runtime_error("Not defined function at line " + std::to_string(lex->line) + " character " + std::to_string(lex->chr_pos) + "\n\t" + line);
 		}
 	}
@@ -179,10 +201,23 @@ void Parser::init_builtin_funcs() {
 		SignatureUnit(SignType::Name, "if"),
 		SignatureUnit(SignType::Var, "a"),
 		SignatureUnit(SignType::Name, "then"), 
-		SignatureUnit(SignType::MultipleVar, "b"),
+		SignatureUnit(SignType::MultiVar, "b"),
 		SignatureUnit(SignType::Name, "endif"),
 	});
 	funcs.push_back(if_f);
+
+	Function elif_f;
+	elif_f.type = BuiltinFunc::IfElse;
+	elif_f.signature = Signature({ 
+		SignatureUnit(SignType::Name, "if"),
+		SignatureUnit(SignType::Var, "a"),
+		SignatureUnit(SignType::Name, "then"), 
+		SignatureUnit(SignType::MultiVar, "b"),
+		SignatureUnit(SignType::Name, "else"),
+		SignatureUnit(SignType::MultiVar, "c"),
+		SignatureUnit(SignType::Name, "endif"),
+	});
+	funcs.push_back(elif_f);
 
 	Function assign_var;
 	assign_var.type = BuiltinFunc::AssignVar;
@@ -197,9 +232,9 @@ void Parser::init_builtin_funcs() {
 	func.type = BuiltinFunc::DefineFunc;
 	func.signature = Signature({ 
 		SignatureUnit(SignType::Name, "def"), 
-		SignatureUnit(SignType::MultipleVar, "a"), 
+		SignatureUnit(SignType::MultiVar, "a"), 
 		SignatureUnit(SignType::Name, "beg"), 
-		SignatureUnit(SignType::MultipleVar, "b"), 
+		SignatureUnit(SignType::MultiVar, "b"), 
 		SignatureUnit(SignType::Name, "endef"), 
 	});
 	funcs.push_back(func);
@@ -208,9 +243,9 @@ void Parser::init_builtin_funcs() {
 	replace.type = BuiltinFunc::Replace;
 	replace.signature = Signature({ 
 		SignatureUnit(SignType::Name, "replace"), 
-		SignatureUnit(SignType::MultipleVar, "a"), 
+		SignatureUnit(SignType::MultiVar, "a"), 
 		SignatureUnit(SignType::Name, "with"), 
-		SignatureUnit(SignType::MultipleVar, "b"), 
+		SignatureUnit(SignType::MultiVar, "b"), 
 		SignatureUnit(SignType::Name, "end"), 
 	});
 	funcs.push_back(replace);

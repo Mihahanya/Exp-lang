@@ -1,6 +1,0 @@
-include "\libs\nums"
-
-$_NOT_CLOSE_MODE?
-$_DEBUG_MODE?
-
-$endl print

@@ -11,17 +11,17 @@ void Signature::set_components(const signature_t& comps) {
 	components = comps;
 
 	for (const auto& t : comps) {
-		if (t.type == SignType::Var or t.type == SignType::MultipleVar) {
+		if (t.type == SignType::Var or t.type == SignType::MultiVar) {
 			vars_names_line.push_back(t.val);
 		}
 	}
 }
 
-bool Signature::check_coincidence(
+bool Signature::check_match(
 	const vector<Lexeme>& lexems, size_t& len, func_arguments_t& args) const 
 {
-	assert(components.begin()->type != SignType::MultipleVar);
-	assert((components.end()-1)->type != SignType::MultipleVar);
+	assert(components.begin()->type != SignType::MultiVar);
+	assert((components.end()-1)->type != SignType::MultiVar);
 
 	auto var = vars_names_line.begin();
 	auto lex = lexems.begin();
@@ -31,36 +31,44 @@ bool Signature::check_coincidence(
 		func_argument_t arg {};
 
 		if (comp->type == SignType::Name) {
+			// Just check name
 			if (comp->val != lex->val) return false;
 		}
 		else if (comp->type == SignType::Var) {
+			// Just one current var
 			arg = { *lex, };
 		}
-		else if (comp->type == SignType::MultipleVar) {
-			assert((comp+1)->type != SignType::MultipleVar);
+		else if (comp->type == SignType::MultiVar) {
+			assert((comp+1)->type != SignType::MultiVar);
+
+			// Find until next token sequence not match with next signs
 
 			Signature end_signature;
 			end_signature.set_components(signature_t(comp+1, components.end()));
 			size_t next_len = 0;
 			func_arguments_t new_args = args;
 
-			while (!end_signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), next_len, new_args)) 
+			while (!end_signature.check_match(vector<Lexeme>(lex, lexems.end()), next_len, new_args)) 
 			{ 
 				if (lex == lexems.end()) return false;
 				arg.push_back(*lex);
-				lex++; 
+				++lex; 
 			}
 
+			// Copy args and breake all
 			args = new_args;
 			comp = components.end()-1;
 			lex += next_len-1;
 		}
 		
-		if (arg.size() > 0) {	// if not name but var
+		// if not name but var
+		if (arg.size() > 0) { 
+			// If we have the variable with not empty value and the 
+			// same name like current then check to matching values
 			if (args[*var].size() > 0 and args[*var] != arg) return false;
 
 			args[*var] = arg;
-			var++;
+			++var;
 		}
 	}
 
@@ -73,6 +81,7 @@ bool Signature::check_coincidence(
 Signature Signature::take_signature(const vector<Lexeme>& lexs) {
 	signature_t signs {};
 
+	// This is a variable if there is a `$` sign in the name, else part of the name
 	for (auto lex=lexs.begin(); lex != lexs.end(); ++lex) {
 		SignatureUnit sign;
 		sign.val = lex->val;
@@ -85,11 +94,11 @@ Signature Signature::take_signature(const vector<Lexeme>& lexs) {
 		signs.push_back(sign);
 	}
 
+	// Var can be multiple if it not at the bounds and name on the right
 	if (signs.size() >= 3) {
 		for (auto r=signs.begin()+1; r != signs.end()-1; ++r) {
-			if ( ((r-1)->type == SignType::Var or (r-1)->type == SignType::Name) and 
-				 (r+1)->type == SignType::Name)
-				r->type = SignType::MultipleVar;
+			if ((r+1)->type == SignType::Name) 
+				r->type = SignType::MultiVar;
 		}
 	}
 

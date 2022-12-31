@@ -1,0 +1,16 @@
+
+def if $a then $z $b end $z beg
+	if $a then
+		$b
+	endif
+endef
+
+def println $a beg
+	$a print
+	10 putch
+endef
+
+
+if 1 then
+	println 100
+else

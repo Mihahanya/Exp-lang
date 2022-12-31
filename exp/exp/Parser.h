@@ -13,6 +13,7 @@ enum class BuiltinFunc {
 	OutputCh,
 	AssignVar,
 	If,
+	IfElse,
 	DefineFunc,	// definding of a new function
 	Replace,	// soon
 	NotBuiltin,

@@ -37,12 +37,12 @@ b << 70
 
 if b then GG
 	q << 56
-	b << 0
+	//b << 1
 	if b then L
 		println q
 	end L
 end GG
 
-//a <+ b 
+a <+ b 
 println a
 89 putch

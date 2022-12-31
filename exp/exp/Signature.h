@@ -9,7 +9,7 @@ using func_arguments_t = std::map<string, func_argument_t>;
 
 enum class SignType {
 	Var,
-	MultipleVar,
+	MultiVar,
 	Name,
 	None,
 };
@@ -41,7 +41,7 @@ public:
 
 	void set_components(const signature_t&);
 
-	bool check_coincidence(const vector<Lexeme>&, size_t&, func_arguments_t&) const;
+	bool check_match(const vector<Lexeme>&, size_t&, func_arguments_t&) const;
 	static Signature take_signature(const vector<Lexeme>&);
 
 private:
