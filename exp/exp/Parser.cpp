@@ -105,7 +105,7 @@ void Parser::parse() {
 		bool find_func = false;
 
 		// Reverse find of function from new to old
-		for (auto func = funcs.begin(); func != funcs.end(); ++func) 
+		for (auto func = funcs.rbegin(); func != funcs.rend(); ++func) 
 		{
 			size_t if_func_len = 0;
 			func_arguments_t args {};
