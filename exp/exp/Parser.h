@@ -25,7 +25,7 @@ struct Function {
 };
 
 struct Token {
-	Function* func = nullptr;
+	Function func;
 	func_arguments_t arguments {};
 };
 

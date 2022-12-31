@@ -1,0 +1,22 @@
+
+e << 44
+e print
+
+a << e
+a putch
+
+def println($a) beg
+	$a print
+	10 putch
+endef
+
+if 1 then
+	777 print
+endif
+
+def int beg
+	888 print
+endef
+
+11 print
+//int

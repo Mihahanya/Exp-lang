@@ -5,25 +5,23 @@
 
 void Parser::execute() 
 {
-	for (auto tok=tokens.begin(); tok!=tokens.end(); ++tok) 
+	for (auto& tok : tokens) 
 	{
-		//cout << "TOTOTO " << (int)tok->func->type << '\n'; 
-
-		switch (tok->func->type) {
+		switch (tok.func.type) {
 		using enum BuiltinFunc;
 
-		case AssignVar:	vars[tok->arguments["a"][0].val] = vars[tok->arguments["b"][0].val]; break;
+		case AssignVar:	vars[tok.arguments["a"][0].val] = vars[tok.arguments["b"][0].val]; break;
 		
-		case Increase:	vars[tok->arguments["a"][0].val]++; break;
-		case Decrease:	vars[tok->arguments["a"][0].val]--; break;
+		case Increase:	vars[tok.arguments["a"][0].val]++; break;
+		case Decrease:	vars[tok.arguments["a"][0].val]--; break;
 		
-		case Input:		std::cin >> vars[tok->arguments["a"][0].val]; break;
-		case Output:	std::cout << vars[tok->arguments["a"][0].val]; break;
-		case OutputCh:	std::cout << (char)vars[tok->arguments["a"][0].val]; break;
+		case Input:		std::cin >> vars[tok.arguments["a"][0].val]; break;
+		case Output:	std::cout << vars[tok.arguments["a"][0].val]; break;
+		case OutputCh:	std::cout << (char)vars[tok.arguments["a"][0].val]; break;
 
 		case If: 
-			if (vars[tok->arguments["a"][0].val] != 0) {
-				Parser if_field_parser(tok->arguments["b"]);
+			if (vars[tok.arguments["a"][0].val] != 0) {
+				Parser if_field_parser(tok.arguments["b"]);
 				if_field_parser.funcs = funcs;
 				if_field_parser.vars = vars;
 
@@ -35,17 +33,17 @@ void Parser::execute()
 			}
 			break;
 
-		default:
-			auto func_toks = tok->func->tokens;
+		case NotBuiltin:
+			auto func_toks = tok.func.tokens;
 			for (size_t i=0; i<func_toks.size(); ++i) 
 			{
-				for (const auto& n : tok->func->signature.vars_names_line) {
+				for (const auto& n : tok.func.signature.vars_names_line) {
 					if (func_toks[i].val == n) {
 						func_toks.erase(func_toks.begin()+i);
 						func_toks.insert(func_toks.begin()+i, 
-							tok->arguments[n].begin(), tok->arguments[n].end());
+							tok.arguments[n].begin(), tok.arguments[n].end());
 
-						i += tok->arguments[n].size()-1;
+						i += tok.arguments[n].size()-1;
 						break;
 					}
 				}
@@ -61,6 +59,8 @@ void Parser::execute()
 
 			funcs = procedure.funcs;
 			vars = procedure.vars;
+
+			break;
 		}
 	}
 }
@@ -73,7 +73,7 @@ void Parser::parse() {
 		[](Lexeme l) { return l.type == LexType::Space or l.type == LexType::LineComment; }), lexems.end());
 
 	// Define numbers variables
-	for (auto l : lexems) {
+	for (auto& l : lexems) {
 		if (l.type == LexType::Number) {
 			l.type = LexType::Name;
 			vars[l.val] = stoi(l.val);
@@ -84,7 +84,7 @@ void Parser::parse() {
 		bool find_func = false;
 
 		// Reverse find of function from new to old
-		for (auto func = funcs.rbegin(); func != funcs.rend(); ++func) 
+		for (auto func = funcs.begin(); func != funcs.end(); ++func) 
 		{
 			size_t if_func_len = 0;
 			func_arguments_t args {};
@@ -105,11 +105,9 @@ void Parser::parse() {
 					// Add defined function token
 					Token this_token;
 					this_token.arguments = args;
-					this_token.func = &*func;
+					this_token.func = *func;
 
 					tokens.push_back(this_token);
-
-					cout << "WWW " << (int)(tokens.end()-1)->func->type << ' ' << (int)func->type << '\n'; 
 				}
 
 				lex += if_func_len-1;
