@@ -117,7 +117,11 @@
             "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\xlocnum",
             "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\cmath",
             "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\xloctime",
-            "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\vector"
+            "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\vector",
+            "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\iostream",
+            "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\istream",
+            "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\ostream",
+            "c:\\program files\\microsoft visual studio\\2022\\preview\\vc\\tools\\msvc\\14.35.32124\\include\\ios"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

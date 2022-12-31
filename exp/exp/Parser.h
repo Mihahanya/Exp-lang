@@ -11,7 +11,6 @@ enum class BuiltinFunc {
 	Input,
 	Output,
 	OutputCh,
-	AssignNum,
 	AssignVar,
 	If,
 	DefineFunc,	// definding of a new function
@@ -30,16 +29,14 @@ struct Token {
 	func_arguments_t arguments {};
 };
 
-
+// TODO: redo to another stl containers vector<Lexeme> to deque vector<function> to list maybe...
 class Parser
 {
-	friend class Parser;
-
 	using vars_storage_t = std::map<string, int>;
 	using func_storage_t = std::vector<Function>;
 
 public:
-	Parser(vector<Lexeme> ls, bool check_vars=true) : lexems{ls}, check_vars{check_vars} {}
+	Parser(const vector<Lexeme>& ls, bool check_vars=true) : lexems{ls}, check_vars{check_vars} {}
 
 	void parse();
 	void execute();

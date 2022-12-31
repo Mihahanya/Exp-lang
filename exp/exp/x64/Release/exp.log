@@ -1,9 +1,9 @@
 ﻿  Проверка источников на наличие зависимостей модуля…
   Parser.cpp
-D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(49,36): warning C4267: +=: преобразование из "size_t" в "int"; возможна потеря данных
+  Signature.cpp
   Создание кода
-  3 of 1822 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  4 of 1855 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    7 functions had inline decision re-evaluated but remain unchanged
+    39 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   exp.vcxproj -> D:\PROJECTS\Exp-lang\exp\x64\Release\exp.exe

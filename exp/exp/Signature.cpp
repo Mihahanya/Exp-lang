@@ -2,102 +2,87 @@
 #include <iostream>
 
 
-Signature::Signature(const vector<SignatureUnit>& comps) : components{comps} {
+Signature::Signature(const signature_t& comps) : components{comps} {
 	set_components(comps);
 }
 
-void Signature::set_components(const vector<SignatureUnit>& comps) {
-	vars_names.clear();
+void Signature::set_components(const signature_t& comps) {
+	vars_names_line.clear();
 	components = comps;
 
 	for (const auto& t : comps) {
-		if (t.type == SignType::Var or t.type == SignType::MultipleVar or t.type == SignType::Number) {
-			vars_names.push_back(t.val);
-			std::cout << 'c';
+		if (t.type == SignType::Var or t.type == SignType::MultipleVar) {
+			vars_names_line.push_back(t.val);
 		}
 	}
 }
 
 bool Signature::check_coincidence(
-	const vector<Lexeme>& lexems, int& len, func_arguments_t& args) const 
+	const vector<Lexeme>& lexems, size_t& len, func_arguments_t& args) const 
 {
-	assert(components.begin().type != SignType::MultipleVar and 
-			(components.end()-1).type != SignType::MultipleVar);
+	assert(components.begin()->type != SignType::MultipleVar);
+	assert((components.end()-1)->type != SignType::MultipleVar);
 
-	auto var = vars_names.begin();
+	auto var = vars_names_line.begin();
 	auto lex = lexems.begin();
-	for (auto comp=components.begin(); comp!=components.end(); ++comp) {
+	for (auto comp=components.begin(); comp != components.end(); ++comp, ++lex) {
 		if (lex == lexems.end()) return false;
 		
-		func_argument_t arg;
-		
-		switch (comp->type) {
-		using enum SignType;
+		func_argument_t arg {};
 
-		case Var:
-			if (lex->type == LexType::Number) return false;
-			//if (args[*var].size() > 0 and args[*var] != func_argument_t{ *lex, }) return false;
-			args[*var] = { *lex, };
-			var++;
-			lex++;
-			break;
-			
-		case MultipleVar:
+		if (comp->type == SignType::Name) {
+			if (comp->val != lex->val) return false;
+		}
+		else if (comp->type == SignType::Var) {
+			arg = { *lex, };
+		}
+		else if (comp->type == SignType::MultipleVar) {
 			assert((comp+1)->type != SignType::MultipleVar);
 
-			arg = {}; 
-			while (lex->val != (comp+1)->val and lex != lexems.end()) { 
+			Signature end_signature;
+			end_signature.set_components(signature_t(comp+1, components.end()));
+			size_t next_len = 0;
+			func_arguments_t new_args = args;
+
+			while (!end_signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), next_len, new_args)) 
+			{ 
+				if (lex == lexems.end()) return false;
 				arg.push_back(*lex);
-				std::cout << 'b';
 				lex++; 
 			}
-			if (lex == lexems.end()) return false;
-			//if (args[*var].size() > 0 and args[*var] != arg) return false;
+
+			args = new_args;
+			comp = components.end()-1;
+			lex += next_len-1;
+		}
+		
+		if (arg.size() > 0) {	// if not name but var
+			if (args[*var].size() > 0 and args[*var] != arg) return false;
 
 			args[*var] = arg;
 			var++;
-			break;
-
-		case Name:
-			if (comp->val != lex->val) return false;
-			lex++;
-			break;
-
-		case Number:
-			if (lex->type != LexType::Number) return false;
-			//if (args[*var].size() > 0 and args[*var] != func_argument_t{ *lex, }) return false;
-			args[*var] = { *lex, };
-			var++;
-			lex++;
-			break;
 		}
 	}
 
-	len = std::distance(lexems.begin(), lex);
+	len += std::distance(lexems.begin(), lex);
 
 	return true;
 }
 
 
 Signature Signature::take_signature(const vector<Lexeme>& lexs) {
-	vector<SignatureUnit> signs {};
+	signature_t signs {};
 
 	for (auto lex=lexs.begin(); lex != lexs.end(); ++lex) {
 		SignatureUnit sign;
 		sign.val = lex->val;
 			
-		if (lex->val.find('$') != -1) {
+		if (lex->val.find('$') != -1) 
 			sign.type = SignType::Var;
-		}
-		/*else if (lex->val.find('\'') != -1) {
-			sign.type = SignType::Number;
-		}*/
-		else {
+		else 
 			sign.type = SignType::Name;
-		}
-
+	
 		signs.push_back(sign);
-		std::cout << 'a';
 	}
 
 	if (signs.size() >= 3) {

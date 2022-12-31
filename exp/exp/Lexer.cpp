@@ -11,7 +11,7 @@ const vector<Lexer::LexPatt> Lexer::lex_types_list = {
 	{ LexType::Number,		regex(R"(^\d+)",				std::regex::optimize) },
 	{ LexType::Name,		regex(R"(^\$?[A-z0-9_']+\$?)",	std::regex::optimize) },
 	{ LexType::LineComment,	regex(R"(^\/\/.*)",				std::regex::optimize) },
-	{ LexType::NoWord,		regex(R"(^[^\s\w\$]+)",				std::regex::optimize) },
+	{ LexType::NoWord,		regex(R"(^[^\s\w\$]+)",			std::regex::optimize) },
 };
 
 

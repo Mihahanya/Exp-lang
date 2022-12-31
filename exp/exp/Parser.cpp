@@ -1,7 +1,5 @@
 #include "Parser.h"
 #include <set>
-#include <vector>
-#include <string>
 #include <iostream>
 
 
@@ -9,10 +7,11 @@ void Parser::execute()
 {
 	for (auto tok=tokens.begin(); tok!=tokens.end(); ++tok) 
 	{
+		//cout << "TOTOTO " << (int)tok->func->type << '\n'; 
+
 		switch (tok->func->type) {
 		using enum BuiltinFunc;
 
-		case AssignNum:	vars[tok->arguments["a"][0].val] = stoi(tok->arguments["b"][0].val); break;
 		case AssignVar:	vars[tok->arguments["a"][0].val] = vars[tok->arguments["b"][0].val]; break;
 		
 		case Increase:	vars[tok->arguments["a"][0].val]++; break;
@@ -38,16 +37,15 @@ void Parser::execute()
 
 		default:
 			auto func_toks = tok->func->tokens;
-			for (int i=0; i<func_toks.size(); ++i) 
+			for (size_t i=0; i<func_toks.size(); ++i) 
 			{
-				for (const auto& n : tok->func->signature.vars_names) {
+				for (const auto& n : tok->func->signature.vars_names_line) {
 					if (func_toks[i].val == n) {
 						func_toks.erase(func_toks.begin()+i);
 						func_toks.insert(func_toks.begin()+i, 
 							tok->arguments[n].begin(), tok->arguments[n].end());
 
 						i += tok->arguments[n].size()-1;
-						std::cout << 'z';
 						break;
 					}
 				}
@@ -63,44 +61,55 @@ void Parser::execute()
 
 			funcs = procedure.funcs;
 			vars = procedure.vars;
-			//for (auto v=vars.begin(); v!=vars.end(); ++v) vars[v->first] = procedure.vars[v->first];
 		}
 	}
 }
 
-
 void Parser::parse() {
 	init_builtin_funcs();
 
+	// Ignore spaces and comments
 	lexems.erase(std::remove_if(lexems.begin(), lexems.end(), 
 		[](Lexeme l) { return l.type == LexType::Space or l.type == LexType::LineComment; }), lexems.end());
 
+	// Define numbers variables
+	for (auto l : lexems) {
+		if (l.type == LexType::Number) {
+			l.type = LexType::Name;
+			vars[l.val] = stoi(l.val);
+		}
+	}
+
 	for (auto lex=lexems.begin(); lex!=lexems.end(); ++lex) {
 		bool find_func = false;
+
+		// Reverse find of function from new to old
 		for (auto func = funcs.rbegin(); func != funcs.rend(); ++func) 
 		{
-			int if_func_len;
-			func_arguments_t args;
+			size_t if_func_len = 0;
+			func_arguments_t args {};
 
-			if (func->signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) {
-				assert(func->signature.vars_names.size() == args.size());
-
+			// If find function signautre
+			if (func->signature.check_coincidence(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) 
+			{
 				if (func->type == BuiltinFunc::DefineFunc) {
+					// Define function
 					Function f;
 					f.type = BuiltinFunc::NotBuiltin;
 					f.signature = Signature::take_signature(args["a"]);
 					f.tokens = args["b"];
 					
 					funcs.push_back(f);
-					std::cout << 'f';
 				}
 				else {
+					// Add defined function token
 					Token this_token;
 					this_token.arguments = args;
 					this_token.func = &*func;
 
 					tokens.push_back(this_token);
-					std::cout << 'l';
+
+					cout << "WWW " << (int)(tokens.end()-1)->func->type << ' ' << (int)func->type << '\n'; 
 				}
 
 				lex += if_func_len-1;
@@ -110,6 +119,7 @@ void Parser::parse() {
 			}
 		}
 		
+		// If not find throw error
 		if (!find_func) {
 			string line {};
 			for (const auto& l : lexems) {
@@ -175,15 +185,6 @@ void Parser::init_builtin_funcs() {
 		SignatureUnit(SignType::Name, "endif"),
 	});
 	funcs.push_back(if_f);
-
-	Function assign_num;
-	assign_num.type = BuiltinFunc::AssignNum;
-	assign_num.signature = Signature({ 
-		SignatureUnit(SignType::Var, "a"), 
-		SignatureUnit(SignType::Name, "<<"),
-		SignatureUnit(SignType::Number, "b"), 
-	});
-	funcs.push_back(assign_num);
 
 	Function assign_var;
 	assign_var.type = BuiltinFunc::AssignVar;
