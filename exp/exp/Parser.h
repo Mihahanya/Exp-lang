@@ -1,54 +1,57 @@
 #pragma once
 
 #include "Signature.h"
-#include "Lexer.h"
-#include <map>
 
-
+// TODO: replaces (macro)
 enum class BuiltinFunc {
-	Increase,
-	Decrease,
-	Input,
-	Output,
-	OutputCh,
-	AssignVar,
-	If,
-	IfElse,
-	DefineFunc,	// definding of a new function
-	Replace,	// soon
+	Increase, Decrease, New,
+	Add, Sub, Mul, Div, Pow, Root, Mod,
+	Neg, Or, And, Xor,
+	Input, Output, OutputCh,
+	AssignVar, AssignPointer,
+	If, IfElse,
+	DefineFunc,	
+	Replace,
+	Include,
+	Pass,
 	NotBuiltin,
 };
 
 struct Function {
 	Signature signature;
-	vector<Lexeme> tokens{}; 
+	vector<Lexeme> tokens; 
 	BuiltinFunc type = BuiltinFunc::NotBuiltin;
 };
 
 struct Token {
-	Function func;
-	func_arguments_t arguments {};
+	const Function* func;
+	func_arguments_t arguments;
+	Lexeme info;
 };
 
 // TODO: redo to another stl containers vector<Lexeme> to deque vector<function> to list maybe...
 class Parser
 {
-	using vars_storage_t = std::map<string, int>;
+	using VarTy = int;
+
+	using vars_storage_t = std::map<string, VarTy*>;
 	using func_storage_t = std::vector<Function>;
 
 public:
-	Parser(const vector<Lexeme>& ls, bool check_vars=true) : lexems{ls}, check_vars{check_vars} {}
+	Parser(const vector<Lexeme>& ls);
+	~Parser();
 
 	void parse();
 	void execute();
 
 private:
-	bool check_vars=true;
 	vector<Lexeme> lexems {};
 	vector<Token> tokens {};
 
 	vars_storage_t vars;
-	func_storage_t funcs;
+	func_storage_t* funcs;
 
 	void init_builtin_funcs();
+	void exec_fov(const vector<Lexeme>&);
+	inline void include_script(const string& file_path, const string& this_path);
 };

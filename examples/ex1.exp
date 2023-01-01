@@ -1,18 +1,10 @@
+include 'lib/std'
 
-def if $a then $z $b end $z beg
-	if $a then
-		$b
-	endif
-endef
+new a b end
 
-def println $a beg
-	$a print
-	10 putch
-endef
+a << 3
+b << 6
 
+a <+ b
 
-if 0 then
-	println 100
-else
-	println 200
-endif
+println a

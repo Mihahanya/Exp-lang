@@ -1,0 +1,42 @@
+
+def ; beg pass endef
+
+//def new $var beg
+//	new $var end
+//endef
+
+// Nested if
+
+def if $a then $z $b end $z beg
+	if $a then
+		$b
+	endif
+endef
+
+// Console thinks
+
+def println $a beg
+	$a print
+	10 putch
+endef
+
+def space beg
+	32 putch
+endef
+
+// Loops
+
+def do $do_this$ for $n times beg
+	if $n then 
+		$do_this$
+		new n' end
+		n' << $n; n' dec
+	
+		n' print space
+		
+		do $do_this$ for n' times 
+	endif
+endef
+
+// Basic math
+

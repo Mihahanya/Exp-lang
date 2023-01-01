@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colored.h" />
+    <ClInclude Include="fs.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Signature.h" />
   </ItemGroup>

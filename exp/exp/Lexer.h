@@ -1,18 +1,19 @@
 #pragma once
 
-#include <string>
 #include <regex>
 #include <iostream>
+#include "fs.h"
 
-using std::string, std::regex, std::vector, std::to_string, std::cout;
+using std::regex, std::vector, std::cout;
 
 enum class LexType {
 	Space,
-	Name,
+	Name, 
 	NoWord,
 	Number,
+	String,
 	LineComment,
-	None,
+	None, 
 };
 
 
@@ -20,6 +21,7 @@ struct Lexeme {
 	size_t line=-1, chr_pos=-1;
 	LexType type=LexType::None;
 	string val {};
+	const char* file_name;
 };
 
 inline bool operator==(const Lexeme& l, const Lexeme& r) {
@@ -33,12 +35,13 @@ inline bool operator!=(const Lexeme& l, const Lexeme& r) {
 
 class Lexer {
 public:
-	Lexer(string code) : code{code} {}
+	Lexer(const string& code, const char* file_name) : code{code}, file_name{file_name} {}
 
 	vector<Lexeme> lex_analysis();
 
 private:
 	string code{};
+	const char* file_name{};
 
 	struct LexPatt { LexType type; regex regex; };
 	const static vector<LexPatt> lex_types_list;

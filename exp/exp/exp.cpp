@@ -1,7 +1,5 @@
 ﻿#include "Parser.h"
 #include "Colored.h"
-#include <fstream>
-#include <sstream>
 #include <chrono>
 
 
@@ -25,18 +23,6 @@ namespace conf {
 };
 
 
-string read_file_contents(const char* path) {
-    string line, res;
-    std::ifstream myfile(path);
-    if (myfile.is_open()) {
-        while (getline(myfile, line)) res += line + '\n';
-        myfile.close();
-    }
-    else throw std::runtime_error("Unable to open file " + string(path));
-
-    return res;
-}
-
 int main(int argc, char *argv[]) try
 {
     string code {};
@@ -44,9 +30,9 @@ int main(int argc, char *argv[]) try
     if (argc == 1) {
         cout << conf::init_msg;
 
-        //code = read_file_contents("test.exp");
+        //code = read_file_contents("D:\\PROJECTS\\Exp-lang\\examples\\ex1.exp");
         //
-        //Lexer lex(code);
+        //Lexer lex(code, "D:\\PROJECTS\\Exp-lang\\examples\\ex1.exp");
         //auto lexemes = lex.lex_analysis();
         //
         //Parser parser(lexemes);
@@ -61,13 +47,13 @@ int main(int argc, char *argv[]) try
         else {
             code = read_file_contents(argv[1]);
         
-            Lexer lex(code);
+            Lexer lex(code, argv[1]);
             auto lexemes = lex.lex_analysis();
         
             Parser parser(lexemes);
             parser.parse();
         
-            parser.execute();        
+            parser.execute();
         }
     }
     else if (argc == 3) {
@@ -76,7 +62,7 @@ int main(int argc, char *argv[]) try
 
             code = read_file_contents(argv[1]);
         
-            Lexer lex(code);
+            Lexer lex(code, argv[1]);
             auto lexemes = lex.lex_analysis();
         
                 auto parse_start = std::chrono::high_resolution_clock::now();
@@ -103,7 +89,7 @@ int main(int argc, char *argv[]) try
     }
     return 0; 
 }
-catch (std::runtime_error e) {
+catch (runtime_error e) {
     //std::cout << RED << e.what() << RESET << '\n';
     std::cout << e.what() << '\n';
 }

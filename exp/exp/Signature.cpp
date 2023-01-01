@@ -1,5 +1,4 @@
 #include "Signature.h"
-#include <iostream>
 
 
 Signature::Signature(const signature_t& comps) : components{comps} {
@@ -20,13 +19,13 @@ void Signature::set_components(const signature_t& comps) {
 bool Signature::check_match(
 	const vector<Lexeme>& lexems, size_t& len, func_arguments_t& args) const 
 {
-	assert(components.begin()->type != SignType::MultiVar);
-	assert((components.end()-1)->type != SignType::MultiVar);
+	assert(components.cbegin()->type != SignType::MultiVar);
+	assert((components.cend()-1)->type != SignType::MultiVar);
 
-	auto var = vars_names_line.begin();
-	auto lex = lexems.begin();
-	for (auto comp=components.begin(); comp != components.end(); ++comp, ++lex) {
-		if (lex == lexems.end()) return false;
+	auto var = vars_names_line.cbegin();
+	auto lex = lexems.cbegin();
+	for (auto comp=components.cbegin(); comp != components.cend(); ++comp, ++lex) {
+		if (lex == lexems.cend()) return false;
 		
 		func_argument_t arg {};
 
@@ -44,20 +43,20 @@ bool Signature::check_match(
 			// Find until next token sequence not match with next signs
 
 			Signature end_signature;
-			end_signature.set_components(signature_t(comp+1, components.end()));
+			end_signature.set_components(signature_t(comp+1, components.cend()));
 			size_t next_len = 0;
 			func_arguments_t new_args = args;
 
-			while (!end_signature.check_match(vector<Lexeme>(lex, lexems.end()), next_len, new_args)) 
+			while (!end_signature.check_match(vector<Lexeme>(lex, lexems.cend()), next_len, new_args)) 
 			{ 
-				if (lex == lexems.end()) return false;
+				if (lex == lexems.cend()) return false;
 				arg.push_back(*lex);
 				++lex; 
 			}
 
 			// Copy args and breake all
 			args = new_args;
-			comp = components.end()-1;
+			comp = components.cend()-1;
 			lex += next_len-1;
 		}
 		
@@ -72,7 +71,7 @@ bool Signature::check_match(
 		}
 	}
 
-	len += std::distance(lexems.begin(), lex);
+	len += std::distance(lexems.cbegin(), lex);
 
 	return true;
 }
@@ -82,7 +81,7 @@ Signature Signature::take_signature(const vector<Lexeme>& lexs) {
 	signature_t signs {};
 
 	// This is a variable if there is a `$` sign in the name, else part of the name
-	for (auto lex=lexs.begin(); lex != lexs.end(); ++lex) {
+	for (auto lex=lexs.cbegin(); lex != lexs.cend(); ++lex) {
 		SignatureUnit sign;
 		sign.val = lex->val;
 			
