@@ -1,0 +1,35 @@
+
+// Nested if
+
+def if $a$ then $z $do_this$ end $z beg
+	new condition.
+	condition << $a$
+	if condition then
+		$do_this$
+	end if
+end def
+
+// Loops - not finished
+
+def do $do_this$ for $i in $n times beg
+	new eq.
+	eq << $n
+	eq <- $i
+	
+	if eq then NEXT
+		$do_this$
+	
+		$i inc
+	
+		do $do_this$ for $i in $n times 
+	end NEXT
+end def
+
+def do $z begin $do_this$ end $z for $i in $n times beg 
+	do $do_this$ for $i in $n times
+end def 
+
+def ( $do$ ) beg
+	$do$
+end def
+

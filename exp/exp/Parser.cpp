@@ -25,10 +25,13 @@ inline void Parser::exec_fov(const vector<Lexeme>& lexs) {
 
 	// To not delete actoal data through pointers
 	field_parser->funcs = nullptr;
-	field_parser->vars = {};
+	field_parser->vars.clear();
 
 	delete field_parser;
 }
+
+#define left_arg vars[tok.arguments["a"][0].val] 
+#define right_arg vars[tok.arguments["b"][0].val] 
 
 void Parser::execute() 
 {
@@ -38,6 +41,7 @@ void Parser::execute()
 			tok.func->type != BuiltinFunc::NotBuiltin and
 			tok.func->type != BuiltinFunc::DefineFunc) {
 			for (const auto& args : tok.arguments) {
+				// Watch initialization of unary variables only
 				if (args.second.size() == 1 and vars[args.second[0].val] == nullptr) {
 					throw runtime_error(
 						some_error_at_lex("Uninitialized variable `" + args.second[0].val + "`", tok.info));
@@ -49,49 +53,46 @@ void Parser::execute()
 		using enum BuiltinFunc;
 
 		case New: 
-			for (const auto& name : tok.arguments["a"]) 
-				vars[name.val] = new VarTy(0); 
-			break;
-
-		case AssignVar:		
-			if (vars[tok.arguments["b"][0].val] == nullptr) {
-				throw runtime_error(
-					some_error_at_lex("Uninitialized variable `" + tok.arguments["b"][0].val + "`", tok.info));
-			}
-			else if (vars[tok.arguments["a"][0].val] == nullptr) {
-				vars[tok.arguments["a"][0].val] = new VarTy(*vars[tok.arguments["b"][0].val]); 
-			}
-			else {
-				*vars[tok.arguments["a"][0].val] = *vars[tok.arguments["b"][0].val]; 
+			for (const auto& name : tok.arguments["a"]) {
+				//if (vars[name.val] == nullptr)
+					vars[name.val] = new VarTy(0); 
+				//else
+				//	*vars[name.val] = 0;
 			}
 			break;
 
-		case AssignPointer:	
-			if (vars[tok.arguments["b"][0].val] == nullptr) {
-				throw runtime_error(
-					some_error_at_lex("Uninitialized variable `" + tok.arguments["b"][0].val + "`", tok.info));
-			}
-			else {
-				vars[tok.arguments["a"][0].val] = vars[tok.arguments["b"][0].val]; 
-			}
-			break;
+		case AssignVar:			*left_arg = *right_arg; break;
+		case AssignPointer:		left_arg = right_arg; break;
 		
-		case Increase:	(*vars[tok.arguments["a"][0].val])++; break;
-		case Decrease:	(*vars[tok.arguments["a"][0].val])--; break;
+		case Add:	*left_arg += *right_arg; break;
+		case Sub:	*left_arg -= *right_arg; break;
+		case Mul:	*left_arg *= *right_arg; break;
+		case Div:	*left_arg /= *right_arg; break;
+		case Mod:	*left_arg %= *right_arg; break;
+		case Pow:	*left_arg = std::pow(*left_arg, *right_arg); break;
+		case Root:	*left_arg = std::sqrt(*left_arg); break;
+		case Neg:	*left_arg = *left_arg == 0; break;
+		case Bool:	*left_arg = *left_arg != 0; break;
+		case Or:	*left_arg |= *right_arg; break;
+		case And:	*left_arg &= *right_arg; break;
+		case Xor:	*left_arg ^= *right_arg; break;
 		
-		case Input:		std::cin >> *vars[tok.arguments["a"][0].val]; break;
-		case Output:	std::cout << *vars[tok.arguments["a"][0].val]; break;
-		case OutputCh:	std::cout << (char)*vars[tok.arguments["a"][0].val]; break;
+		case Increase:	(*left_arg)++; break;
+		case Decrease:	(*left_arg)--; break;
+		
+		case Input:		std::cin >> *left_arg; break;
+		case Output:	std::cout << *left_arg; break;
+		case OutputCh:	std::cout << (char)*left_arg; break;
 
 		case If: 
-			if (*vars[tok.arguments["a"][0].val] != 0)
+			if (*left_arg != 0)
 				exec_fov(tok.arguments["b"]);
 			break;
 
 		case IfElse: {
 			func_argument_t block_tok;
 
-			if (*vars[tok.arguments["a"][0].val] != 0) 
+			if (*left_arg != 0) 
 				block_tok = tok.arguments["b"];
 			else 
 				block_tok = tok.arguments["c"];
@@ -124,6 +125,9 @@ void Parser::execute()
 		}
 	}
 }
+
+#undef left_arg 
+#undef right_arg 
 
 void Parser::parse() {
 	init_builtin_funcs();
@@ -205,12 +209,13 @@ void Parser::parse() {
 void Parser::include_script(const string& file_path, const string& this_path)
 {
 	string incl_path = "";
-	if (this_path.find_first_of("\\/") != -1)
-		string incl_path = this_path.substr(0, this_path.find_last_of("\\/")) + "/";
+	if (this_path.find_first_of("\\/") != -1) {
+		incl_path = this_path.substr(0, this_path.find_last_of("\\/")) + "/";
+	}
 	
 	incl_path += file_path + ".exp";
 	const char* file_name = incl_path.c_str();
-					
+
 	string code = read_file_contents(file_name);
 	Lexer lex(code, file_name);
 					
@@ -265,7 +270,8 @@ void Parser::init_builtin_funcs() {
 		SignatureUnit(SignType::MultiVar, "a"), 
 		SignatureUnit(SignType::Name, "beg"), 
 		SignatureUnit(SignType::MultiVar, "b"), 
-		SignatureUnit(SignType::Name, "endef"), 
+		SignatureUnit(SignType::Name, "end"), 
+		SignatureUnit(SignType::Name, "def"), 
 	});
 	funcs->push_back(func);
 	
@@ -274,7 +280,7 @@ void Parser::init_builtin_funcs() {
 	new_mul.signature = Signature({ 
 		SignatureUnit(SignType::Name, "new"), 
 		SignatureUnit(SignType::MultiVar, "a"), 
-		SignatureUnit(SignType::Name, "end"), 
+		SignatureUnit(SignType::Name, "."), 
 	});
 	funcs->push_back(new_mul);
 	
@@ -389,6 +395,14 @@ void Parser::init_builtin_funcs() {
 		SignatureUnit(SignType::Var, "a"), 
 	});
 	funcs->push_back(neg);
+	
+	Function boool;
+	boool.type = BuiltinFunc::Bool;
+	boool.signature = Signature({ 
+		SignatureUnit(SignType::Name, "bool"), 
+		SignatureUnit(SignType::Var, "a"), 
+	});
+	funcs->push_back(boool);
 
 	Function orr;
 	orr.type = BuiltinFunc::Or;
@@ -426,7 +440,8 @@ void Parser::init_builtin_funcs() {
 		SignatureUnit(SignType::Var, "a"),
 		SignatureUnit(SignType::Name, "then"), 
 		SignatureUnit(SignType::MultiVar, "b"),
-		SignatureUnit(SignType::Name, "endif"),
+		SignatureUnit(SignType::Name, "end"),
+		SignatureUnit(SignType::Name, "if"),
 	});
 	funcs->push_back(if_f);
 
@@ -439,7 +454,8 @@ void Parser::init_builtin_funcs() {
 		SignatureUnit(SignType::MultiVar, "b"),
 		SignatureUnit(SignType::Name, "else"),
 		SignatureUnit(SignType::MultiVar, "c"),
-		SignatureUnit(SignType::Name, "endif"),
+		SignatureUnit(SignType::Name, "end"),
+		SignatureUnit(SignType::Name, "if"),
 	});
 	funcs->push_back(elif_f);
 

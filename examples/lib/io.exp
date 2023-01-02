@@ -1,0 +1,13 @@
+
+def println $a beg
+	$a print
+	10 putch
+end def
+
+def space beg
+	32 putch
+end def
+
+def newline beg
+	10 putch
+end def

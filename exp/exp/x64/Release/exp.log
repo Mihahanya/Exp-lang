@@ -1,9 +1,11 @@
 ﻿  Проверка источников на наличие зависимостей модуля…
   Parser.cpp
-D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(142,37): warning C4244: +=: преобразование "double" в "Parser::VarTy", возможна потеря данных
+D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(72,33): warning C4244: =: преобразование "double" в "Parser::VarTy", возможна потеря данных
+D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(73,35): warning C4244: =: преобразование "double" в "Parser::VarTy", возможна потеря данных
+D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(146,37): warning C4244: +=: преобразование "double" в "Parser::VarTy", возможна потеря данных
   Создание кода
-  4 of 1931 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 1932 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    7 functions had inline decision re-evaluated but remain unchanged
+    8 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   exp.vcxproj -> D:\PROJECTS\Exp-lang\exp\x64\Release\exp.exe

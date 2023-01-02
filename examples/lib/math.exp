@@ -1,0 +1,91 @@
+
+// Math
+
+def abs $a beg
+	$a <** 2
+	$a root
+end def
+
+def $res << abs $a beg 
+	new a'.
+	a' << $a
+	abs a'
+	
+	$res << a'
+end def
+
+// Comparing
+
+def $res << $a = $b beg
+	new p n.
+	
+	p << $a
+	p <- $b
+	not p
+	
+	n << $a
+	n <- $b
+	not n
+	
+	$res << p
+	$res <| n
+end def
+
+def $res << $a != $b beg
+	$res << $a = $b
+	not $res
+end def
+
+def $res << is $n positive beg
+	new abs_n is_zero.
+	abs_n << abs $n
+	
+	is_zero << $n != 0
+	
+	$res << abs_n = $n
+	$res <& is_zero
+end def
+
+def $res << is $n negative beg
+	new abs_n is_zero.
+	abs_n << abs n
+	
+	is_zero << $n != 0
+	
+	$res << abs_n != $n
+	$res <& is_zero
+end def
+
+def $res << $n > 0 beg
+	$res << is $n positive
+end def
+
+def $res << $n < 0 beg
+	$res << is $n negative
+end def
+
+def $res << $a < $b beg
+	new diff.
+	diff << $a
+	diff <- $b
+	
+	$res << diff < 0
+end def
+
+def $res << $a > $b beg
+	new diff.
+	diff << $a
+	diff <- $b
+	
+	$res << diff > 0
+end def
+
+def $res << $a <= $b beg
+	$res << $a > $b
+	not $res
+end def
+
+def $res << $a >= $b beg
+	$res << $a < $b
+	not $res
+end def

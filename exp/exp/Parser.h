@@ -6,7 +6,7 @@
 enum class BuiltinFunc {
 	Increase, Decrease, New,
 	Add, Sub, Mul, Div, Pow, Root, Mod,
-	Neg, Or, And, Xor,
+	Neg, Bool, Or, And, Xor,
 	Input, Output, OutputCh,
 	AssignVar, AssignPointer,
 	If, IfElse,

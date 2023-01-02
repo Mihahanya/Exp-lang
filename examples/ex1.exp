@@ -1,10 +1,28 @@
 include 'lib/std'
 
-new a b end
+new W H L.
 
-a << 3
-b << 6
+W << 20
+H << 10
 
-a <+ b
+L << W; L <* H
 
-println a
+new x y pos.
+
+def draw beg
+	x << y << pos
+	x <% W
+	y </ W
+	
+	x print space y print newline
+	
+	pos inc
+	pos print newline
+	
+	new r.
+	r << pos < L
+	
+	if r then 777 print draw end if
+end def
+
+draw

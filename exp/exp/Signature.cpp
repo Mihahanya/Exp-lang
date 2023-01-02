@@ -80,13 +80,19 @@ bool Signature::check_match(
 Signature Signature::take_signature(const vector<Lexeme>& lexs) {
 	signature_t signs {};
 
-	// This is a variable if there is a `$` sign in the name, else part of the name
+	// This is a variable if there is a `$` sign in the name
+	// if `$` sign at the beginning and at the end 
+	// else part of the name
 	for (auto lex=lexs.cbegin(); lex != lexs.cend(); ++lex) {
 		SignatureUnit sign;
 		sign.val = lex->val;
 			
-		if (lex->val.find('$') != -1) 
+		if (lex->val.find('$') == 0 and lex->val.find('$', 1) != -1) { 
+			sign.type = SignType::MultiVar;
+		}
+		else if (lex->val.find('$') == 0) { 
 			sign.type = SignType::Var;
+		}
 		else 
 			sign.type = SignType::Name;
 	
@@ -94,10 +100,12 @@ Signature Signature::take_signature(const vector<Lexeme>& lexs) {
 	}
 
 	// Var can be multiple if it not at the bounds and name on the right
-	if (signs.size() >= 3) {
-		for (auto r=signs.begin()+1; r != signs.end()-1; ++r) {
-			if ((r+1)->type == SignType::Name) 
-				r->type = SignType::MultiVar;
+	for (auto r=signs.begin(); r != signs.end(); ++r) {
+		if (r->type == SignType::MultiVar) { 
+			if ((r+1)->type != SignType::Name or r == signs.begin() or r == signs.end()-1) {
+				throw runtime_error(
+					some_error_at_lex("Argument `" + r->val + "` can't me multiple", *lexs.begin(), true));
+			}
 		}
 	}
 
