@@ -48,7 +48,7 @@ end def
 
 def $res << is $n negative beg
 	new abs_n is_zero.
-	abs_n << abs n
+	abs_n << abs $n
 	
 	is_zero << $n != 0
 	
@@ -56,20 +56,20 @@ def $res << is $n negative beg
 	$res <& is_zero
 end def
 
-def $res << $n > 0 beg
-	$res << is $n positive
-end def
-
-def $res << $n < 0 beg
-	$res << is $n negative
-end def
+//def $res << $n > 0 beg
+//	$res << is $n positive
+//end def
+//
+//def $res << $n < 0 beg
+//	$res << is $n negative
+//end def
 
 def $res << $a < $b beg
 	new diff.
 	diff << $a
 	diff <- $b
 	
-	$res << diff < 0
+	$res << is diff negative
 end def
 
 def $res << $a > $b beg
@@ -77,7 +77,7 @@ def $res << $a > $b beg
 	diff << $a
 	diff <- $b
 	
-	$res << diff > 0
+	$res << is diff positive
 end def
 
 def $res << $a <= $b beg

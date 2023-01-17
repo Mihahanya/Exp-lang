@@ -1,8 +1,15 @@
 new a b.
 
 a << 777
-b << 80085
+b << 85
 
-a <** b
+def (a) beg
+	0 print
+	(a)
+end def
+
+(a)
+
+a <* b
 
 a print

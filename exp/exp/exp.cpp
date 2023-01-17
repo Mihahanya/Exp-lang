@@ -28,17 +28,17 @@ int main(int argc, char *argv[]) try
     string code {};
 
     if (argc == 1) {
-        cout << conf::init_msg;
+        //cout << conf::init_msg;
 
-        //code = read_file_contents("D:\\PROJECTS\\Exp-lang\\examples\\ex1.exp");
-        //
-        //Lexer lex(code, "D:\\PROJECTS\\Exp-lang\\examples\\ex1.exp");
-        //auto lexemes = lex.lex_analysis();
-        //
-        //Parser parser(lexemes);
-        //parser.parse();
-        //
-        //parser.execute();
+        code = read_file_contents("D:\\PROJECTS\\Exp-lang\\examples\\test.exp");
+        
+        Lexer lex(code, "D:\\PROJECTS\\Exp-lang\\examples\\test.exp");
+        auto lexemes = lex.lex_analysis();
+        
+        Parser parser(lexemes);
+        parser.parse();
+        
+        parser.execute();
     }
     else if (argc == 2) {
         if (std::strcmp(argv[1], "--version") == 0) {
@@ -79,8 +79,10 @@ int main(int argc, char *argv[]) try
             duration<float> parse_duration = parse_stop_exec_start - parse_start;
             duration<float> exec_duration = exec_stop - parse_stop_exec_start;
 
+            csl::set_console_color(CYEL);
             cout << "\n\nParsing: " << parse_duration << " s\n" 
                     "Execution: " << exec_duration << " s\n";
+            csl::reset_console_color();
         }
     }
     else {
@@ -91,5 +93,10 @@ int main(int argc, char *argv[]) try
 }
 catch (runtime_error e) {
     //std::cout << RED << e.what() << RESET << '\n';
+    csl::set_console_color(CRED);
     std::cout << e.what() << '\n';
+    csl::reset_console_color();
+}
+catch (std::exception e) {
+    std::cout << "very bad news :( ->" << e.what() << '\n';
 }

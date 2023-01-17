@@ -37,6 +37,7 @@ void Parser::execute()
 {
 	for (auto& tok : tokens) 
 	{
+		// TODO: to complete
 		if (tok.func->type != BuiltinFunc::New and 
 			tok.func->type != BuiltinFunc::NotBuiltin and
 			tok.func->type != BuiltinFunc::DefineFunc) {
@@ -49,79 +50,90 @@ void Parser::execute()
 			}
 		}
 
-		switch (tok.func->type) {
-		using enum BuiltinFunc;
+		try {
+			switch (tok.func->type) {
+			using enum BuiltinFunc;
 
-		case New: 
-			for (const auto& name : tok.arguments["a"]) {
-				//if (vars[name.val] == nullptr)
-					vars[name.val] = new VarTy(0); 
-				//else
-				//	*vars[name.val] = 0;
+			case New: 
+				for (const auto& name : tok.arguments["a"]) {
+					//if (vars[name.val] == nullptr)
+						vars[name.val] = new VarTy(0); 
+					//else
+					//	*vars[name.val] = 0;
+				}
+				break;
+
+			case AssignVar:			*left_arg = *right_arg; break;
+			case AssignPointer:		left_arg = right_arg; break;
+		
+			case Add:	*left_arg += *right_arg; break;
+			case Sub:	*left_arg -= *right_arg; break;
+			case Mul:	*left_arg *= *right_arg; break;
+			case Div:	*left_arg /= *right_arg; break;
+			case Mod:	*left_arg %= *right_arg; break;
+			case Pow:	*left_arg = std::pow(*left_arg, *right_arg); break;
+			case Root:	*left_arg = std::sqrt(*left_arg); break;
+			case Neg:	*left_arg = *left_arg == 0; break;
+			case Bool:	*left_arg = *left_arg != 0; break;
+			case Or:	*left_arg |= *right_arg; break;
+			case And:	*left_arg &= *right_arg; break;
+			case Xor:	*left_arg ^= *right_arg; break;
+		
+			case Increase:	(*left_arg)++; break;
+			case Decrease:	(*left_arg)--; break;
+		
+			case Input:		std::cin >> *left_arg; break;
+			case Output:	std::cout << *left_arg; break;
+			case OutputCh:	std::cout << (char)*left_arg; break;
+
+			case If: 
+				if (*left_arg != 0)
+					exec_fov(tok.arguments["b"]);
+				break;
+
+			case IfElse: {
+				func_argument_t block_tok;
+
+				if (*left_arg != 0) 
+					block_tok = tok.arguments["b"];
+				else 
+					block_tok = tok.arguments["c"];
+
+				exec_fov(block_tok);
+				break;
 			}
-			break;
 
-		case AssignVar:			*left_arg = *right_arg; break;
-		case AssignPointer:		left_arg = right_arg; break;
-		
-		case Add:	*left_arg += *right_arg; break;
-		case Sub:	*left_arg -= *right_arg; break;
-		case Mul:	*left_arg *= *right_arg; break;
-		case Div:	*left_arg /= *right_arg; break;
-		case Mod:	*left_arg %= *right_arg; break;
-		case Pow:	*left_arg = std::pow(*left_arg, *right_arg); break;
-		case Root:	*left_arg = std::sqrt(*left_arg); break;
-		case Neg:	*left_arg = *left_arg == 0; break;
-		case Bool:	*left_arg = *left_arg != 0; break;
-		case Or:	*left_arg |= *right_arg; break;
-		case And:	*left_arg &= *right_arg; break;
-		case Xor:	*left_arg ^= *right_arg; break;
-		
-		case Increase:	(*left_arg)++; break;
-		case Decrease:	(*left_arg)--; break;
-		
-		case Input:		std::cin >> *left_arg; break;
-		case Output:	std::cout << *left_arg; break;
-		case OutputCh:	std::cout << (char)*left_arg; break;
+			case NotBuiltin: {
+				auto func_toks = tok.func->tokens;
+				for (size_t i=0; i<func_toks.size(); ++i) {
+					for (const auto& n : tok.func->signature.vars_names_line) {
+						if (func_toks[i].val == n) {
+							func_toks.erase(func_toks.begin()+i);
+							func_toks.insert(func_toks.begin()+i, 
+								tok.arguments[n].begin(), tok.arguments[n].end());
 
-		case If: 
-			if (*left_arg != 0)
-				exec_fov(tok.arguments["b"]);
-			break;
-
-		case IfElse: {
-			func_argument_t block_tok;
-
-			if (*left_arg != 0) 
-				block_tok = tok.arguments["b"];
-			else 
-				block_tok = tok.arguments["c"];
-
-			exec_fov(block_tok);
-			break;
-		}
-
-		case NotBuiltin: {
-			auto func_toks = tok.func->tokens;
-			for (size_t i=0; i<func_toks.size(); ++i) {
-				for (const auto& n : tok.func->signature.vars_names_line) {
-					if (func_toks[i].val == n) {
-						func_toks.erase(func_toks.begin()+i);
-						func_toks.insert(func_toks.begin()+i, 
-							tok.arguments[n].begin(), tok.arguments[n].end());
-
-						i += tok.arguments[n].size()-1;
-						break;
+							i += tok.arguments[n].size()-1;
+							break;
+						}
 					}
 				}
+
+				exec_fov(func_toks);
+				break;
 			}
 
-			exec_fov(func_toks);
-			break;
+			case Pass: break;
+
+			}
 		}
-
-		case Pass: break;
-
+		catch (runtime_error e) {
+			string this_line {};
+			for (const auto& l : lexems) {
+				if (l.line == tok.info.line)
+					this_line += l.val + ' ';
+			}
+			throw runtime_error(
+				some_error_at_lex("Fatal error", tok.info) + "\t" + this_line + "\n\n" + e.what());
 		}
 	}
 }
@@ -200,8 +212,7 @@ void Parser::parse() {
 					this_line += l.val + ' ';
 			}
 			throw runtime_error(
-				some_error_at("Not defined function", lex->line, lex->chr_pos, lex->file_name) + 
-							  "\n\t" + this_line);
+				some_error_at_lex("Not defined function", *lex) + "\n\t" + this_line);
 		}
 	}
 }
@@ -217,9 +228,9 @@ void Parser::include_script(const string& file_path, const string& this_path)
 	const char* file_name = incl_path.c_str();
 
 	string code = read_file_contents(file_name);
-	Lexer lex(code, file_name);
+	Lexer* lex = new Lexer(code, file_name);
 					
-	Parser* include_parser = new Parser(lex.lex_analysis());
+	Parser* include_parser = new Parser(lex->lex_analysis());
 	include_parser->funcs = funcs;
 	include_parser->vars = vars;
 	include_parser->parse();
@@ -236,7 +247,7 @@ void Parser::include_script(const string& file_path, const string& this_path)
 
 void Parser::init_builtin_funcs() {
 	if (funcs->size() > 0) return;
-
+	
 	Function include;
 	include.type = BuiltinFunc::Include;
 	include.signature = Signature({ 

@@ -8,21 +8,16 @@ H << 10
 L << W; L <* H
 
 new x y pos.
+new r.
 
-def draw beg
+def (draw) beg
 	x << y << pos
 	x <% W
 	y </ W
 	
-	x print space y print newline
-	
 	pos inc
-	pos print newline
 	
-	new r.
-	r << pos < L
-	
-	if r then 777 print draw end if
+	if pos < L then DO (draw) end DO
 end def
 
-draw
+(draw)
