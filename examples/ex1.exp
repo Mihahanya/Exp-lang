@@ -17,6 +17,8 @@ def (draw) beg
 	
 	pos inc
 	
+	pos print newline
+	
 	if pos < L then DO (draw) end DO
 end def
 

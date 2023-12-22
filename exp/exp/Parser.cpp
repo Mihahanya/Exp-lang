@@ -1,41 +1,33 @@
 #include "Parser.h"
-
+#include <memory>
 
 Parser::Parser(const vector<Lexeme>& ls) 
 	: lexems{ls} 
-{
-	funcs = new func_storage_t;
+{}
+
+Parser::~Parser() {}
+
+
+void Parser::parse() {
+	tokens = parse_lexs(lexems);
 }
 
-Parser::~Parser() {
-	delete funcs;
-
-	for (auto v : vars) delete v.second;
-	vars.clear();
+void Parser::execute() {
+	execute_tokens(tokens);
 }
 
-
-inline void Parser::exec_fov(const vector<Lexeme>& lexs) {
-	Parser* field_parser = new Parser(lexs);
-	field_parser->funcs = funcs;
-	field_parser->vars = vars;
-
-	field_parser->parse();
-	field_parser->execute();
-
-	// To not delete actoal data through pointers
-	field_parser->funcs = nullptr;
-	field_parser->vars.clear();
-
-	delete field_parser;
+void Parser::exec_fov(vector<Lexeme>& lexs) { 
+	vector<Token> tokens = parse_lexs(lexs);
+	execute_tokens(tokens);
 }
+
 
 #define left_arg vars[tok.arguments["a"][0].val] 
 #define right_arg vars[tok.arguments["b"][0].val] 
 
-void Parser::execute() 
+void Parser::execute_tokens(vector<Token>& tokens) 
 {
-	for (auto& tok : tokens) 
+	for (auto& tok : tokens)	// const
 	{
 		// TODO: to complete
 		if (tok.func->type != BuiltinFunc::New and 
@@ -57,7 +49,7 @@ void Parser::execute()
 			case New: 
 				for (const auto& name : tok.arguments["a"]) {
 					//if (vars[name.val] == nullptr)
-						vars[name.val] = new VarTy(0); 
+						vars[name.val] = std::make_shared<VarTy>(0); 
 					//else
 					//	*vars[name.val] = 0;
 				}
@@ -71,8 +63,8 @@ void Parser::execute()
 			case Mul:	*left_arg *= *right_arg; break;
 			case Div:	*left_arg /= *right_arg; break;
 			case Mod:	*left_arg %= *right_arg; break;
-			case Pow:	*left_arg = std::pow(*left_arg, *right_arg); break;
-			case Root:	*left_arg = std::sqrt(*left_arg); break;
+			case Pow:	*left_arg = (VarTy)std::pow(*left_arg, *right_arg); break;
+			case Root:	*left_arg = (VarTy)std::sqrt(*left_arg); break;
 			case Neg:	*left_arg = *left_arg == 0; break;
 			case Bool:	*left_arg = *left_arg != 0; break;
 			case Or:	*left_arg |= *right_arg; break;
@@ -104,7 +96,7 @@ void Parser::execute()
 			}
 
 			case NotBuiltin: {
-				auto func_toks = tok.func->tokens;
+				vector<Lexeme> func_toks = tok.func->tokens;
 				for (size_t i=0; i<func_toks.size(); ++i) {
 					for (const auto& n : tok.func->signature.vars_names_line) {
 						if (func_toks[i].val == n) {
@@ -135,27 +127,30 @@ void Parser::execute()
 			throw runtime_error(
 				some_error_at_lex("Fatal error", tok.info) + "\t" + this_line + "\n\n" + e.what());
 		}
+		cout << "holy shit!!!!" << sizeof(this) << '\n';
 	}
 }
 
 #undef left_arg 
 #undef right_arg 
 
-void Parser::parse() {
+vector<Token> Parser::parse_lexs(vector<Lexeme>& lexems) {
+	vector<Token> tokens {};
+
 	init_builtin_funcs();
 
 	// Define numbers and strings variables
 	for (auto& l : lexems) {
 		if (l.type == LexType::Number) {
 			l.type = LexType::Name;
-			vars[l.val] = new VarTy(stoi(l.val));
+			vars[l.val] = std::make_shared<VarTy>(stoi(l.val));
 		}
 		else if (l.type == LexType::String) {
 			l.type = LexType::Name;
-			vars[l.val] = new VarTy(0);
+			vars[l.val] = std::make_shared<VarTy>(0);
 
 			for (size_t i=1; i < l.val.length()-1; ++i) {
-				*vars[l.val] += (VarTy)l.val[i] * std::pow(256, i-1);
+				*vars[l.val] += (VarTy)l.val[i] * (VarTy)std::pow(256, i-1);
 			}
 		}
 	}
@@ -172,7 +167,7 @@ void Parser::parse() {
 			// If find function signautre
 			if (func->signature.check_match(vector<Lexeme>(lex, lexems.end()), if_func_len, args)) 
 			{
-				// TODO: where add function by prefixes
+				// TODO: line with prioriity where add function by prefixes
 				if (func->type == BuiltinFunc::DefineFunc) {
 					// Define function
 					Function f;
@@ -215,6 +210,8 @@ void Parser::parse() {
 				some_error_at_lex("Not defined function", *lex) + "\n\t" + this_line);
 		}
 	}
+
+	return tokens;
 }
 
 void Parser::include_script(const string& file_path, const string& this_path)
@@ -229,21 +226,24 @@ void Parser::include_script(const string& file_path, const string& this_path)
 
 	string code = read_file_contents(file_name);
 	Lexer* lex = new Lexer(code, file_name);
-					
+	
 	Parser* include_parser = new Parser(lex->lex_analysis());
+	
 	include_parser->funcs = funcs;
 	include_parser->vars = vars;
+	
 	include_parser->parse();
+
+	funcs = include_parser->funcs;
+	vars = include_parser->vars;
 
 	auto inc_toks = include_parser->tokens;
 	tokens.insert(tokens.end(), inc_toks.begin(), inc_toks.end());
-
-	vars = include_parser->vars;
-	// To not delete actoal data through pointers
-	include_parser->funcs = nullptr;
-	include_parser->vars = {};
+	
+	delete lex;
 	delete include_parser;
 }
+
 
 void Parser::init_builtin_funcs() {
 	if (funcs->size() > 0) return;
@@ -489,3 +489,4 @@ void Parser::init_builtin_funcs() {
 	funcs->push_back(assign_pointer);
 }
 
+  

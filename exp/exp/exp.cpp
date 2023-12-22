@@ -29,10 +29,10 @@ int main(int argc, char *argv[]) try
 
     if (argc == 1) {
         //cout << conf::init_msg;
-
-        code = read_file_contents("D:\\PROJECTS\\Exp-lang\\examples\\test.exp");
+        const char* path = "D:\\PROJECTS\\Exp-lang\\examples\\ex1.exp";
+        code = read_file_contents(path);
         
-        Lexer lex(code, "D:\\PROJECTS\\Exp-lang\\examples\\test.exp");
+        Lexer lex(code, path);
         auto lexemes = lex.lex_analysis();
         
         Parser parser(lexemes);

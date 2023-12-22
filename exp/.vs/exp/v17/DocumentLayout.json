@@ -1,0 +1,154 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PROJECTS\\Exp-lang\\exp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\Lexer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\Lexer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\exp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\exp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\Signature.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\Signature.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\fs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\fs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\Signature.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\Signature.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\Parser.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\Parser.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\Lexer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\Lexer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\exp\\exp\\Parser.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6BC56D54-FF4E-4DFB-87AB-E799963901B2}|exp\\exp.vcxproj|solutionrelative:exp\\Parser.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 153,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "exp.cpp",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\exp.cpp",
+              "RelativeDocumentMoniker": "exp\\exp.cpp",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\exp.cpp",
+              "RelativeToolTip": "exp\\exp.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACAAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2022-12-17T16:56:20.258Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Parser.h",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Parser.h",
+              "RelativeDocumentMoniker": "exp\\Parser.h",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Parser.h",
+              "RelativeToolTip": "exp\\Parser.h",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAswDcAAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2022-12-22T14:42:54.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "fs.h",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\fs.h",
+              "RelativeDocumentMoniker": "exp\\fs.h",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\fs.h",
+              "RelativeToolTip": "exp\\fs.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2023-01-02T16:05:08.201Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Lexer.cpp",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Lexer.cpp",
+              "RelativeDocumentMoniker": "exp\\Lexer.cpp",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Lexer.cpp",
+              "RelativeToolTip": "exp\\Lexer.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2023-01-01T16:00:13.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Lexer.h",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Lexer.h",
+              "RelativeDocumentMoniker": "exp\\Lexer.h",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Lexer.h",
+              "RelativeToolTip": "exp\\Lexer.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2023-01-01T15:59:07.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Parser.cpp",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Parser.cpp",
+              "RelativeDocumentMoniker": "exp\\Parser.cpp",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Parser.cpp",
+              "RelativeToolTip": "exp\\Parser.cpp",
+              "ViewState": "AQIAABwAAAAAAAAAAAAAAIEAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2022-12-22T07:23:26.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Signature.cpp",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Signature.cpp",
+              "RelativeDocumentMoniker": "exp\\Signature.cpp",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Signature.cpp",
+              "RelativeToolTip": "exp\\Signature.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGoAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2022-12-18T22:49:17.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Signature.h",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Signature.h",
+              "RelativeDocumentMoniker": "exp\\Signature.h",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\exp\\exp\\Signature.h",
+              "RelativeToolTip": "exp\\Signature.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2022-12-20T04:07:09.949Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

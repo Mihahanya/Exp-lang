@@ -1,11 +1,14 @@
 ﻿  Проверка источников на наличие зависимостей модуля…
+  Lexer.h
+  Компиляция…
+  Lexer.h
+  exp.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winbase.h(9531,5): warning C5105: Поведение расширения макроса, создающего "defined", не определено
+  Lexer.cpp
   Parser.cpp
-D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(74,34): warning C4244: =: преобразование "double" в "Parser::VarTy", возможна потеря данных
-D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(75,36): warning C4244: =: преобразование "double" в "Parser::VarTy", возможна потеря данных
-D:\PROJECTS\Exp-lang\exp\exp\Parser.cpp(158,37): warning C4244: +=: преобразование "double" в "Parser::VarTy", возможна потеря данных
+  Signature.cpp
   Создание кода
-  1 of 1934 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    8 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB was built with incompatible compiler, fall back to full compilation.
+  All 1960 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Создание кода завершено
   exp.vcxproj -> D:\PROJECTS\Exp-lang\exp\x64\Release\exp.exe

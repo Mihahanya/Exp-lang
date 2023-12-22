@@ -24,7 +24,7 @@ struct Function {
 };
 
 struct Token {
-	const Function* func;
+	const Function* func;	// TODO: smart pointer maybe...
 	func_arguments_t arguments;
 	Lexeme info;
 };
@@ -34,7 +34,7 @@ class Parser
 {
 	using VarTy = int;
 
-	using vars_storage_t = std::map<string, VarTy*>;
+	using vars_storage_t = std::map<string, std::shared_ptr<VarTy>>;
 	using func_storage_t = std::vector<Function>;
 
 public:
@@ -48,10 +48,13 @@ private:
 	vector<Lexeme> lexems {};
 	vector<Token> tokens {};
 
-	vars_storage_t vars;
-	func_storage_t* funcs;
+	vars_storage_t vars {};
+	func_storage_t* funcs = new func_storage_t;
+
+	vector<Token> parse_lexs(vector<Lexeme>&);
+	void execute_tokens(vector<Token>&);
+	void exec_fov(vector<Lexeme>&);
 
 	void init_builtin_funcs();
-	void exec_fov(const vector<Lexeme>&);
 	inline void include_script(const string& file_path, const string& this_path);
 };
