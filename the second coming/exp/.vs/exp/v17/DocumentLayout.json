@@ -14,7 +14,7 @@
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 178,
+      "VerticalTabListWidth": 106,
       "DocumentGroups": [
         {
           "DockedWidth": 200,
@@ -30,8 +30,7 @@
               "RelativeToolTip": "exp\\fs.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2023-12-22T13:44:55.657Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-12-22T13:44:55.657Z"
             },
             {
               "$type": "Document",
@@ -41,7 +40,7 @@
               "RelativeDocumentMoniker": "exp\\exp.cpp",
               "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\exp.cpp",
               "RelativeToolTip": "exp\\exp.cpp",
-              "ViewState": "AQIAABsAAAAAAAAAAAAAAD4AAAA6AAAA",
+              "ViewState": "AQIAAKEAAAAAAAAAAAAgwLwAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2023-12-22T13:32:54.206Z",
               "EditorCaption": ""

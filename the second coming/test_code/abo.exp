@@ -1,25 +1,25 @@
 
-let A mean 50 apples
-change A to 10
+let a mean 50 apples
+change a to 10
 
-A eq B
+a eq b
 
-let B mean mandarine
+let b mean mandarine
 
 
-let A plus b mean A + B
+let a plus b mean a + b
 
-let sum of A and B mean A plus B
+let sum of a and b mean a plus b
 
-let add B to A mean \
-	change A to A value and B value 
+let add b to a mean \
+	change a to a value and b value 
 
-let // A mean empty 
+let // a mean empty 
 
 
 let be MY POCET
 
-add B to MY POCET
-add A to MY POCET
+add b to MY POCET
+add a to MY POCET
 
 
