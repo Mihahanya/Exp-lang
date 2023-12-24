@@ -1,21 +1,26 @@
 
-let a mean 50 apples
-change a to 10
+let var A mean let A mean A
 
-a eq b
+let a mean 50 apples
+let now a mean 10
+
+ignore a eq b
 
 let b mean mandarine
 
 
-let a plus b mean a + b
+let A plus B mean B + B
 
-let sum of a and b mean a plus b
+let sum of A and B mean A plus B
 
-let add b to a mean \
-	change a to a value and b value 
+let change A to B mean \
+	let now A mean B
 
-let // a mean empty 
+let add B to A mean \
+	change A to A and B
 
+
+ignore let let be A mean let A mean A
 
 let be MY POCET
 
