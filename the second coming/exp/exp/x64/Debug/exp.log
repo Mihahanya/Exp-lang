@@ -1,5 +1,6 @@
 ﻿  exp.cpp
-D:\PROJECTS\Exp-lang\the second coming\exp\exp\Program.h(125,41): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+D:\PROJECTS\Exp-lang\the second coming\exp\exp\Program.h(151,41): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
   (компиляция исходного файла "exp.cpp")
   
+D:\PROJECTS\Exp-lang\the second coming\exp\exp\Program.h(124,1): warning C4715: Program::to_reason: значение возвращается не при всех путях выполнения
   exp.vcxproj -> D:\PROJECTS\Exp-lang\the second coming\exp\x64\Debug\exp.exe

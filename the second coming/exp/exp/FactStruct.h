@@ -25,14 +25,15 @@ public:
 };
 
 
-class Signature {
-public:
+class FactStruct {
     friend class Proposition;
 
+public:
+    FactStruct() {}
 
-    Signature(const vector<Token>& signature) : signature{signature} {
+    FactStruct(const vector<Token>& structure) : structure{structure} {
         string reg_str {""};
-        for (const auto& s : signature) {
+        for (const auto& s : structure) {
             if (s.type == TT::Const) {
                 reg_str += s.val;
                 view += "`" + s.val + "` ";
@@ -48,10 +49,9 @@ public:
         hash = std::hash<string>{}(view);
     }
 
-    Signature() {}
+    bool recognize_structure(const string& text, map<string, string>& vars_names) const {
+        vars_names = {};
 
-
-    bool recognize_signature(const string& text, map<string, string>& vars_names) const {
         std::smatch match;
         if (std::regex_match(text, match, reg))
         {
@@ -62,7 +62,7 @@ public:
                 std::string var_name = match[i].str();
                 string var_name_mask = vars_order[i-1];
 
-                if (vars_names.find(var_name_mask) == vars_names.end()) vars_names[var_name_mask] = var_name;
+                if (!vars_names.contains(var_name_mask)) vars_names[var_name_mask] = var_name;
                 else if (vars_names[var_name_mask] != var_name) return false;
             }
 
@@ -71,21 +71,21 @@ public:
         return false;
     }
 
-    bool same(const Signature& s) const {
-        const auto& s_sign = s.signature;
-        if (s_sign.size() != signature.size()) return false;
+    bool same(const FactStruct& s) const {
+        const auto& s_sign = s.structure;
+        if (s_sign.size() != structure.size()) return false;
 
         map<string, string> vars_pattern {};
 
-        for (int i=0; i < signature.size(); ++i) {
-            if (s_sign[i].type != signature[i].type) return false;
+        for (int i=0; i < structure.size(); ++i) {
+            if (s_sign[i].type != structure[i].type) return false;
 
-            if (signature[i].type == TT::Const) {
-                if (signature[i].val != s_sign[i].val) return false;
+            if (structure[i].type == TT::Const) {
+                if (structure[i].val != s_sign[i].val) return false;
             }
-            else if (signature[i].type == TT::Var) {
-                if (vars_pattern.find(signature[i].val) == vars_pattern.end()) vars_pattern[signature[i].val] = s_sign[i].val;
-                else if (vars_pattern[signature[i].val] != s_sign[i].val) return false;
+            else if (structure[i].type == TT::Var) {
+                if (!vars_pattern.contains(structure[i].val)) vars_pattern[structure[i].val] = s_sign[i].val;
+                else if (vars_pattern[structure[i].val] != s_sign[i].val) return false;
             }
         }
 
@@ -100,12 +100,12 @@ public:
         return view;
     }
 
-    bool operator <(const Signature& rhs) const {
+    bool operator <(const FactStruct& rhs) const {
         return hash < rhs.hash;
     }
 
 protected:
-    vector<Token> signature{};
+    vector<Token> structure{};
 
 private:
     std::regex reg{};

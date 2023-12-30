@@ -3,20 +3,23 @@
   "WorkspaceRootPath": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\exp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\exp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Program.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\Program.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\fs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\fs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\exp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\exp.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Signature.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\Signature.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\PROJECTS\\Exp-lang\\the second coming\\test_code\\little test.exp||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\FactStruct.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\FactStruct.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\fs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3186DAE7-FE08-4CB6-920D-7191F01B2EBF}|exp\\exp.vcxproj|solutionrelative:exp\\fs.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,17 +29,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "exp.cpp",
               "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\exp.cpp",
               "RelativeDocumentMoniker": "exp\\exp.cpp",
               "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\exp.cpp",
               "RelativeToolTip": "exp\\exp.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAqAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2023-12-22T13:32:54.206Z",
               "IsPinned": true,
@@ -44,13 +47,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "little test.exp",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\the second coming\\test_code\\little test.exp",
+              "RelativeDocumentMoniker": "..\\test_code\\little test.exp",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\test_code\\little test.exp",
+              "RelativeToolTip": "..\\test_code\\little test.exp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAHAAAA",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF\u002BSURBVDhPhZJPboJAFMZHMGLABd7AVdsNSXsFdMmmbVIaD6FxaeKShKVrewObtC50acIhPIC9ATaCspBM\u002BV5nSMVp\u002B0sm8/H\u002BzZs31JiCw\u002BHAhTzDNM3zeM75rwU8zxNf36xWK6HOqYtdyfvbgvaHx3vaVUU1oZUgUSZLUFQWBmWB4/HYiePYTtM0wncYhqzX65HvL2gGSZLcappGiXme7yaTSQfacRxmWRZrtVqs2\u002B0qr1DHycUwo8FgYCO4ONXebDYUgA7W6zUruqICKrQsy3YQSEbidDolB4CGDT7JxQwajcYCbcv7\u002Bv5zGQQNpA97dbA1vPl4PKaTABLnr3PS/pNfBmMe/X6fXV/d0Dfs/z6jimoHGFC03\u002B\u002B3y\u002BWSu67LZ7MXvos/aUHDBh86Va0a3t4wjG1xjXL6VdB\u002BEAQfp9Pprt1u09AlWrPZtCHwVAgcjUbkANCwwafrui1jL8CPVLQTY\u002BE6w\u002BGQY0FLO2JEuJqfvzLuhgUNG3wirAJjX2eIBOyElllnAAAAAElFTkSuQmCC",
+              "WhenOpened": "2023-12-29T20:04:54.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "Program.h",
               "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Program.h",
               "RelativeDocumentMoniker": "exp\\Program.h",
-              "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Program.h",
-              "RelativeToolTip": "exp\\Program.h",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAswA4AAAAAAAAA",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Program.h*",
+              "RelativeToolTip": "exp\\Program.h*",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAWwDsAAABgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2023-12-24T12:04:13.808Z",
               "EditorCaption": ""
@@ -58,19 +74,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Signature.h",
-              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Signature.h",
-              "RelativeDocumentMoniker": "exp\\Signature.h",
-              "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\Signature.h",
-              "RelativeToolTip": "exp\\Signature.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAANAAAA",
+              "Title": "FactStruct.h",
+              "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\FactStruct.h",
+              "RelativeDocumentMoniker": "exp\\FactStruct.h",
+              "ToolTip": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\FactStruct.h",
+              "RelativeToolTip": "exp\\FactStruct.h",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAWwB8AAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2023-12-24T11:41:23.966Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "fs.h",
               "DocumentMoniker": "D:\\PROJECTS\\Exp-lang\\the second coming\\exp\\exp\\fs.h",
               "RelativeDocumentMoniker": "exp\\fs.h",
@@ -78,8 +94,7 @@
               "RelativeToolTip": "exp\\fs.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2023-12-22T13:44:55.657Z",
-              "EditorCaption": ""
+              "WhenOpened": "2023-12-22T13:44:55.657Z"
             }
           ]
         }

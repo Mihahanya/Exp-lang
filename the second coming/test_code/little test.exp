@@ -1,11 +1,11 @@
 
-ignore let human A mean 
+elizabeth mother of charles
+charles father of william
+charles father of harry
 
-let A is human mean A is mortal
+let X mother of Y mean X parent of Y
+let X father of Y mean X parent of Y
 
-let A is mortal mean A should to die
-
-let A can to talk mean A is human
-
-Aristotel can to talk
-
+ignore grandparent_child(X, Y) :- 
+     parent_child(X, Z), 
+     parent_child(Z, Y).

@@ -1,19 +1,20 @@
 #pragma once
 
-#include "Signature.h"
+#include "FactStruct.h"
 #include <sstream>
+#include <set>
 
 
 class Proposition {
 public:
     Proposition() {}
 
-    Proposition(const Signature& sign, map<string, string> vars) : signature{sign}, vars{vars} {}
+    Proposition(const FactStruct& sign, map<string, string> vars) : structure{sign}, vars{vars} {}
 
     string meaning() const {
         string res = "";
 
-        for (const auto& s : signature.signature) {
+        for (const auto& s : structure.structure) {
             if (s.type == TT::Const) res += s.val;
             else if (s.type == TT::Var) res += vars.at(s.val);
         }
@@ -23,89 +24,115 @@ public:
 
 private:
     // TODO: pointer sign
-    Signature signature {};
+    FactStruct structure {};
     map<string, string> vars {};
 
 };
 
+
+class ReasoningNode {
+public:
+    FactStruct sign;
+    vector<ReasoningNode*> consequences{};
+    //vector<ReasoningNode*> premises{};
+
+    ReasoningNode(const FactStruct& sign) : sign{sign} {}
+
+    ~ReasoningNode() {
+        for (auto p : consequences) delete p; 
+        consequences.clear();
+
+        //for (auto p : premises) delete p; 
+        //premises.clear();
+    }
+};
+
+
 class Program {
 public:
-    // TODO: signatures organisation
-    map<Signature, Signature> user_signatures {};
+    // TODO: structures organisation
+    map<FactStruct, ReasoningNode*> statements_tree_nodes {};
     vector<Proposition> propositions {};
 
 
     Program() {
-        user_signatures[Signature{{ Token("ignore ", TT::Const), Token("a", TT::Var) }}] = Signature();
+        // built-in
+        statements_tree_nodes[let_sign] = new ReasoningNode(FactStruct{{Token("built-in let-mean", TT::Const)}});
+        statements_tree_nodes[comment_sign] = new ReasoningNode(FactStruct{{Token("built-in ignore comments", TT::Const)}});
     }
 
-    void eval(const string& code) {
+    void eval(const string& code) 
+    {
+        vector<string> proposition_lines{};
+
         std::istringstream iss(code);
         for (std::string line; std::getline(iss, line); )
         {
             if (std::regex_replace(line, std::regex(R"(\s+)"), "").size() == 0) continue;
 
-            bool ok = false;
             map<string, string> sign_vars{};
+            if (let_sign.recognize_structure(line, sign_vars)) {
+                FactStruct let_sign(split_structure(sign_vars["a"]));
+                FactStruct mean_sign(split_structure(sign_vars["b"]));
 
+                if (!statements_tree_nodes.contains(let_sign))
+                    statements_tree_nodes[let_sign] = new ReasoningNode(let_sign);
 
-            if (new_var_sign.recognize_signature(line, sign_vars)) {
-                string name = sign_vars["a"];
-                user_signatures[Signature({Token(name, TT::Const)})] = Signature({Token(name, TT::Const)});
+                if (!statements_tree_nodes.contains(mean_sign))
+                    statements_tree_nodes[mean_sign] = new ReasoningNode(mean_sign);
 
-                ok = true;
-            }
-            else if (change_sign.recognize_signature(line, sign_vars)) {
-                Signature change_sign(split_signature(sign_vars["a"]));
-                Signature to_sign(split_signature(sign_vars["b"]));
-
-                if (user_signatures.find(change_sign) == user_signatures.end()) {
-                    string err = "[!nothing to change at:\n\t```" + line + "```]\n";
-                    throw std::exception(err.c_str());
-                }
-
-                user_signatures[change_sign] = to_sign;
-
-                ok = true;
-            }
-            else if (let_sign.recognize_signature(line, sign_vars)) {
-                Signature let_sign(split_signature(sign_vars["a"]));
-                Signature to_sign(split_signature(sign_vars["b"]));
-
-                if (user_signatures.find(let_sign) != user_signatures.end()) {
-                    string err = "[!reassignment at:\n\t```" + line + "```]\n";
-                    throw std::exception(err.c_str());
-                }
-
-                user_signatures[let_sign] = to_sign;
-
-                ok = true;
+                statements_tree_nodes[let_sign]->consequences.push_back(statements_tree_nodes[mean_sign]);
             }
             else {
-                for (const auto& sign : user_signatures) {
-                    if (sign.first.recognize_signature(line, sign_vars)) {
-                        propositions.push_back(Proposition{sign.first, sign_vars});
-                        propositions.push_back(Proposition{sign.second, sign_vars});
-                        ok = true;
-                        break;
-                    }
-                }
+                proposition_lines.push_back(line);
             }
+        }
 
-            if (!ok) {
+        for (const auto& line : proposition_lines) {
+            auto props = to_reason(line);
+
+            if (props.empty()) {
                 string err = "[!unrecognized token at:\n\t```" + line + "```]\n";
                 throw std::exception(err.c_str());
+            }
+            else {
+                propositions.insert(propositions.end(), props.begin(), props.end());
             }
         }
     }
 
 private:
-    const Signature new_var_sign  {{ Token("let be ", TT::Const), Token("a", TT::Var) }}; // TODO: embedded
-    const Signature let_sign      {{ Token("let ", TT::Const), Token("a", TT::Var), Token(" mean ", TT::Const), Token("b", TT::Var) }};
-    const Signature change_sign   {{ Token("let now ", TT::Const), Token("a", TT::Var), Token(" mean ", TT::Const), Token("b", TT::Var) }};
+    const FactStruct let_sign {{ Token("let ", TT::Const), Token("a", TT::Var), Token(" mean ", TT::Const), Token("b", TT::Var) }};
+    const FactStruct comment_sign {{ Token("ignore ", TT::Const), Token("a", TT::Var) }};
 
+    vector<Proposition> to_reason(const string& statement) {
+        for (const auto& sign : statements_tree_nodes) {
+            map<string, string> sign_vars{};
+            if (sign.first.recognize_structure(statement, sign_vars)) {
+                std::set<ReasoningNode*> cons_statements{};
+                dfs(sign.second, cons_statements);
 
-    vector<Token> split_signature(const string& code) {
+                vector<Proposition> res {};
+                for (const auto& st : cons_statements) {
+                    Proposition p{st->sign, sign_vars};
+                    res.push_back(p);
+                }
+                return res;
+            }
+        }
+    }
+
+    void dfs(ReasoningNode* node, std::set<ReasoningNode*>& result) {
+        result.insert(node);
+
+        for (ReasoningNode* consequence : node->consequences) {
+            if (!result.contains(consequence)) {
+                dfs(consequence, result);
+            }
+        }
+    }
+
+    vector<Token> split_structure(const string& code) {
         vector<Token> res {};
         //std::regex var_reg("[A-Z0-9]+");
         std::regex var_reg(R"([A-Z]+(\s[A-Z]+)*)");
