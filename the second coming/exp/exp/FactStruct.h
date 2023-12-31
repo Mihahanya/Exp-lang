@@ -32,72 +32,54 @@ public:
     FactStruct() {}
 
     FactStruct(const vector<Token>& structure) : structure{structure} {
+        // Initialize regular expression and vars order to recognize fact by structure,
+        // schematic representation of the fact structure (scheme_view) and hash by scheme_view
         string reg_str {""};
         for (const auto& s : structure) {
             if (s.type == TT::Const) {
                 reg_str += s.val;
-                view += "`" + s.val + "` ";
+                scheme_view += "{" + s.val + "} ";
             }
             else if (s.type == TT::Var) {
                 reg_str += "(.+)";
                 vars_order.push_back(s.val);
 
-                view += "[" + s.val + "] ";
+                scheme_view += "[" + s.val + "] ";
             }
         }
         reg = std::regex(reg_str);
-        hash = std::hash<string>{}(view);
+        hash = std::hash<string>{}(scheme_view);
     }
 
-    bool recognize_structure(const string& text, map<string, string>& vars_names) const {
-        vars_names = {};
+    bool recognize_fact(const string& text, map<string, string>& ret_vars_vals) const {
+        ret_vars_vals = {};
 
         std::smatch match;
         if (std::regex_match(text, match, reg))
         {
-            if (match.size()-1 != vars_order.size()) return false;
+            if (match.size()-1 != vars_order.size() or 
+                match.position() != 0 or 
+                match.length() != text.length()) return false;
+
 
             for (std::size_t i = 1; i < match.size(); ++i)
             {
-                std::string var_name = match[i].str();
-                string var_name_mask = vars_order[i-1];
+                std::string find_val = match[i].str();
+                string mask_var_name = vars_order[i-1];
 
-                if (!vars_names.contains(var_name_mask)) vars_names[var_name_mask] = var_name;
-                else if (vars_names[var_name_mask] != var_name) return false;
+                // for cases when vars sequences like ABA 
+                // we check whether the next value of an already found var matches
+                if (!ret_vars_vals.contains(mask_var_name)) ret_vars_vals[mask_var_name] = find_val;
+                else if (ret_vars_vals[mask_var_name] != find_val) return false;
             }
 
-            return match.position() == 0 and match.length() == text.length();
+            return true;
         }
         return false;
     }
 
-    bool same(const FactStruct& s) const {
-        const auto& s_sign = s.structure;
-        if (s_sign.size() != structure.size()) return false;
-
-        map<string, string> vars_pattern {};
-
-        for (int i=0; i < structure.size(); ++i) {
-            if (s_sign[i].type != structure[i].type) return false;
-
-            if (structure[i].type == TT::Const) {
-                if (structure[i].val != s_sign[i].val) return false;
-            }
-            else if (structure[i].type == TT::Var) {
-                if (!vars_pattern.contains(structure[i].val)) vars_pattern[structure[i].val] = s_sign[i].val;
-                else if (vars_pattern[structure[i].val] != s_sign[i].val) return false;
-            }
-        }
-
-        return true;
-    }
-
-    void print() const {
-        cout << view << '\n';
-    }
-
-    string get_view() const {
-        return view;
+    string get_scheme_view() const {
+        return scheme_view;
     }
 
     bool operator <(const FactStruct& rhs) const {
@@ -105,14 +87,16 @@ public:
     }
 
 protected:
-    vector<Token> structure{};
+    // sequence of tokens like: 
+    // { Token("let ", TT::Const), Token("A", TT::Var), Token(" mean ", TT::Const), Token("B", TT::Var) }
+    vector<Token> structure{};  
 
 private:
-    std::regex reg{};
+    std::regex reg{};   // like: let (.+) mean (.+)
     
-    vector<string> vars_order{};
+    vector<string> vars_order{};    // like: AB
     
-    string view {};
+    string scheme_view {};     // like: {let } [A] { mean } [B]
     size_t hash;
     
 };

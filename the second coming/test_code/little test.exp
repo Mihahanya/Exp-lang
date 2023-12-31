@@ -1,11 +1,9 @@
 
-elizabeth mother of charles
-charles father of william
-charles father of harry
+Elizabeth mother of Charles
+Charles father of William
+Charles father of Harry
 
 let X mother of Y mean X parent of Y
 let X father of Y mean X parent of Y
 
-ignore grandparent_child(X, Y) :- 
-     parent_child(X, Z), 
-     parent_child(Z, Y).
+let X parent of Z and Z parent of Y mean X grandparent of Y

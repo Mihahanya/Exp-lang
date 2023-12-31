@@ -20,14 +20,15 @@ int main()
         cout << "some err:\n" << e.what();
     }
 
-    cout << "structures:\n";
-    for (const auto& s : prog.statements_tree_nodes) {
-        cout << s.first.get_view() << s.second->consequences.size() << " " << ":->\n";
+    cout << "-------\nstructures:\n";
+    for (const auto& s : prog.fact_tree_nodes) {
+        cout << s.first.get_scheme_view() << s.second->consequences.size() << " " << ":->\n";
         for (const auto& m : s.second->consequences)
-            cout << "    " << m->sign.get_view() << '\n';
+            cout << "    " << m->fact.get_scheme_view() << '\n';
+        cout << '\n';
     }
 
-    cout << "propositions:\n";
+    cout << "-------\npropositions:\n";
     for (const auto& s : prog.propositions) cout << s.meaning() << "\n";
 
 }
